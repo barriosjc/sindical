@@ -10,7 +10,7 @@
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Auditoria Prestaciones</title>
+    <title>Sindical</title>
     <!-- Fonts -->
     <link href="{{ asset('vendor/fontawesome/css/all.min.css') }}" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
@@ -18,7 +18,7 @@
     <!-- Styles -->
     <link href="{{ asset('css/sb-admin-2.css') }}" rel="stylesheet">
     <!-- Favicon -->
-    <link href="{{ asset('img/iconobasa.png') }}" rel="icon" type="image/png">     
+    <link href="{{ asset('img/logo_avellaneda.png') }}" rel="icon" type="image/png">     
 </head>
 
 <body id="page-top">
@@ -122,7 +122,7 @@
 
                 <!-- Topbar -->
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-                    <img src="/img/LOGOREDBASA2019.png" width="140px" alt="">
+                    <img src="/img/logo_avellaneda.png" width="100px" alt="">
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <!-- Nav Item - User Information -->
@@ -170,7 +170,7 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Basa 2020</span>
+                        <span>Copyright &copy; Union Obrera Metalúrgica seccional Avellaneda 2020</span>
                         <span class="float-right" style="padding-right: 30px; font-size: 10px">v1.0.0</span>
                     </div>
                 </div>
