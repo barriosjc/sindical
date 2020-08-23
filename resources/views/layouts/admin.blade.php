@@ -5,8 +5,8 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description">
-    <meta name="author">
+    <meta name="Sistema de Gestion sindical para la UOM seccional Avellaneda">
+    <meta name="Juan Carlos Barrios - Axyonar - 2020">
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -18,7 +18,18 @@
     <!-- Styles -->
     <link href="{{ asset('css/sb-admin-2.css') }}" rel="stylesheet">
     <!-- Favicon -->
-    <link href="{{ asset('img/logo_avellaneda.png') }}" rel="icon" type="image/png">     
+    <link href="{{ asset('img/logo_avellaneda.png') }}" rel="icon" type="image/png">
+    <!-- Bootstrap core JavaScript-->
+    <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="{{ asset('vendor/jquery-easing/jquery.easing.min.js') }}"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="{{ asset('js/sb-admin-2.min.js') }}"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
 </head>
 
 <body id="page-top">
@@ -43,9 +54,9 @@
             @if(Auth::user()->hasrole('administrador') or Auth::user()->haspermissionto('ingreso de datos'))
             <!-- Nav Item - Charts -->
             <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <i class="fas fa-fw fa-edit"></i>
-                    <span>Ficha del Afiliado</span></a>
+                <a class="nav-link" href="{{ route('afiliado.index') }}">
+                    <i class="far fa-address-book"></i>
+                    <span>Ficha de Afiliados</span></a>
             </li>
             @endif
             @if(Auth::user()->hasrole('administrador') or Auth::user()->haspermissionto('auditar datos'))
@@ -67,7 +78,7 @@
             <!-- Nav Item - Charts -->
             <li class="nav-item">
                 <a class="nav-link" href="#">
-                    <i class="fas fa-fw fa-search-dollar"></i>
+                    <i class="fas fa-city"></i>
                     <span>Fichas empresas</span></a>
             </li>
             @endcan
@@ -130,7 +141,7 @@
                             @auth
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ Auth::user()->name }}</span>
-                                <img alt="foto" src="{{ asset('storage') . str_replace('public', '', Auth::user()->avatar) }} " class="rounded-circle" width="45px" alt="">
+                                <img alt="foto" src="{{ asset('storage') . str_replace('public', '', Auth::user()->foto) }} " class="rounded-circle" width="45px" alt="">
                                 <!-- <img alt="foto" src="{{Storage::url(Auth::user()->foto)}}" class="rounded-circle" width="45px" alt=""> -->
 
                             </a>
@@ -209,22 +220,16 @@
         </div>
     </div>
 
-  <!-- Bootstrap core JavaScript-->
-  <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
-  <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 
-  <!-- Core plugin JavaScript-->
-  <script src="{{ asset('vendor/jquery-easing/jquery.easing.min.js') }}"></script>
-
-  <!-- Custom scripts for all pages-->
-  <script src="{{ asset('js/sb-admin-2.min.js') }}"></script>
 
     <script>
-    
-    $(function() {
-        $('[data-toggle="tooltip"]').tooltip()
-    })
-
+        $(function() {
+            // Add the following code if you want the name of the file appear on select
+            $(".custom-file-input").on("change", function() {
+                var fileName = $(this).val().split("\\").pop();
+                $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+            });
+        })
     </script>
 </body>
 

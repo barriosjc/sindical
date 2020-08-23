@@ -50,8 +50,17 @@
   margin-left: 5px; 
 }
 
+
 .fa-trash-alt{
   color:red;
+}
+
+.pad-20{
+  padding-top:23px;
+}
+
+.bot-20{
+  padding-bottom:12px;
 }
 
 html {

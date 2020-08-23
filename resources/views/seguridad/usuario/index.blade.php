@@ -10,9 +10,9 @@
           <div class="card-body">
             @if($esabm === false)
               @if($padre === 'roles') 
-                <a href="{{ url('/roles') }}" title="Volver"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Volver</button></a>
+                <a href="{{ url('/roles') }}" title="Volver"><button class="btn btn-warning btn-sm"><i class="fas fa-arrow-left" aria-hidden="true"></i> Volver</button></a>
               @else            
-                <a href="{{ url('/permisos') }}" title="Volver"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Volver</button></a>
+                <a href="{{ url('/permisos') }}" title="Volver"><button class="btn btn-warning btn-sm"><i class="fas fa-arrow-left" aria-hidden="true"></i> Volver</button></a>
               @endif
             @else
               <a href="{{ url('/usuario/create') }}" class="btn btn-success btn-sm" title="Agregar nuevo Usuario">
