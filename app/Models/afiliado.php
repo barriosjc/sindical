@@ -82,4 +82,9 @@ class afiliado extends Model
         return $this->HasMany('App\Models\afil_estado_ficha');
     }
     
+    public function grupo_familiar()
+    {
+        return $this->HasMany('App\Models\grupo_familiar');
+    }
+    
 }

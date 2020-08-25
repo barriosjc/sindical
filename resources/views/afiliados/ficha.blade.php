@@ -42,7 +42,7 @@
     @csrf
     <input type='hidden' id='id' name='id' value="{{$registro->id}}" />
     <div class="bot-20">
-        <div class="card">
+        <div class="card ">
             <div class="card-header">
                 Datos personales
             </div>
@@ -411,8 +411,8 @@
                             @if(isset($registro->id))
                             <a href=" {{ route('afiliado.documentos', $registro->id) }} " id="btnfoto" class="btn btn-primary float-right">Documentación <span class="badge badge-light">{{$cantidades['documentos']}}</span></a>
                             <button type="button" id="btnfoto" class="btn btn-primary float-right">Foto <span class="badge badge-light">{{$cantidades['foto']}}</span></button>
-                            <button type="button" id="btgrupofam" class="btn btn-primary float-right">Grupo familiar <span class="badge badge-light">{{$cantidades['grupo_fam']}}</span></button>
-                            <a href=" {{ route('afiliado.preguntas', $registro->id) }} " id="btgrupofam" class="btn btn-primary float-right">Preguntas <span class="badge badge-light">{{$cantidades['preguntas']}}</span></a>
+                            <a href=" {{ route('familiares.index', $registro->id) }} " id="btgrupofam" class="btn btn-primary float-right">Grupo familiar <span class="badge badge-light">{{$cantidades['grupo_fam']}}</span></a>
+                            <a href=" {{ route('afiliado.preguntas', $registro->id) }} " id="btnpreguntas" class="btn btn-primary float-right">Preguntas <span class="badge badge-light">{{$cantidades['preguntas']}}</span></a>
                             @endif
                         </div>
 

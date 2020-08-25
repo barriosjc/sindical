@@ -50,6 +50,10 @@
   margin-left: 5px; 
 }
 
+.sin-padding {
+  padding-right: 0rem !important;
+  padding-left: 0rem !important;
+}
 
 .fa-trash-alt{
   color:red;

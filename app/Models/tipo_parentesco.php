@@ -5,7 +5,7 @@ namespace App\models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class tipos_parentesco extends Model
+class tipo_parentesco extends Model
 {
     use SoftDeletes;
     
@@ -32,9 +32,11 @@ class tipos_parentesco extends Model
             'descripcion'
     ];
 
-    public function afiliados()
+    public function grupo_familiar()
     {
-        return $this->belongsTo('App\Models\afiliado');
+        return $this->hasMany('App\Models\grupo_familiar', 'tipo_parentesco_id');
     }
+
+
     
 }

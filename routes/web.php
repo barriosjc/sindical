@@ -62,5 +62,12 @@ Route::group(['middleware' => ['permission:seguridad']], function () {
     Route::get('/afiliados/siguiente', 'gestion\AfiliadosController@nroafilsiguiente')->name('afiliado.siguiente');
 
     // Route::get('/comunes/volver', 'comunes\comunesController@volver')->name('volver');
+    Route::get('/familiares/{afiliado}/{id?}', 'gestion\familiaresController@index')->name('familiares.index');
+    Route::post('/familiares/guardar', 'gestion\familiaresController@guardar')->name('familiares.guardar');
+    Route::get('/familiares/modificar/{id}', 'gestion\familiaresController@modificar')->name('familiares.modificar');
+
+    Route::get('/familiares/documentos/{id}', 'gestion\familiaresController@documentos_index')->name('familiares.documentos');
+    Route::post('/familiares/documentos/guardar', 'gestion\familiaresController@documentos_guardar')->name('familiares.documentos.guardar');
+    Route::delete('/familiares/documentos/borrar/{id}', 'gestion\familiaresController@documentos_borrar')->name('familiares.documentos.borrar');
 
     // });
