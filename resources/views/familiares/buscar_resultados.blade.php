@@ -6,9 +6,9 @@
 <div class="card">
     <div class="card-header">
 
-    <a href="{{ route('afiliado.buscar.index', 0) }}" title="Volver"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Volver</button></a>
+    <a href="{{ route('familiares.buscar.index', 0) }}" title="Volver"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Volver</button></a>
 
-      Resultados de la busqueda ({{$afiliados->total()}}) afiliados
+      Resultados de la busqueda ({{$grupo_familiar->total()}}) afiliados
     </div>
     <ul class="list-group list-group-flush">
         <li class="list-group-item">
@@ -20,25 +20,24 @@
                                 <th>#</th>
                                 <th>Apellido y nombres</th>
                                 <th>Nro Doc.</th>
-                                <th>Nro Afiliado</th>
-                                <th>Empresa</th>
+                                <th>Parentesco</th>
+                                <th>Fec. nac.</th>
                                 <th>Fec. baja sind</th>
                                 <th style="width:8%">Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($afiliados as $item)
+                            @foreach($grupo_familiar as $item)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $item->apellido_nombres }}</td>
                                 <td>{{ $item->nro_doc }}</td>
-                                <td>{{ $item->nro_afil_sindical }}</td>
-                                <td>{{ $item->empresa_nom }}</td>
-                                <td>{{ $item->fecha_egreso }}</td>
+                                <td>{{ $item->tipos_parentescos->descripcion }}</td>
+                                <td>{{ $item->fecha_nac }}</td>
+                                <td>{{ $item->fecha_egreso_sind }}</td>
                                 <td>
                                     <div class="float-right">
-                                        <form action="{{ route('afiliado.find', $item->id) }}" method="GET">
-                                            @csrf
+                                        <form action="{{ route('afiliado.find', $item->afiliado_id) }}" method="GET">
                                             <button type="submit" class="btn btn-success btn-sm"> <i class="fas fa-edit"></i></button>
                                         </form>
                                     </div>
@@ -47,7 +46,7 @@
                             @endforeach
                         </tbody>
                     </table>
-                    <div class="pagination-wrapper"> {{ $afiliados->appends(Request::all())->render() }} </div>
+                    <div class="pagination-wrapper"> {{ $grupo_familiar->appends(Request::all())->render() }} </div>
                 </div>
             </div>
         </li>

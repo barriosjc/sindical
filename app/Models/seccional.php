@@ -35,7 +35,7 @@ class seccional extends Model
 
     public function afiliados()
     {
-        return $this->belongsTo('App\Models\afiliado');
+        return $this->hasMany('App\Models\afiliado', 'seccional_id','id');
     }
     
 }

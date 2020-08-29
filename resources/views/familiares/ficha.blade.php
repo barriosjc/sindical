@@ -35,7 +35,7 @@
             <div class="table-responsive">
                 <table class="table">
                     <thead>
-                        <tr >
+                        <tr>
                             <th>#</th>
                             <th>Apellido y nombre</th>
                             <th>DNI</th>
@@ -48,14 +48,14 @@
                     </thead>
                     <tbody>
                         @foreach($grupo_familiar as $item)
-                        <tr @if(isset($item->fecha_egreso_sind)) class="table-danger" @endif>
+                        <tr @if(!empty($item->fecha_egreso_sind)) class="table-danger" @endif>
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $item->apellido_nombres }}</td>
                             <td>{{ $item->nro_doc }}</td>
                             <td> {{$item->tipos_parentescos->descripcion }} </td>
-                            <td>{{ date('d-m-Y', strtotime($item->fecha_nac)) }}</td>
-                            <td>{{ date('d-m-Y', strtotime($item->fecha_ingreso_sind)) }}</td>
-                            <td>{{ date('d-m-Y', strtotime($item->fecha_egreso_sind)) }}</td>
+                            <td>{{ $item->fecha_nac }}</td>
+                            <td>{{ $item->fecha_ingreso_sind }}</td>
+                            <td>{{ $item->fecha_egreso_sind }}</td>
                             <td>
                                 <div class="float-right">
                                     <a href="{{ route('familiares.index', [$afiliado_id, $item->id]) }}" class="btn btn-success btn-sm" title="Modificar y consultar datos completos del familiar y sus datos asociados como ser documentos."><i class="fa fa-users" aria-hidden="true"></i></a>
@@ -80,7 +80,9 @@
     <div class="bot-20">
         <div class="card ">
             <div class="card-header">
-                Datos personales
+                <a href="{{ route('afiliado.find', $afiliado_id) }}" title="Volver" class="btn btn-warning btn-sm"> <i class="fa fa-arrow-left" aria-hidden="true"></i> Volver</a>
+                <a href="{{ route('familiares.index', $afiliado_id) }}" class="btn btn-success btn-sm" title="Agregar nuevo Role"> <i class="fa fa-plus" aria-hidden="true"></i> Agregar nuevo</a>
+                Datos completos del familiar
             </div>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
@@ -94,13 +96,13 @@
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label>Doc. pendiente</label>
-                                <input type="date" id="docum_pendiente" name="docum_pendiente" class="form-control form-control-sm" value="{{  (empty($registro->docum_pendiente) ? old('docum_pendiente') : date('Y-m-d', strtotime( $registro->docum_pendiente))) }}">
+                                <input type="date" id="docum_pendiente" name="docum_pendiente" class="form-control form-control-sm" value="{{ old('docum_pendiente', $registro->docum_pendientey) }}">
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label>Doc. entregada</label>
-                                <input type="date" id="docum_entregada" name="docum_entregada" class="form-control form-control-sm" value="{{  (empty($registro->docum_entregada) ? old('docum_entregada') : date('Y-m-d', strtotime( $registro->docum_entregada))) }}">
+                                <input type="date" id="docum_entregada" name="docum_entregada" class="form-control form-control-sm" value="{{ old('docum_entregada', $registro->docum_entregaday) }}">
                             </div>
                         </div>
                         <div class="col-md-2">
@@ -135,7 +137,7 @@
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label>Fec. Nac.</label>
-                                <input type="date" id="fecha_nac" name="fecha_nac" class="form-control form-control-sm" value="{{ (empty($registro->fecha_nac) ? old('fecha_nac') : date('Y-m-d', strtotime( $registro->fecha_nac))) }}">
+                                <input type="date" id="fecha_nac" name="fecha_nac" class="form-control form-control-sm" value="{{ old('fecha_nac', $registro->fecha_nacy) }}">
                             </div>
                         </div>
                         <div class="col-md-1">
@@ -244,7 +246,7 @@
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label>Vto. certifidado</label>
-                                <input type="date" id="fecha_venc_disca" name="fecha_venc_disca" class="form-control form-control-sm" value="{{ (empty($registro->fecha_venc_disca) ? old('fecha_venc_disca') : date('Y-m-d', strtotime( $registro->fecha_venc_disca))) }}">
+                                <input type="date" id="fecha_venc_disca" name="fecha_venc_disca" class="form-control form-control-sm" value="{{ old('fecha_venc_disca', $registro->fecha_venc_discay) }}">
                             </div>
                         </div>
                         <div class="col-md-2">
@@ -267,13 +269,13 @@
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label>Fec. afiliación</label>
-                                <input type="date" id="fecha_ingreso_sind" name="fecha_ingreso_sind" class="form-control form-control-sm" value="{{ (empty($registro->fecha_ingreso_sind) ? old('fecha_ingreso_sind') : date('Y-m-d', strtotime( $registro->fecha_ingreso_sind))) }}">
+                                <input type="date" id="fecha_ingreso_sind" name="fecha_ingreso_sind" class="form-control form-control-sm" value="{{ old('fecha_ingreso_sind', $registro->fecha_ingreso_sindy) }}">
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label>Fec. baja</label>
-                                <input type="date" id="fecha_egreso_sind" name="fecha_egreso_sind" class="form-control form-control-sm" value="{{ (empty($registro->fecha_egreso_sind) ? old('fecha_egreso_sind') : date('Y-m-d', strtotime( $registro->fecha_egreso_sind))) }}">
+                                <input type="date" id="fecha_egreso_sind" name="fecha_egreso_sind" class="form-control form-control-sm" value="{{ old('fecha_egreso_sind', $registro->fecha_egreso_sindy) }}">
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -298,13 +300,13 @@
                     <div class='row'>
                         <div class="col-md-8">
                             @if(isset($registro->id))
-                            <a href=" {{ route('familiares.documentos', $registro->id) }} " id="btnfoto" class="btn btn-primary float-right">Documentación <span class="badge badge-light">{{$cantidades['documentos']}}</span></a>
+                            <a href=" {{ route('familiares.documentos', [$afiliado_id, $registro->id]) }} " id="btndocum" class="btn btn-primary float-right">Documentación <span class="badge badge-light">{{$cantidades['documentos']}}</span></a>
                             <button type="button" id="btnfoto" class="btn btn-primary float-right">Foto <span class="badge badge-light">{{$cantidades['foto']}}</span></button>
-                             @endif
+                            @endif
                         </div>
 
                         <div class="col-md-4">
-                            <button type="submit" id="btnAgr" class="btn btn-info float-right">Guardar datos</button>
+                            <button type="submit" id="btnguardarfam" class="btn btn-info float-right">Guardar datos</button>
                         </div>
                     </div>
                 </li>
@@ -317,31 +319,6 @@
 
 <script>
     $(function() {
-
-        $('#signroafil').on('click', function(e) {
-            e.preventDefault();
-
-            if ($('#nro_afil_sindical').val() != '') {
-                return false;
-            }
-
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-                }
-            });
-            jQuery.ajax({
-                url: "{{ route('afiliado.siguiente') }}",
-                method: 'get',
-                // data: {
-                //     content: jQuery('#nro_afil_sindical').val()
-                // },
-                success: function(result) {
-                    // console.log(result.success);
-                    $('#nro_afil_sindical').val(result.success);
-                }
-            });
-        });
 
         $('#provincia_id').on('change', function() {
 

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\afiliadosRequest;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
+use Barryvdh\DomPDF\Facade as PDF;
 
 use App\models\afil_estado_ficha;
 use Illuminate\Http\Request;
@@ -64,6 +65,7 @@ class AfiliadosController extends Controller
      */
     public function index()
     {
+
         $registro = new afiliado;
         $estados = afil_estado_ficha::get();
         $tipos_documentos = tipo_documento::where('tipo', 'AFI')->get();
@@ -79,7 +81,6 @@ class AfiliadosController extends Controller
         $motivos_egresos_sind = motivo_egreso_sind::get();
         $localidades = null;
 
-        // dd($afil_preguntas->pluck('descripcion')->first());
         // $localidades = new localidad;
 
         return view('afiliados.ficha', compact(
@@ -94,8 +95,8 @@ class AfiliadosController extends Controller
             'categorias',
             'empresas',
             'motivos_egresos_os',
+            'motivos_egresos_sind',
             'especialidades',
-            'motivos_egresos_afil',
             'obras_sociales'
         ));
     }
@@ -168,7 +169,7 @@ class AfiliadosController extends Controller
             'empresas',
             'motivos_egresos_os',
             'especialidades',
-            'motivos_egresos_afil',
+            'motivos_egresos_sind',
             'obras_sociales'
         ));
     }
@@ -178,7 +179,7 @@ class AfiliadosController extends Controller
         // $requestData = new afiliado();
         $requestData = $request->all();
         $requestData['user_last_name'] = Auth::user()->last_name ;
-        //  dd($requestData);
+        //   dd($requestData);
         afiliado::updateorcreate(['id' => $request->id], $requestData);
 
         // return redirect('afiliados.ficha')->with('mensaje', );
@@ -273,7 +274,7 @@ class AfiliadosController extends Controller
             $filtro[] = ['afiliados.provincia_id', '=', $request->provincia_id];
         }
         if (!empty($request->seccional_id)) {
-            $filtro[] = ['afiliados.docum_pendiente', '<=', $request->docum_pendiente];
+            $filtro[] = ['afiliados.seccional_id', '<=', $request->seccional_id];
         }
         if (!empty($request->empresa_id)) {
             $filtro[] = ['afiliados.empresa_id', '=', $request->empresa_id];
@@ -311,6 +312,8 @@ class AfiliadosController extends Controller
             }
 
             // DB::enableQueryLog();
+
+            // no uso estado ficha pero no lo quite de la consulta, si hace falta sacar estado ficha
             $afiliados = afiliado::query()
                 ->join('empresas as e', 'e.id', 'afiliados.empresa_id')
                 ->join('afil_estado_ficha as ef', 'ef.id', 'afiliados.afil_estado_ficha_id')
@@ -353,7 +356,8 @@ class AfiliadosController extends Controller
         $requestData = $request->all();
         if ($request->hasFile('path')) {
             //guarda en documentacion porque documentos entra en conflicto con una route
-            $path = $request->file('path')->store('public/afiliados/documentacion');
+            // $path = $request->file('path')->store('public/afiliados/documentacion');
+            $path = Storage::disk('uploads')->put('afiliados/documentacion',  $request->file('path'));
             // dd($path);
             $requestData['path'] = $path;
         }
@@ -374,5 +378,24 @@ class AfiliadosController extends Controller
         $preg->delete();
 
         return back()->with(["mensaje" => 'pregunta y respuesta borrada con éxito!']);
+    }
+    
+    public function download(int $id){
+
+        $path = afil_documento::find($id)->path;
+        if(!file_exists($path)){
+            return back()->withErrors(['mensaje' => "El archivo que intenta descargar no se encuentra almacenado en el servidor."]);
+        }
+        
+        return response()->download(public_path() . '/' . $path);
+
+    }
+
+    public function carnet($id){
+
+        $afiliado = afiliado::find($id);
+        $pdf = PDF::loadView('afiliados.carnet', compact('afiliado'));
+
+        return $pdf->download('carnet_' . $afiliado->nro_doc . '.pdf');
     }
 }

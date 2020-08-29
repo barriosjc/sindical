@@ -26,16 +26,16 @@
 
 <div class="card">
     <div class="card-header">
-        <a href="{{ url('/afiliados/find/' . $afiliado_id) }}" title="Volver"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Volver</button></a>
+        <a href="{{ route('familiares.index', [$afiliado_id, $grupo_familiar_id]) }}" title="Volver"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Volver</button></a>
         Datos Generales
     </div>
     <ul class="list-group list-group-flush">
 
         <li class="list-group-item">
-            <form id='formEmp' action="{{route('afiliado.documentos.guardar')}}" method="POST"  accept-charset="UTF-8" class="form-horizontal" enctype="multipart/form-data">
+            <form id='formEmp' action="{{ route('familiares.documentos.guardar') }}" method="POST"  accept-charset="UTF-8" class="form-horizontal" enctype="multipart/form-data">
 
                 @csrf
-                <input type='hidden' name='afiliado_id' value="{{ $afiliado_id }}">
+                <input type='hidden' name='grupo_familiar_id' value="{{ $grupo_familiar_id }}">
                 <div class="row">
                     <div class="col-md-3">
                         <div class="form-group">
@@ -88,21 +88,22 @@
                                 <th>#</th>
                                 <th>Tipo docum.</th>
                                 <th>Fecha Vto.</th>
-                                <th>Observaciones</th>
+                                <th>Observaciones</th>                            
                                 <th style="width:8%">Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($afil_documentos as $item)
+                            @foreach($gf_documentos as $item)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $item->descripcion }}</td>
+                                <td>{{ $item->tipos_documentos->descripcion }}</td>
                                 <td>{{ $item->fecha_vencimiento }}</td>
-                                <td>{{ $item->obs }}</td>
+                                <td>{{ $item->obs }}</td>                          
                                 <td>
                                     <div class="float-right">
-                                        <a href="{{ route('afiliado.download', $item->id) }}" data-toggle="tooltip" class="btn btn-primary btn-sm" title="Descargar documento"><i class="fas fa-file-download"></i> </a>
-                                        <form action="{{ route('afiliado.documentos.borrar', $item->id) }}" method="POST" style="display:inline">
+                                        <a href="{{ route('familiares.download', $item->id) }}" data-toggle="tooltip" class="btn btn-primary btn-sm" title="Descargar documento"><i class="fas fa-file-download"></i> </a>
+                                        <!-- <a href="{{ asset('storage/ ') . str_replace('public', '', $item->path) }}" data-toggle="tooltip" class="btn btn-primary btn-sm" title="Descargar documento"><i class="fas fa-file-download"></i> </a> -->
+                                        <form action="{{ route('familiares.documentos.borrar', $item->id) }}" method="POST" style="display:inline">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger btn-sm"> <i class="far fa-trash-alt text-white" onclick="return confirm('Confima la eliminación?')"></i></button>
@@ -114,7 +115,7 @@
                         </tbody>
                     </table>
                     <!-- @if(!empty($afil_preguntas)) -->
-                    <div class="pagination-wrapper"> {!! $afil_documentos->appends(['search' => Request::get('search')])->render() !!} </div>
+                    <div class="pagination-wrapper"> {!! $gf_documentos->appends(['search' => Request::get('search')])->render() !!} </div>
                     <!-- @endif -->
                 </div>
             </div>

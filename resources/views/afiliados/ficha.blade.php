@@ -44,7 +44,8 @@
     <div class="bot-20">
         <div class="card ">
             <div class="card-header">
-                Datos personales
+                <a href="{{ route('afiliado.index') }}" class="btn btn-success btn-sm" title="Agregar"> <i class="fa fa-plus" aria-hidden="true"></i> Agregar nuevo</a>
+                Datos personales del titular
             </div>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
@@ -63,13 +64,13 @@
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label>Doc. pendiente</label>
-                                <input type="date" id="docum_pendiente" name="docum_pendiente" class="form-control form-control-sm" value="{{  (empty($registro->docum_pendiente) ? old('docum_pendiente') : date('Y-m-d', strtotime( $registro->docum_pendiente))) }}">
+                                <input type="date" id="docum_pendiente" name="docum_pendiente" class="form-control form-control-sm" value="{{ old('docum_pendiente', $registro->docum_pendientey) }}">
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label>Doc. entregada</label>
-                                <input type="date" id="docum_entregada" name="docum_entregada" class="form-control form-control-sm" value="{{  (empty($registro->docum_entregada) ? old('docum_entregada') : date('Y-m-d', strtotime( $registro->docum_entregada))) }}">
+                                <input type="date" id="docum_entregada" name="docum_entregada" class="form-control form-control-sm" value="{{   old('docum_entrega', $registro->docum_entregaday) }}">
                             </div>
                         </div>
                         <div class="col-md-2">
@@ -115,7 +116,7 @@
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label>Fec. Nac.</label>
-                                <input type="date" id="fecha_nac" name="fecha_nac" class="form-control form-control-sm" value="{{ (empty($registro->fecha_nac) ? old('fecha_nac') : date('Y-m-d', strtotime( $registro->fecha_nac))) }}">
+                                <input type="date" id="fecha_nac" name="fecha_nac" class="form-control form-control-sm" value="{{ old('fecha_nac', $registro->fecha_nacy) }}">
                             </div>
                         </div>
                         <div class="col-md-1">
@@ -240,7 +241,7 @@
                                 <select name="seccional_id" id="seccional_id" class="form-control form-control-sm" style="width: 100%" required>
                                     <option value="">--Seleccione--</option>
                                     @foreach($seccionales as $dato)
-                                    <option value="{{$dato->id}}" {{(empty($registro->seccional_id) ? old('seccional_id') : $registro->seccional_id)  == $dato->id ? 'selected' : ''}}>{{$dato->descripcion}}</option>
+                                    <option value="{{$dato->id}}" {{ (empty($registro->seccional_id) ? old('seccional_id') : $registro->seccional_id)  == $dato->id ? 'selected' : ''}}>{{$dato->descripcion}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -251,7 +252,7 @@
                                 <select name="categoria_id" id="categoria_id" class="form-control form-control-sm" style="width: 100%">
                                     <option value="">--Seleccione--</option>
                                     @foreach($categorias as $dato)
-                                    <option value="{{$dato->id}}" {{(empty($registro->categoria_id) ? old('categoria_id') : $registro->categoria_id)  == $dato->id ? 'selected' : ''}}>{{$dato->descripcion}}</option>
+                                    <option value="{{$dato->id}}" {{    (empty($registro->categoria_id) ? old('categoria_id') : $registro->categoria_id)  == $dato->id ? 'selected' : ''}}>{{$dato->descripcion}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -263,6 +264,31 @@
                                     <option value="">--Seleccione--</option>
                                     @foreach($especialidades as $dato)
                                     <option value="{{$dato->id}}" {{(empty($registro->especialidad_id) ? old('especialidad_id') : $registro->especialidad_id)  == $dato->id ? 'selected' : ''}}>{{$dato->descripcion}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>Fec. afiliación</label>
+                                <input type="date" id="fecha_ingreso" name="fecha_ingreso_" class="form-control form-control-sm" value="{{  old('fecha_ingreso', $registro->fecha_ingresoy) }}">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>Fec. baja</label>
+                                <input type="date" id="fecha_egreso" name="fecha_egreso" class="form-control form-control-sm" value="{{ old('fecha_egreso', $registro->fecha_egresoy) }}">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="">Motivo baja Sindical</label>
+                                <select name="motivo_egreso_id" id="motivo_egreso_id" class="form-control form-control-sm" style="width: 100%">
+                                    <option value="">--Seleccione--</option>
+                                    @foreach($motivos_egresos_sind as $dato)
+                                    <option value="{{$dato->id}}" {{(empty($registro->motivo_egreso_id) ? old('motivos_egresos_sind') : $registro->motivo_egreso_id)  == $dato->id ? 'selected' : ''}}>{{$dato->descripcion}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -285,25 +311,25 @@
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label>Fec. afiliación</label>
-                                <input type="date" id="fecha_ing_empr" name="fecha_ing_empr" class="form-control form-control-sm" value="{{ (empty($registro->fecha_ing_empr) ? old('fecha_ing_empr') : date('Y-m-d', strtotime( $registro->fecha_ing_empr))) }}">
+                                <input type="date" id="fecha_ing_empr" name="fecha_ing_empr" class="form-control form-control-sm" value="{{ old('fecha_ing_empr', $registro->fecha_ing_empry) }}">
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label>Fec. baja</label>
-                                <input type="date" id="fecha_egr_empr" name="fecha_egr_empr" class="form-control form-control-sm" value="{{ (empty($registro->fecha_egr_empr) ? old('fecha_egr_empr') : date('Y-m-d', strtotime( $registro->fecha_egr_empr))) }}">
+                                <input type="date" id="fecha_egr_empr" name="fecha_egr_empr" class="form-control form-control-sm" value="{{ old('fecha_egr_empr', $registro->fecha_egr_empry) }}">
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label>Delegado desde</label>
-                                <input type="date" id="delegado_desde" name="delegado_desde" class="form-control form-control-sm" value="{{ (empty($registro->delegado_desde) ? old('delegado_desde') : date('Y-m-d', strtotime( $registro->delegado_desde))) }}">
+                                <input type="date" id="delegado_desde" name="delegado_desde" class="form-control form-control-sm" value="{{ old('delegado_desde', $registro->delegado_desdey) }}">
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label>Delegado hasta</label>
-                                <input type="date" id="delegado_hasta" name="delegado_hasta" class="form-control form-control-sm" value="{{ (empty($registro->delegado_hasta) ? old('delegado_hasta') : date('Y-m-d', strtotime( $registro->delegado_hasta))) }}">
+                                <input type="date" id="delegado_hasta" name="delegado_hasta" class="form-control form-control-sm" value="{{ old('delegado_hasta', $registro->delegado_hastay) }}">
                             </div>
                         </div>
                     </div>
@@ -333,13 +359,13 @@
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label>Fec. afiliación</label>
-                                <input type="date" id="fecha_ingreso_os" name="fecha_ingreso_os" class="form-control form-control-sm" value="{{ (empty($registro->fecha_ingreso_os) ? old('fecha_ingreso_os') : date('Y-m-d', strtotime( $registro->fecha_ingreso_os))) }}">
+                                <input type="date" id="fecha_ingreso_os" name="fecha_ingreso_os" class="form-control form-control-sm" value="{{ old('fecha_ingreso_os', $registro->fecha_ingreso_osy) }}">
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label>Fec. baja</label>
-                                <input type="date" id="fecha_egreso_os" name="fecha_egreso_os" class="form-control form-control-sm" value="{{ (empty($registro->fecha_egreso_os) ? old('fecha_egreso_os') : date('Y-m-d', strtotime( $registro->fecha_egreso_os))) }}">
+                                <input type="date" id="fecha_egreso_os" name="fecha_egreso_os" class="form-control form-control-sm" value="{{ old('fecha_egreso_os', $registro->fecha_egreso_osy) }}">
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -371,7 +397,7 @@
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label>Fec. jubilacón</label>
-                                <input type="date" id="fecha_jubilacion" name="fecha_jubilacion" class="form-control form-control-sm" value="{{ (empty($registro->fecha_jubilacion) ? old('fecha_jubilacion') : date('Y-m-d', strtotime( $registro->fecha_jubilacion))) }}">
+                                <input type="date" id="fecha_jubilacion" name="fecha_jubilacion" class="form-control form-control-sm" value="{{ old('fecha_jubilacion', $registro->fecha_jubilaciony) }}">
                             </div>
                         </div>
                         <div class="col-md-2">
@@ -407,18 +433,19 @@
 
                 <li class="list-group-item">
                     <div class='row'>
-                        <div class="col-md-8">
+                        <div class="col-md-8 float-right" >
                             @if(isset($registro->id))
-                            <a href=" {{ route('afiliado.documentos', $registro->id) }} " id="btnfoto" class="btn btn-primary float-right">Documentación <span class="badge badge-light">{{$cantidades['documentos']}}</span></a>
-                            <button type="button" id="btnfoto" class="btn btn-primary float-right">Foto <span class="badge badge-light">{{$cantidades['foto']}}</span></button>
-                            <a href=" {{ route('familiares.index', $registro->id) }} " id="btgrupofam" class="btn btn-primary float-right">Grupo familiar <span class="badge badge-light">{{$cantidades['grupo_fam']}}</span></a>
-                            <a href=" {{ route('afiliado.preguntas', $registro->id) }} " id="btnpreguntas" class="btn btn-primary float-right">Preguntas <span class="badge badge-light">{{$cantidades['preguntas']}}</span></a>
+                            <a href=" {{ route('afiliado.documentos', $registro->id) }} " id="btnfoto" class="btn btn-primary">Documentación <span class="badge badge-light">{{$cantidades['documentos']}}</span></a>
+                            <a href=" {{ route('afiliado.carnet', $registro->id) }} " id="btncarnet" class="btn btn-primary">Carnet <span class="badge badge-light">{{$cantidades['foto']}}</span></a>
+                            <a href=" {{ route('familiares.index', $registro->id) }} " id="btgrupofam" class="btn btn-primary">Grupo familiar <span class="badge badge-light">{{$cantidades['grupo_fam']}}</span></a>
+                            <a href=" {{ route('afiliado.preguntas', $registro->id) }} " id="btnpreguntas" class="btn btn-primary">Preguntas <span class="badge badge-light">{{$cantidades['preguntas']}}</span></a>
                             @endif
                         </div>
 
                         <div class="col-md-4">
                             <button type="submit" id="btnAgr" class="btn btn-info float-right">Guardar datos</button>
-                            <a href="{{ route('afiliado.buscar.index', isset($registro->id) ? $registro->id : 0) }}" id="btnbuscar" class="btn btn-info float-right">Buscar</a>
+                            <a href="{{ route('afiliado.buscar.index', isset($registro->id) ? $registro->id : 0) }}" id="btnbuscartit" class="btn btn-info float-right"><i class="fas fa-search"></i> Titular</a>
+                            <a href="{{ route('familiares.buscar.index', isset($registro->id) ? $registro->id : 0) }}" id="btnbuscarfam" class="btn btn-info float-right"><i class="fas fa-search"></i> Familiar</a>
                         </div>
                     </div>
                 </li>

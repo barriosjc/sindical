@@ -44,30 +44,34 @@ Route::group(['middleware' => ['permission:seguridad']], function () {
 });
 
 // Route::group(['middleware' => ['role:administrativo']], function () {   
-    Route::get('/afiliados', 'gestion\AfiliadosController@index')->name('afiliado.index');
+    Route::get('/afiliados/carga', 'gestion\AfiliadosController@index')->name('afiliado.index');
     Route::post('/afiliados/guardar', 'gestion\AfiliadosController@guardar')->name('afiliado.guardar');
     Route::get('/afiliados/find/{id?}', 'gestion\AfiliadosController@find')->name('afiliado.find');
 
-    Route::get('/afiliados/buscar/index/{id}', 'gestion\AfiliadosController@buscar_index')->name('afiliado.buscar.index');
-    Route::get('/afiliados/buscar', 'gestion\AfiliadosController@buscar')->name('afiliado.buscar');
+    Route::get('/afiliado/{id}/buscar/index', 'gestion\AfiliadosController@buscar_index')->name('afiliado.buscar.index');
+    Route::get('/afiliado/buscar', 'gestion\AfiliadosController@buscar')->name('afiliado.buscar');
+    Route::get('/afiliado/{id}/familiar/buscar/index', 'gestion\familiaresController@buscar_index')->name('familiares.buscar.index');
+    Route::get('/afiliado/siguiente', 'gestion\AfiliadosController@nroafilsiguiente')->name('afiliado.siguiente');
+    Route::get('/familiar/buscar', 'gestion\familiaresController@buscar')->name('familiares.buscar');
 
-    Route::get('/afiliados/preguntas/{id}', 'gestion\AfiliadosController@preguntas_index')->name('afiliado.preguntas');
-    Route::post('/afiliados/preguntas/guardar', 'gestion\AfiliadosController@preguntas_guardar')->name('afiliado.preguntas.guardar');
-    Route::delete('/afiliados/preguntas/borrar/{id}', 'gestion\AfiliadosController@preguntas_borrar')->name('afiliado.preguntas.borrar');
+    Route::get('/afiliado/{id}/preguntas', 'gestion\AfiliadosController@preguntas_index')->name('afiliado.preguntas');
+    Route::post('/afiliado/preguntas/guardar', 'gestion\AfiliadosController@preguntas_guardar')->name('afiliado.preguntas.guardar');
+    Route::delete('/afiliado/preguntas/{id}/borrar', 'gestion\AfiliadosController@preguntas_borrar')->name('afiliado.preguntas.borrar');
 
-    Route::get('/afiliados/documentos/{id}', 'gestion\AfiliadosController@documentos_index')->name('afiliado.documentos');
-    Route::post('/afiliados/documentos/guardar', 'gestion\AfiliadosController@documentos_guardar')->name('afiliado.documentos.guardar');
-    Route::delete('/afiliados/documentos/borrar/{id}', 'gestion\AfiliadosController@documentos_borrar')->name('afiliado.documentos.borrar');
+    Route::get('/afiliado/{id}/documentos', 'gestion\AfiliadosController@documentos_index')->name('afiliado.documentos');
+    Route::post('/afiliado/documentos/guardar', 'gestion\AfiliadosController@documentos_guardar')->name('afiliado.documentos.guardar');
+    Route::delete('/afiliado/documentos/{id}/borrar', 'gestion\AfiliadosController@documentos_borrar')->name('afiliado.documentos.borrar');
+    Route::get('/afiliads/documentos/{id}/descargar', 'gestion\AfiliadosController@download')->name('afiliado.download');
+    Route::get('/afiliado/carnet/{id}', 'gestion\AfiliadosController@carnet')->name('afiliado.carnet');
     
-    Route::get('/afiliados/siguiente', 'gestion\AfiliadosController@nroafilsiguiente')->name('afiliado.siguiente');
-
     // Route::get('/comunes/volver', 'comunes\comunesController@volver')->name('volver');
-    Route::get('/familiares/{afiliado}/{id?}', 'gestion\familiaresController@index')->name('familiares.index');
+    Route::get('/afiliado/{afi_id}/familiar/{id?}', 'gestion\familiaresController@index')->name('familiares.index');
     Route::post('/familiares/guardar', 'gestion\familiaresController@guardar')->name('familiares.guardar');
-    Route::get('/familiares/modificar/{id}', 'gestion\familiaresController@modificar')->name('familiares.modificar');
+    Route::get('/afiliado/{id}/familiares/modificar', 'gestion\familiaresController@modificar')->name('familiares.modificar');
 
-    Route::get('/familiares/documentos/{id}', 'gestion\familiaresController@documentos_index')->name('familiares.documentos');
+    Route::get('/afiliado{afi_id}/familiares{id}/documentos', 'gestion\familiaresController@documentos_index')->name('familiares.documentos');
     Route::post('/familiares/documentos/guardar', 'gestion\familiaresController@documentos_guardar')->name('familiares.documentos.guardar');
     Route::delete('/familiares/documentos/borrar/{id}', 'gestion\familiaresController@documentos_borrar')->name('familiares.documentos.borrar');
+    Route::get('/familiares/documentos/id/{id}/descargar', 'gestion\familiaresController@download')->name('familiares.download');
 
     // });

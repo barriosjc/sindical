@@ -5,17 +5,16 @@ namespace App\models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class tipo_documento extends Model
+class gf_documento extends Model
 {
     use SoftDeletes;
-    
     
     /**
      * The database table used by the model.
      *
      * @var string
      */
-    protected $table = 'tipos_documentos';
+    protected $table = 'gf_documentos';
 
     /**
     * The database primary key value.
@@ -30,18 +29,21 @@ class tipo_documento extends Model
      * @var array
      */
     protected $fillable = [
-            'descripcion',
-            'tipo',
-            'obliga'
+            'grupo_familiar_id',
+            'tipo_documento_id',
+            'path',
+            'obs',
+            'fecha_vencimiento'
     ];
 
-    public function afiliados()
+    public function grupo_familiar()
     {
-        return $this->belongsTo('App\Models\afiliado');
+        return $this->hasMany('App\Models\grupo_familiar', 'grupo_familiar_id', 'id');
     }
-
-    public function gf_documentos()
+    
+    public function tipos_documentos()
     {
-        return $this->hasMany('App\Models\gf_documento', 'tipo_documento_id', 'id');
-    }    
+        return $this->belongsTo('App\Models\tipo_documento', 'tipo_documento_id', 'id');
+    }  
+    
 }

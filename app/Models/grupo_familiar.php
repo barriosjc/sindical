@@ -63,15 +63,101 @@ class grupo_familiar extends Model
         'user_last_name'
     ];
 
+    public function getFechaNacAttribute($value)
+    {
+        $resu = '';
+        if (!empty($value)) {
+            $resu = date('d/m/Y', strtotime($value));
+        }
+
+        return $resu;
+    }
+    public function getFechaIngresoSindAttribute($value)
+    {
+        $resu = '';
+        if (!empty($value)) {
+            $resu = date('d/m/Y', strtotime($value));
+        }
+
+        return $resu;
+    }
+    public function getFechaEgresoSindAttribute($value)
+    {
+        $resu = '';
+        if (!empty($value)) {
+            $resu = date('d/m/Y', strtotime($value));
+        }
+
+        return $resu;
+    }
+    //----------------------------------------------------------------------------------
+    public function getDocumPendienteyAttribute()
+    {
+        $resu = $this->docum_pendiente;
+        if (!empty($resu)) {
+            $resu = date('Y-m-d', strtotime($resu));
+        }
+
+        return $resu;
+    }
+    public function getDocumEntregadayAttribute()
+    {
+        $resu = $this->docum_entregada;
+        if (!empty($resu)) {
+            $resu = date('Y-m-d', strtotime($resu));
+        }
+
+        return $resu;
+    }
+    public function getFechaNacyAttribute()
+    {
+        $resu = $this->fecha_nac;
+        if (!empty($resu)) {
+            $resu = date('Y-m-d', strtotime($resu));
+        }
+
+        return $resu;
+    }
+    public function getFechaIngresoSindyAttribute()
+    {
+        $resu = $this->fecha_ingreso_sind;
+        if (!empty($resu)) {
+            $resu = date('Y-m-d', strtotime($resu));
+        }
+
+        return $resu;
+    }
+    public function getFechaEgresoSindyAttribute()
+    {
+        $resu = $this->fecha_egreso_sind;
+        if (!empty($resu)) {
+            $resu = date('Y-m-d', strtotime($resu));
+        }
+
+        return $resu;
+    }
+    public function getFechaVencDiscayAttribute()
+    {
+        $resu = $this->fecha_venc_disca;
+        if (!empty($resu)) {
+            $resu = date('Y-m-d', strtotime($resu));
+        }
+
+        return $resu;
+    }
+    //--------------------------------------------------------------------
     public function afiliados()
     {
         return $this->belongsTo('App\Models\afiliado');
     }
 
-    public function tipos_parentescos() {
-
+    public function tipos_parentescos()
+    {
         return $this->belongsTo('App\Models\tipo_parentesco', 'tipo_parentesco_id', 'id');
+    }
 
-        }
-
+    public function documentos()
+    {
+        return $this->belongsTo('App\Models\gf_documento', 'grupo_familiar_id', 'id');
+    }
 }
