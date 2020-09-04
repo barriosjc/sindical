@@ -37,7 +37,7 @@ class FamiliaresController extends Controller
         $this->middleware('auth');
     }
 
-        /**
+    /**
      * Show the application dashboard.
      *
      * @return \Illuminate\Contracts\Support\Renderable
@@ -51,7 +51,7 @@ class FamiliaresController extends Controller
         } else {
             $registro = grupo_familiar::where('id', $id)->first();
             $localidades = localidad::find($registro->localidad_id);
-                }
+        }
 
         $grupo_familiar = grupo_familiar::where('afiliado_id', $afiliado_id)->with('tipos_parentescos')->get();
 
@@ -119,7 +119,7 @@ class FamiliaresController extends Controller
         }
         if (!empty($request->nro_doc)) {
             $filtro[] = ['grupo_familiar.nro_doc', '=', $request->nro_doc];
-        }       
+        }
         if (!empty($request->docum_pendiente)) {
             $filtro[] = ['grupo_familiar.docum_pendiente', '<=', $request->docum_pendiente];
         }
@@ -131,13 +131,13 @@ class FamiliaresController extends Controller
         }
         if (!empty($request->fecha_egreso_sind)) {
             $filtro[] = ['grupo_familiar.fecha_egreso_sind', '=', $request->fecha_egreso_sind];
-        }        
+        }
         if (!empty($request->motivo_egreso_sind_id)) {
             $filtro[] = ['grupo_familiar.motivo_egreso_sind_id', '=', $request->motivo_egreso_sind_id];
-        }        
+        }
         if (!empty($request->provincia_id)) {
             $filtro[] = ['grupo_familiar.provincia_id', '=', $request->provincia_id];
-        }        
+        }
         if (!empty($request->localidad_id)) {
             $filtro[] = ['grupo_familiar.localidad_id', '=', $request->localidad_id];
         }
@@ -185,7 +185,7 @@ class FamiliaresController extends Controller
         //return redirect()->route('familiares.index', $request->afiliado_id)->with(["mensaje" => 'Familiar creado con éxito!']);
     }
 
- 
+
     public function documentos_index(int $afiliado_id, int $grupo_familiar_id)
     {
         $tipos_documentos = tipo_documento::where('tipo', 'TIT')->get();
@@ -195,7 +195,7 @@ class FamiliaresController extends Controller
         //     ->where('gf_documentos.grupo_familiar_id', $grupo_familiar_id)
         //     ->paginate(5);
         $gf_documentos = gf_documento::where('grupo_familiar_id', $grupo_familiar_id)
-        ->paginate(5);
+            ->paginate(5);
 
         return view('familiares.documentos', compact('afiliado_id', 'grupo_familiar_id', 'tipos_documentos', 'gf_documentos'));
     }
@@ -236,13 +236,13 @@ class FamiliaresController extends Controller
         return back()->with(["mensaje" => 'pregunta y respuesta borrada con éxito!']);
     }
 
-    public function download(int $id){
+    public function download(int $id)
+    {
 
         $path = gf_documento::find($id)->path;
-        if(!file_exists($path)){
+        if (!file_exists($path)) {
             return back()->withErrors(['mensaje' => "El archivo que intenta descargar no se encuentra almacenado en el servidor."]);
-        }        
+        }
         return response()->download(public_path() . '/' . $path);
-
     }
 }

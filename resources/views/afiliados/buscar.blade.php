@@ -31,11 +31,11 @@
     @else
         <a href="{{ url('/afiliados/find/' . $afiliado_id) }}" title="Volver"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Volver</button></a>
     @endif
-    Datos a buscar
+    Datos a buscar de afiliados titulares
     </div>
     <ul class="list-group list-group-flush">
         <li class="list-group-item">
-            <form id='formEmp' action="{{route('afiliado.buscar')}}" method="get">
+            <form id='formEmp' action="{{route('afiliado.buscar',0)}}" method="get">
 
                 <input type='hidden' name='afiliado_id' value="{{ $afiliado_id }}">
                 <div class="row">
@@ -82,7 +82,7 @@
                     <div class="col-md-2">
                         <div class="form-group">
                             <label for="">Provincia</label>
-                            <select name="provincia_id" id="provincia_id" class="form-control form-control-sm" style="width: 100%">
+                            <select name="provincia_id" id="provincia_id" data-localidad='localidad_id' class="provincia form-control form-control-sm" style="width: 100%">
                                 <option value="">--Seleccione--</option>
                                 @foreach($provincias as $dato)
                                 <option value="{{$dato->id}}">{{$dato->nombre}}</option>
@@ -108,7 +108,13 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label>Fec. baja empresa</label>
+                            <input type="date" id="fecha_egreso" name="fecha_egreso" class="form-control form-control-sm" value="" data-toggle="tooltip" data-placement="top" title="Se buscarán afiliados hasta la fecha ingresada aquí">
+                        </div>
+                    </div>
+                                        <div class="col-md-4">
                         <div class="form-group">
                             <label for="">Empresa</label>
                             <select name="empresa_id" id="empresa_id" class="form-control form-control-sm busqueda" style="width: 100%" >
@@ -143,7 +149,7 @@
                     </div>
                     <div class="col-md-2">
                         <div class="form-group">
-                            <label>Fec. baja</label>
+                            <label>Fec. baja empresa</label>
                             <input type="date" id="fecha_egr_empr" name="fecha_egr_empr" class="form-control form-control-sm" value="" data-toggle="tooltip" data-placement="top" title="Se buscarán afiliados hasta la fecha ingresada aquí">
                         </div>
                     </div>
@@ -210,37 +216,5 @@
 </div>
 
 
-<script>
-    $(function() {
-
-        $('#provincia_id').on('change', function() {
-
-            var prov_id = $(this).val();
-            var html_select = '';
-            if (!prov_id) {
-                $('#localidad_id').html('<option value="">--Seleccione--</option>');
-                return
-            }
-            $.get('/api/provincia/' + prov_id + '/localidades', function(data) {
-                for (var i = 0; i < data.length; ++i) {
-                    html_select += '<option value="' + data[i].id + '">' + data[i].nombre + ' - ' + data[i].cod_postal + '</option>';
-                }
-                $('#localidad_id').html(html_select);
-            })
-        })
-
-
-        $('[data-toggle="tooltip"]').tooltip()
-
-        $(".aMayusculas").on("keyup", function() {
-            this.value = this.value.toUpperCase();
-        })
-
-        $('.busqueda').select2({
-            language: "es"
-        });
-
-    })
-</script>
-
+<script src="{{ asset('js/scripts.js') }}"></script>
 @endsection

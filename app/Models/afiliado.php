@@ -77,6 +77,7 @@ class afiliado extends Model
         'user_last_name'
     ];
 
+    // este foramto para mostrarlo en la grilla --------------------------------------
     public function getFechaEgresoAttribute($value)
     {
         $resu = '';
@@ -87,7 +88,7 @@ class afiliado extends Model
         return $resu;
     }
 
-    //-------------------------------------------------------------------------
+    //este formato para mostrarlo en un form -------------------------------------------
     public function getDocumPendienteyAttribute()
     {
         $resu = $this->docum_pendiente;
@@ -202,5 +203,10 @@ class afiliado extends Model
     public function seccionales()
     {
         return $this->belongsTo('App\Models\seccional', 'seccional_id', 'id');
+    }
+    
+    public function documentos()
+    {
+        return $this->hasMany('App\Models\afil_documentos', 'afiliado_id', 'id');
     }
 }

@@ -51,7 +51,7 @@
             <div class="sidebar-heading">
                 Afiliados
             </div>
-            @if(Auth::user()->hasrole('administrador') or Auth::user()->haspermissionto('ingreso de datos'))
+            @if(Auth::user()->hasrole('administrador') or Auth::user()->haspermissionto('ingreso de afiliados'))
             <!-- Nav Item - Charts -->
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('afiliado.index') }}">
@@ -59,12 +59,12 @@
                     <span>Ficha de Afiliados</span></a>
             </li>
             @endif
-            @if(Auth::user()->hasrole('administrador') or Auth::user()->haspermissionto('auditar datos'))
+            @if(Auth::user()->hasrole('administrador') or Auth::user()->haspermissionto('consulta de afiliados'))
             <!-- Nav Item - Charts -->
             <li class="nav-item">
                 <a class="nav-link" href="#">
                     <i class="fas fa-fw fa-search-dollar"></i>
-                    <span>Configurar cierres</span></a>
+                    <span>Consultas de Afiliados</span></a>
             </li>
             @endcan
             <!-- Divider -->
@@ -74,16 +74,16 @@
             <div class="sidebar-heading">
                 Empresas
             </div>
-            @if(Auth::user()->hasrole('administrador') or Auth::user()->haspermissionto('auditar datos'))
+            @if(Auth::user()->hasrole('administrador') or Auth::user()->haspermissionto('ingreso de empresas'))
             <!-- Nav Item - Charts -->
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="{{ route('empresa.index') }}">
                     <i class="fas fa-city"></i>
                     <span>Fichas empresas</span></a>
             </li>
             @endcan
             <!-- Nav Item - Tables -->
-            @if(Auth::user()->hasrole('administrador') or Auth::user()->haspermissionto('consultar datos'))
+            @if(Auth::user()->hasrole('administrador') or Auth::user()->haspermissionto('consulta de empresas'))
             <li class="nav-item">
                 <a class="nav-link" href="#">
                     <i class="fas fa-fw fa-book-reader"></i>

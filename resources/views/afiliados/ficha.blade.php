@@ -24,12 +24,12 @@
     </div>
 </div>
 
-<form id='formEmp' action="{{route('afiliado.find')}}" method="GET">
+<form id='formEmpbus' action="{{route('afiliado.find')}}" method="GET">
     <div class="row bot-20  justify-content-end">
         <div class="col-md-4">
             <div class="input-group">
-                <input type="text" data-toggle="tooltip" data-placement="top" title="Ingrese un número de dni a buscar" placeholder="D.N.I." id="busdni" name="busdni" class="form-control form-control-sm" aria-describedby="buscar" maxlength="10">
-                <input type="text" data-toggle="tooltip" data-placement="top" title="Ingrese un número de afiliado sindical" placeholder="Nro Afiliado" id="busnroafil" name="busnroafil" class="form-control form-control-sm" aria-describedby="buscar" maxlength="12">
+                <input type="text" data-toggle="tooltip" data-placement="top" title="Ingrese un número de dni a buscar" placeholder="D.N.I." id="busdni" name="busdni" class="solonros form-control form-control-sm" aria-describedby="buscar" maxlength="10">
+                <input type="text" data-toggle="tooltip" data-placement="top" title="Ingrese un número de afiliado sindical" placeholder="Nro Afiliado" id="busnroafil" name="busnroafil" class="solonros form-control form-control-sm" aria-describedby="buscar" maxlength="12">
                 <div class="input-group-append">
                     <button class="btn btn-outline-primary btn-sm" type="submit" id="buscar"><i class="fas fa-search"></i></button>
                 </div>
@@ -76,16 +76,16 @@
                         <div class="col-md-2">
                             <label for="">Nro Afiliado</label>
                             <div class="input-group" data-toggle="tooltip" data-placement="top" title="Presione el botón para obtener un número de afiliado, trae un dato solo si la casilla de texto esta en blanco.">
-                                <input type="text" id="nro_afil_sindical" name="nro_afil_sindical" class="form-control form-control-sm" aria-describedby="signroafil" value="{{  old('nro_afil_sindical', $registro->nro_afil_sindical) }}" maxlength="12">
+                                <input type="text" id="nro_afil_sindical" name="nro_afil_sindical" data-tipo='NRO_AFIL_TIT' class="valorsiguiente solonros form-control form-control-sm" aria-describedby="signroafil" value="{{  old('nro_afil_sindical', $registro->nro_afil_sindical) }}" maxlength="12">
                                 <div class="input-group-append">
-                                    <button class="btn btn-outline-primary btn-sm" id="signroafil"><i class="fas fa-sort-numeric-up"></i></button>
+                                    <button class="btn btn-outline-primary btn-sm" id="obtsiguiente"><i class="fas fa-sort-numeric-up"></i></button>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label for="">CUIL</label>
-                                <input type="text" id="" name="cuil" class="form-control form-control-sm" value="{{  old('cuil', $registro->cuil) }}" maxlength="13" />
+                                <input type="text" id="" name="cuil" class="solonros form-control form-control-sm" value="{{  old('cuil', $registro->cuil) }}" maxlength="13" />
                             </div>
                         </div>
                     </div>
@@ -110,7 +110,7 @@
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label>Nro docum.</label>
-                                <input type="text" id="" name="nro_doc" class="form-control form-control-sm" value="{{ old('nro_doc', $registro->nro_doc) }}" maxlength="12" />
+                                <input type="text" id="" name="nro_doc" class="solonros form-control form-control-sm" value="{{ old('nro_doc', $registro->nro_doc) }}" maxlength="12" />
                             </div>
                         </div>
                         <div class="col-md-2">
@@ -196,7 +196,7 @@
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label for="">Provincia</label>
-                                <select name="provincia_id" id="provincia_id" class="form-control form-control-sm" style="width: 100%">
+                                <select name="provincia_id" id="provincia_id" data-localidad='localidad_id' class="provincia form-control form-control-sm" style="width: 100%">
                                     <option value="">--Seleccione--</option>
                                     @foreach($provincias as $dato)
                                     <option value="{{$dato->id}}" {{(empty($registro->provincia_id) ? old('provincia_id') : $registro->provincia_id)  == $dato->id ? 'selected' : ''}}>{{$dato->nombre}}</option>
@@ -209,7 +209,7 @@
                                 <label for="">Localidad y C.P.</label>
                                 <select name="localidad_id" id="localidad_id" class="busqueda form-control" style="width: 100%">
                                     @if($localidades != null){
-                                    <option value="{{$localidades->id}}">{{$localidades->nombre}}</option>
+                                    <option value="{{$localidades->id}}">{{$localidades->nombre . ' - ' . $localidades->cod_postal }}</option>
                                     @endif
                                 </select>
                             </div>
@@ -456,84 +456,6 @@
 </form>
 
 
-<script>
-    $(function() {
-
-        $('#signroafil').on('click', function(e) {
-            e.preventDefault();
-
-            if ($('#nro_afil_sindical').val() != '') {
-                return false;
-            }
-
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-                }
-            });
-            jQuery.ajax({
-                url: "{{ route('afiliado.siguiente') }}",
-                method: 'get',
-                // data: {
-                //     content: jQuery('#nro_afil_sindical').val()
-                // },
-                success: function(result) {
-                    // console.log(result.success);
-                    $('#nro_afil_sindical').val(result.success);
-                }
-            });
-        });
-
-        $('#provincia_id').on('change', function() {
-
-            var prov_id = $(this).val();
-            var html_select = '';
-            if (!prov_id) {
-                $('#localidad_id').html('<option value="">--Seleccione--</option>');
-                return
-            }
-            $.get('/api/provincia/' + prov_id + '/localidades', function(data) {
-                for (var i = 0; i < data.length; ++i) {
-                    html_select += '<option value="' + data[i].id + '">' + data[i].nombre + ' - ' + data[i].cod_postal + '</option>';
-                }
-                $('#localidad_id').html(html_select);
-            })
-        })
-
-
-        $('[data-toggle="tooltip"]').tooltip()
-
-        $(".aMayusculas").on("keyup", function() {
-            this.value = this.value.toUpperCase();
-        })
-
-
-        if ($('#fecha_nac').val() != '') {
-            calcularEdad($('#fecha_nac').val());
-        }
-
-        $('#fecha_nac').on('change', function() {
-            calcularEdad($('#fecha_nac').val());
-        });
-
-        $('.busqueda').select2({
-            language: "es"
-        });
-
-        function calcularEdad(e) {
-            // fecha = $(this).val();
-            fecha = e;
-            var hoy = new Date();
-            var cumpleanos = new Date(fecha);
-            var edad = hoy.getFullYear() - cumpleanos.getFullYear();
-            var m = hoy.getMonth() - cumpleanos.getMonth();
-
-            if (m < 0 || (m === 0 && hoy.getDate() < cumpleanos.getDate())) {
-                edad--;
-            }
-            $('#edad').val(edad);
-        }
-    })
-</script>
+<script src="{{ asset('js/scripts.js') }}"></script>
 
 @endsection

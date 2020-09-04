@@ -48,11 +48,13 @@ Route::group(['middleware' => ['permission:seguridad']], function () {
     Route::post('/afiliados/guardar', 'gestion\AfiliadosController@guardar')->name('afiliado.guardar');
     Route::get('/afiliados/find/{id?}', 'gestion\AfiliadosController@find')->name('afiliado.find');
 
-    Route::get('/afiliado/{id}/buscar/index', 'gestion\AfiliadosController@buscar_index')->name('afiliado.buscar.index');
-    Route::get('/afiliado/buscar', 'gestion\AfiliadosController@buscar')->name('afiliado.buscar');
+    Route::get('/afiliado/{id?}/buscar/index', 'gestion\AfiliadosController@buscar_index')->name('afiliado.buscar.index');
+    Route::get('/afiliado/{id?}/buscar', 'gestion\AfiliadosController@buscar')->name('afiliado.buscar');
     Route::get('/afiliado/{id}/familiar/buscar/index', 'gestion\familiaresController@buscar_index')->name('familiares.buscar.index');
     Route::get('/afiliado/siguiente', 'gestion\AfiliadosController@nroafilsiguiente')->name('afiliado.siguiente');
     Route::get('/familiar/buscar', 'gestion\familiaresController@buscar')->name('familiares.buscar');
+
+    Route::get('/siguiente', 'comunes\comunesController@obtener_siguiente')->name('comunes.siguiente');
 
     Route::get('/afiliado/{id}/preguntas', 'gestion\AfiliadosController@preguntas_index')->name('afiliado.preguntas');
     Route::post('/afiliado/preguntas/guardar', 'gestion\AfiliadosController@preguntas_guardar')->name('afiliado.preguntas.guardar');
@@ -61,7 +63,7 @@ Route::group(['middleware' => ['permission:seguridad']], function () {
     Route::get('/afiliado/{id}/documentos', 'gestion\AfiliadosController@documentos_index')->name('afiliado.documentos');
     Route::post('/afiliado/documentos/guardar', 'gestion\AfiliadosController@documentos_guardar')->name('afiliado.documentos.guardar');
     Route::delete('/afiliado/documentos/{id}/borrar', 'gestion\AfiliadosController@documentos_borrar')->name('afiliado.documentos.borrar');
-    Route::get('/afiliads/documentos/{id}/descargar', 'gestion\AfiliadosController@download')->name('afiliado.download');
+    Route::get('/afiliado/documentos/{id}/descargar', 'gestion\AfiliadosController@download')->name('afiliado.download');
     Route::get('/afiliado/carnet/{id}', 'gestion\AfiliadosController@carnet')->name('afiliado.carnet');
     
     // Route::get('/comunes/volver', 'comunes\comunesController@volver')->name('volver');
@@ -75,3 +77,19 @@ Route::group(['middleware' => ['permission:seguridad']], function () {
     Route::get('/familiares/documentos/id/{id}/descargar', 'gestion\familiaresController@download')->name('familiares.download');
 
     // });
+
+    Route::get('/empresas/carga', 'gestion\EmpresasController@index')->name('empresa.index');
+    Route::post('/empresas/guardar', 'gestion\EmpresasController@guardar')->name('empresa.guardar');
+    Route::get('/empresas/find/{id?}', 'gestion\EmpresasController@find')->name('empresa.find');
+
+    Route::get('/empresa/{id}/buscar/index', 'gestion\empresasController@buscar_index')->name('empresa.buscar.index');
+    Route::get('/empresa/buscar', 'gestion\empresasController@buscar')->name('empresa.buscar');
+    Route::get('/empresa/{id}/familiar/buscar/index', 'gestion\empresasController@buscar_index')->name('empresa.afiliados');
+    Route::get('/empresa/siguiente', 'gestion\empresasController@nroEmprSiguiente')->name('empresa.siguiente');
+
+    Route::get('/empresa/{id}/documentos', 'gestion\empresasController@documentos_index')->name('empresa.documentos');
+    Route::post('/empresa/documentos/guardar', 'gestion\empresasController@documentos_guardar')->name('empresa.documentos.guardar');
+    Route::delete('/empresa/documentos/{id}/borrar', 'gestion\empresasController@documentos_borrar')->name('empresa.documentos.borrar');
+    Route::get('/empresa/documentos/{id}/descargar', 'gestion\empresasController@download')->name('empresa.download');
+
+    

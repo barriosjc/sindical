@@ -5,7 +5,7 @@ namespace App\models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class afil_documento extends Model
+class empr_documento extends Model
 {
     use SoftDeletes;
     
@@ -14,7 +14,7 @@ class afil_documento extends Model
      *
      * @var string
      */
-    protected $table = 'afil_documentos';
+    protected $table = 'empr_documentos';
 
     /**
     * The database primary key value.
@@ -29,16 +29,16 @@ class afil_documento extends Model
      * @var array
      */
     protected $fillable = [
-            'afiliado_id',
+            'empresa_id',
             'tipo_documento_id',
             'path',
             'obs',
             'fecha_vencimiento'
     ];
 
-    public function afiliados()
+    public function empresas()
     {
-        return $this->belongsTo('App\Models\afiliado', 'afiliado_id', 'id');
+        return $this->hasMany('App\Models\empresas', 'empresa_id', 'id');
     }
     
 }

@@ -45,19 +45,19 @@ class AfiliadosController extends Controller
         $this->middleware('auth');
     }
 
-    public function nroafilsiguiente()
-    {
+    // public function nroafilsiguiente()
+    // {
 
-        $param = parametro::where('dato', 'NRO_AFIL_TIT')->first();
-        $nro = 0;
-        if ($param != null) {
-            $nro = $param->valor + 1;
-            $param->valor = $nro;
-            $param->save();
-        }
+    //     $param = parametro::where('dato', 'NRO_AFIL_TIT')->first();
+    //     $nro = 0;
+    //     if ($param != null) {
+    //         $nro = $param->valor + 1;
+    //         $param->valor = $nro;
+    //         $param->save();
+    //     }
 
-        return response()->json(['success' => $nro]);
-    }
+    //     return response()->json(['success' => $nro]);
+    // }
     /**
      * Show the application dashboard.
      *
@@ -219,9 +219,8 @@ class AfiliadosController extends Controller
         return back()->with(["mensaje" => 'pregunta y respuesta borrada con éxito!']);
     }
 
-    public function buscar_index(int $id)
+    public function buscar_index(int $id = null)
     {
-
         $estados = afil_estado_ficha::get();
         $nacionalidades = tipos_nacionalidad::get();
         $provincias = provincia::get();
@@ -251,7 +250,7 @@ class AfiliadosController extends Controller
         ));
     }
 
-    public function buscar(Request $request)
+    public function buscar(Request $request, int $empresa_id = null)
     {
 
         $filtro = [];
@@ -279,11 +278,17 @@ class AfiliadosController extends Controller
         if (!empty($request->empresa_id)) {
             $filtro[] = ['afiliados.empresa_id', '=', $request->empresa_id];
         }
+        if (!empty($empresa_id)) {
+            $filtro[] = ['afiliados.empresa_id', '=', $empresa_id];
+        }
         if (!empty($request->categoria_id)) {
             $filtro[] = ['afiliados.categoria_id', '=', $request->categoria_id];
         }
         if (!empty($request->especialidad_id)) {
             $filtro[] = ['afiliados.especialidad_id', '=', $request->especialidad_id];
+        }
+        if (!empty($request->fecha_egreso)) {
+            $filtro[] = ['afiliados.fecha_egreso', '<=', $request->fecha_egreso];
         }
         if (!empty($request->fecha_egr_empr)) {
             $filtro[] = ['afiliados.fecha_egr_empr', '<=', $request->fecha_egr_empr];
@@ -315,9 +320,9 @@ class AfiliadosController extends Controller
 
             // no uso estado ficha pero no lo quite de la consulta, si hace falta sacar estado ficha
             $afiliados = afiliado::query()
-                ->join('empresas as e', 'e.id', 'afiliados.empresa_id')
-                ->join('afil_estado_ficha as ef', 'ef.id', 'afiliados.afil_estado_ficha_id')
-                ->select('afiliados.*', 'e.nombre as empresa_nom', 'ef.descripcion as estado_desc')
+                ->leftjoin('empresas as e', 'e.id', 'afiliados.empresa_id')
+                ->leftjoin('afil_estado_ficha as ef', 'ef.id', 'afiliados.afil_estado_ficha_id')
+                ->select('afiliados.*', 'e.razon_social as empresa_nom', 'ef.descripcion as estado_desc')
                 ->where($filtro)
                 ->orderby('afiliados.apellido_nombres')
                 ->paginate(15);
@@ -393,9 +398,17 @@ class AfiliadosController extends Controller
 
     public function carnet($id){
 
-        $afiliado = afiliado::find($id);
-        $pdf = PDF::loadView('afiliados.carnet', compact('afiliado'));
+        $afiliado = afiliado::query()
+        ->join('afil_documentos as d', 'd.afiliado_id', 'afiliados.id')
+        ->join('seccionales as s', 's.id', 'afiliados.seccional_id')
+        ->select('afiliados.*', 'd.path', 's.descripcion')
+        ->where('d.tipo_documento_id', 11)
+        ->first();
 
-        return $pdf->download('carnet_' . $afiliado->nro_doc . '.pdf');
+       $pdf = PDF::loadView('afiliados.carnet', compact('afiliado'));
+
+       return $pdf->download('carnet_' . $afiliado->nro_doc . '.pdf');
+        // return view('afiliados.carnet', compact('afiliado'));
+
     }
 }

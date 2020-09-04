@@ -22,19 +22,19 @@
                                 <th>Nro Doc.</th>
                                 <th>Nro Afiliado</th>
                                 <th>Empresa</th>
-                                <th>Fec. baja sind</th>
+                                <th>Fec. alta sind.</th>
                                 <th style="width:8%">Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach($afiliados as $item)
-                            <tr>
+                            <tr @if(!empty($item->fecha_egreso)) class="table-danger" @endif >
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $item->apellido_nombres }}</td>
                                 <td>{{ $item->nro_doc }}</td>
                                 <td>{{ $item->nro_afil_sindical }}</td>
                                 <td>{{ $item->empresa_nom }}</td>
-                                <td>{{ $item->fecha_egreso }}</td>
+                                <td>{{ $item->fecha_alta }}</td>
                                 <td>
                                     <div class="float-right">
                                         <form action="{{ route('afiliado.find', $item->id) }}" method="GET">
