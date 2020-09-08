@@ -12,14 +12,14 @@
               @if($padre === 'usuarios')             
                 <a href="{{ url('/usuario') }}" title="Volver"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Volver</button></a>
               @else
-                <a href="{{ url('/roles') }}" title="Volver"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Volver</button></a>
+                <a href="{{ url('/permisos') }}" title="Volver"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Volver</button></a>
               @endif
             @else
-              <a href="{{ url('/roles/create') }}" class="btn btn-success btn-sm" title="Agregar nuevo Role">
+              <a href="{{ url('/permisos/create') }}" class="btn btn-success btn-sm" title="Agregar nuevo Permiso">
                 <i class="fa fa-plus" aria-hidden="true"></i> Agregar nuevo
               </a>
 
-              <form method="GET" action="{{ url('/roles') }}" accept-charset="UTF-8" class="form-inline my-2 my-lg-0 float-right" role="search">
+              <form method="GET" action="{{ url('/permisos') }}" accept-charset="UTF-8" class="form-inline my-2 my-lg-0 float-right" role="search">
                 <div class="input-group">
                   <input type="text" class="form-control" name="search" placeholder="Buscar..." value="{{ request('search') }}">
                   <span class="input-group-append">

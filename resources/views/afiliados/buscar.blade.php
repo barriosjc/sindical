@@ -26,12 +26,12 @@
 
 <div class="card">
     <div class="card-header">
-    @if($afiliado_id == 0)
-        <a href="{{ url('/afiliados') }}" title="Volver"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Volver</button></a>
-    @else
+        @if($afiliado_id == 0)
+        <a href="{{ route('afiliado.index') }}" title="Volver"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Volver</button></a>
+        @else
         <a href="{{ url('/afiliados/find/' . $afiliado_id) }}" title="Volver"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Volver</button></a>
-    @endif
-    Datos a buscar de afiliados titulares
+        @endif
+        Datos a buscar de afiliados titulares
     </div>
     <ul class="list-group list-group-flush">
         <li class="list-group-item">
@@ -42,7 +42,7 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             <label for="">estado</label>
-                            <select name="afil_estado_ficha_id" id="afil_estado_ficha_id" class="form-control form-control-sm" style="width: 100%" >
+                            <select name="afil_estado_ficha_id" id="afil_estado_ficha_id" class="form-control form-control-sm" style="width: 100%">
                                 <option value="">--Seleccione--</option>
                                 @foreach($estados as $dato)
                                 <option value="{{$dato->id}}">{{$dato->descripcion}}</option>
@@ -65,7 +65,7 @@
                     <div class="col-md-2">
                         <div class="form-group">
                             <label>Doc. entregada</label>
-                            <input type="date" id="docum_entregada" name="docum_entregada" class="form-control form-control-sm" value=""  data-toggle="tooltip" data-placement="top" title="Se buscarán afiliados hasta la fecha ingresada aquí">
+                            <input type="date" id="docum_entregada" name="docum_entregada" class="form-control form-control-sm" value="" data-toggle="tooltip" data-placement="top" title="Se buscarán afiliados hasta la fecha ingresada aquí">
                         </div>
                     </div>
                     <div class="col-md-2">
@@ -100,7 +100,7 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             <label for="">Seccional</label>
-                            <select name="seccional_id" id="seccional_id" class="form-control form-control-sm" style="width: 100%" >
+                            <select name="seccional_id" id="seccional_id" class="form-control form-control-sm" style="width: 100%">
                                 <option value="">--Seleccione--</option>
                                 @foreach($seccionales as $dato)
                                 <option value="{{$dato->id}}">{{$dato->descripcion}}</option>
@@ -109,15 +109,20 @@
                         </div>
                     </div>
                     <div class="col-md-2">
-                        <div class="form-group">
-                            <label>Fec. baja empresa</label>
+                        <label>Fec. baja sind.</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <input type="checkbox" id='fecha_egreso_ck' name='fecha_egreso_ck'  data-toggle="tooltip" data-placement="top" title="Si tilda se buscará todos los datos que no tengan fecha cargada">
+                                </div>
+                            </div>
                             <input type="date" id="fecha_egreso" name="fecha_egreso" class="form-control form-control-sm" value="" data-toggle="tooltip" data-placement="top" title="Se buscarán afiliados hasta la fecha ingresada aquí">
                         </div>
                     </div>
-                                        <div class="col-md-4">
+                    <div class="col-md-4">
                         <div class="form-group">
                             <label for="">Empresa</label>
-                            <select name="empresa_id" id="empresa_id" class="form-control form-control-sm busqueda" style="width: 100%" >
+                            <select name="empresa_id" id="empresa_id" class="form-control form-control-sm busqueda" style="width: 100%">
                                 <option value="">--Seleccione--</option>
                                 @foreach($empresas as $dato)
                                 <option value="{{$dato->id}}">{{$dato->nombre}}</option>
@@ -148,8 +153,13 @@
                         </div>
                     </div>
                     <div class="col-md-2">
-                        <div class="form-group">
-                            <label>Fec. baja empresa</label>
+                        <label>Fec. baja empresa</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <input type="checkbox" id='fecha_egr_empr_ck' name='fecha_egr_empr_ck' data-toggle="tooltip" data-placement="top" title="Si tilda se buscará todos los datos que no tengan fecha cargada">
+                                </div>
+                            </div>
                             <input type="date" id="fecha_egr_empr" name="fecha_egr_empr" class="form-control form-control-sm" value="" data-toggle="tooltip" data-placement="top" title="Se buscarán afiliados hasta la fecha ingresada aquí">
                         </div>
                     </div>
@@ -174,7 +184,7 @@
                     </div>
                     <div class="col-md-2">
                         <div class="form-group">
-                            <label>Fec. baja</label>
+                            <label>Fec. baja de O.S.</label>
                             <input type="date" id="fecha_egreso_os" name="fecha_egreso_os" class="form-control form-control-sm" value="" data-toggle="tooltip" data-placement="top" title="Se buscarán afiliados hasta la fecha ingresada aquí">
                         </div>
                     </div>

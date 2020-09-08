@@ -41,4 +41,9 @@ class empr_documento extends Model
         return $this->hasMany('App\Models\empresas', 'empresa_id', 'id');
     }
     
+    public function tipos_documentos()
+    {
+        return $this->belongsTo('App\Models\tipo_documento', 'tipo_documento_id', 'id');
+    }  
+    
 }

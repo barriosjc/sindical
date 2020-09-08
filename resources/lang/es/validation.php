@@ -182,5 +182,6 @@ return [
         'username'              => 'usuario',
         'year'                  => 'año',
         'path'                  => 'archivo',
+        'motivo_egreso_os_id'   => 'Motivo de egreso de O.S.',
     ],
 ];

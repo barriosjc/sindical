@@ -28,6 +28,7 @@ $(function() {
     });
 
 
+
     $('.provincia').on('change', function() {
 
         var prov_id = $(this).val();
@@ -53,7 +54,6 @@ $(function() {
         this.value = this.value.toUpperCase();
     })
 
-
     if ($('#fecha_nac').val() != '') {
         calcularEdad($('#fecha_nac').val());
     }
@@ -67,11 +67,7 @@ $(function() {
     });
 
     $('.solonros').on('keyup', function(e) {    
-        if (/\D/g.test(this.value))
-        {
-        // Filter non-digits from input value.
         this.value = this.value.replace(/\D/g, '');
-        }
     });
 
     function calcularEdad(e) {
@@ -87,4 +83,11 @@ $(function() {
         }
         $('#edad').val(edad);
     }
+
+    var elements = document.getElementsByClassName('colorear'); 
+	for(var i = 0; i < elements.length; i++){
+        if(elements[i].value != ''){
+        elements[i].style.backgroundColor = "#f5b7b1";
+        }
+	}
 })

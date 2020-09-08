@@ -19,7 +19,7 @@ use App\models\provincia;
 use App\models\localidad;
 use App\models\afiliado;
 use App\models\empr_documento;
-use App\models\parametro;
+use App\models\tipo_documento;
 
 use Illuminate\Support\Facades\DB;
 
@@ -98,11 +98,11 @@ class EmpresasController extends Controller
             $provincias = provincia::get();
             $tipos_actividad_empr = tipo_actividad_empr::get();
             $tipos_baja_empr = tipo_baja_empr::get();
-            $cant_empadronados = 0;
 
             $cant = empr_documento::where('empresa_id', $registro->id)->count();
             $cantidades['documentos'] = $cant;
             $cantidades['afiliados'] = afiliado::where('empresa_id', $registro->id)->count();
+            $cant_empadronados = $cantidades['afiliados'];
 
         } catch (\Exception $e) {
 
@@ -196,8 +196,17 @@ class EmpresasController extends Controller
         if (!empty($request->fecha_inicio_actividad)) {
             $filtro[] = ['empresas.fecha_inicio_actividad', '<=', $request->fecha_inicio_actividad];
         }
+        if (!empty($request->fecha_baja_ck)) {
+            $filtro[] = ['empresas.fecha_baja', '=', null];
+        }
         if (!empty($request->fecha_baja)) {
             $filtro[] = ['empresas.fecha_baja', '<=', $request->fecha_baja];
+        }
+        if (!empty($request->fecha_ult_inspeccion_ck)) {
+            $filtro[] = ['empresas.fecha_ult_inspeccion', '=', null];
+        }
+        if (!empty($request->fecha_ult_inspeccion)) {
+            $filtro[] = ['empresas.fecha_ult_inspeccion', '<=', $request->fecha_ult_inspeccion];
         }
         if (!empty($request->tipo_baja_empr_id)) {
             $filtro[] = ['empresas.tipo_baja_empr_id', '=', $request->tipo_baja_empr_id];
@@ -240,14 +249,11 @@ class EmpresasController extends Controller
     public function documentos_index(int $empresa_id)
     {
         // dd($empresa_id);
-        $tipos_documentos = tipo_documento::where('tipo', 'TIT')->get();
-        $afil_documentos = afil_documento::query()
-            ->join('tipos_documentos as td', 'td.id', 'afil_documentos.tipo_documento_id')
-            ->select('td.descripcion', 'fecha_vencimiento', 'obs', 'tipo_documento_id', 'empresa_id', 'afil_documentos.id')
-            ->where('afil_documentos.empresa_id', $empresa_id)
+        $tipos_documentos = tipo_documento::where('tipo', 'EMP')->get();
+        $empr_documentos = empr_documento::where('empr_documentos.empresa_id', $empresa_id)
             ->paginate(5);
 
-        return view('empresas.documentos', compact('empresa_id', 'tipos_documentos', 'afil_documentos'));
+        return view('empresas.documentos', compact('empresa_id', 'tipos_documentos', 'empr_documentos'));
     }
 
     public function documentos_guardar(Request $request)
@@ -268,7 +274,7 @@ class EmpresasController extends Controller
             $requestData['path'] = $path;
         }
         //  dd($requestData);
-        afil_documento::create($requestData);
+        empr_documento::create($requestData);
 
         // return redirect('empresas.ficha')->with('mensaje', );
         return back()->with(["mensaje" => 'documentación cargada con éxito!']);
@@ -277,7 +283,7 @@ class EmpresasController extends Controller
     public function documentos_borrar(int $id)
     {  
 
-        $preg = afil_documento::find($id);
+        $preg = empr_documento::find($id);
         if (!empty($preg->path)){
             // Storage::delete($preg->path);
         }
@@ -288,28 +294,12 @@ class EmpresasController extends Controller
     
     public function download(int $id){
 
-        $path = afil_documento::find($id)->path;
+        $path = empr_documento::find($id)->path;
         if(!file_exists($path)){
             return back()->withErrors(['mensaje' => "El archivo que intenta descargar no se encuentra almacenado en el servidor."]);
         }
         
         return response()->download(public_path() . '/' . $path);
-
-    }
-
-    public function carnet($id){
-
-        $empresa = empresa::query()
-        ->join('afil_documentos as d', 'd.empresa_id', 'empresas.id')
-        ->join('seccionales as s', 's.id', 'empresas.seccional_id')
-        ->select('empresas.*', 'd.path', 's.descripcion')
-        ->where('d.tipo_documento_id', 11)
-        ->first();
-
-       $pdf = PDF::loadView('empresas.carnet', compact('empresa'));
-
-       return $pdf->download('carnet_' . $empresa->nro_doc . '.pdf');
-        // return view('empresas.carnet', compact('empresa'));
 
     }
 

@@ -143,6 +143,15 @@ class afiliado extends Model
 
         return $resu;
     }
+        public function getFechaEgresoyAttribute()
+    {
+        $resu = $this->fecha_egreso;
+        if (!empty($resu)) {
+            $resu = date('Y-m-d', strtotime($resu));
+        }
+
+        return $resu;
+    }
     public function getFechaJubilacionyAttribute()
     {
         $resu = $this->fecha_jubilacion;

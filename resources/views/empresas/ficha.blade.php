@@ -44,7 +44,9 @@
     <div class="bot-20">
         <div class="card ">
             <div class="card-header">
+                @if(Auth::user()->hasrole('administrador') or Auth::user()->haspermissionto('nueva empresa'))                
                 <a href="{{ route('empresa.index') }}" class="btn btn-success btn-sm" title="Agregar"> <i class="fa fa-plus" aria-hidden="true"></i> Agregar nuevo</a>
+                @endif
                 Datos de empresa
             </div>
             <ul class="list-group list-group-flush">
@@ -119,13 +121,13 @@
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label>Fec. baja</label>
-                                <input type="date" id="fecha_baja" name="fecha_baja" class="form-control form-control-sm" value="{{ old('fecha_baja', $registro->fecha_bajay) }}">
+                                <input type="date" id="fecha_baja" name="fecha_baja" class="colorear form-control form-control-sm" value="{{ old('fecha_baja', $registro->fecha_bajay) }}">
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="">Motivo baja Sindical</label>
-                                <select name="tipo_baja_empr_id" id="tipo_baja_empr_id" class="form-control form-control-sm" style="width: 100%">
+                                <select name="tipo_baja_empr_id" id="tipo_baja_empr_id" class="colorear form-control form-control-sm" style="width: 100%">
                                     <option value="">--Seleccione--</option>
                                     @foreach($tipos_baja_empr as $dato)
                                     <option value="{{$dato->id}}" {{(empty($registro->tipo_baja_empr_id) ? old('tipo_baja_empr_id') : $registro->tipo_baja_empr_id)  == $dato->id ? 'selected' : ''}}>{{$dato->descripcion}}</option>
@@ -365,14 +367,19 @@
                     <div class='row'>
                         <div class="col-md-8 float-right">
                             @if(isset($registro->id))
-                            <a href=" {{ route('empresa.documentos', $registro->id) }} " id="btnfoto" class="btn btn-primary">Documentación <span class="badge badge-light">{{$cantidades['documentos']}}</span></a>
-                            <a href=" {{ route('afiliado.buscar', $registro->id) }} " id="btgrupofam" class="btn btn-primary">Afiliados <span class="badge badge-light">{{$cantidades['afiliados']}}</span></a>
+                            <div class='float-right'>
+                                <a href=" {{ route('empresa.documentos', $registro->id) }} " id="btnfoto" class="btn btn-primary">Documentación <span class="badge badge-light">{{$cantidades['documentos']}}</span></a>
+                                <a href=" {{ route('afiliado.buscar', $registro->id) }} " id="btgrupofam" class="btn btn-primary">Afiliados <span class="badge badge-light">{{$cantidades['afiliados']}}</span></a>
+                            </div>
                             @endif
                         </div>
-
-                        <div class="col-md-4">
-                            <button type="submit" id="btnAgr" class="btn btn-info float-right">Guardar datos</button>
-                            <a href="{{ route('empresa.buscar.index', isset($registro->id) ? $registro->id : 0) }}" id="btnbuscartit" class="btn btn-info float-right"><i class="fas fa-search"></i> Buscar</a>
+                        <div class="col-md-4 ">
+                            <div class='float-right'>
+                                <a href="{{ route('empresa.buscar.index', isset($registro->id) ? $registro->id : 0) }}" id="btnbuscartit" class="btn btn-info"><i class="fas fa-search"></i> Buscar</a>
+                                @if(Auth::user()->hasrole('administrador') or Auth::user()->haspermissionto('nueva empresa'))
+                                <button type="submit" id="btnAgr" class="btn btn-info">Guardar datos</button>
+                                @endif
+                            </div>
                         </div>
                     </div>
                 </li>

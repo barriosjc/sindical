@@ -35,13 +35,18 @@ class tipo_documento extends Model
             'obliga'
     ];
 
-    public function afiliados()
+    public function afil_documentos()
     {
-        return $this->belongsTo('App\Models\afiliado');
+        return $this->hasMany('App\Models\afil_documento', 'tipo_documento_id', 'id');
     }
 
     public function gf_documentos()
     {
         return $this->hasMany('App\Models\gf_documento', 'tipo_documento_id', 'id');
+    } 
+
+    public function empr_documentos()
+    {
+        return $this->hasMany('App\Models\empr_documento', 'tipo_documento_id', 'id');
     }    
 }

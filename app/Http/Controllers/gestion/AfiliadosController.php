@@ -27,7 +27,6 @@ use App\models\motivo_egreso_sind;
 use App\models\pregunta;
 use App\models\grupo_familiar;
 use App\models\afil_documento;
-use App\models\parametro;
 
 use Illuminate\Support\Facades\DB;
 
@@ -45,19 +44,6 @@ class AfiliadosController extends Controller
         $this->middleware('auth');
     }
 
-    // public function nroafilsiguiente()
-    // {
-
-    //     $param = parametro::where('dato', 'NRO_AFIL_TIT')->first();
-    //     $nro = 0;
-    //     if ($param != null) {
-    //         $nro = $param->valor + 1;
-    //         $param->valor = $nro;
-    //         $param->save();
-    //     }
-
-    //     return response()->json(['success' => $nro]);
-    // }
     /**
      * Show the application dashboard.
      *
@@ -116,13 +102,10 @@ class AfiliadosController extends Controller
         try {
             if ($registro == null) {
                 throw new Exception('No se encontro el dato ingresado a buscar, intente con otro dato.');
-                // $registro = new afiliado;
-                // $localidades = null;
             } else {
                 $localidades = localidad::where('id', $registro->localidad_id)->first();
             }
-            // dump($registro->localidad_id);
-            // dd($localidades); 
+
             $estados = afil_estado_ficha::get();
             $tipos_documentos = tipo_documento::where('tipo', 'AFI')->get();
             $nacionalidades = tipos_nacionalidad::get();
@@ -143,10 +126,7 @@ class AfiliadosController extends Controller
             $cantidades['foto'] = $cant;
             $cant = afil_documento::where('afiliado_id', $registro->id)->where('tipo_documento_id', '!=', 11)->count();
             $cantidades['documentos'] = $cant;
-            // dump($cant);
-            // dd($cantidades);
-            // dd($afil_preguntas->pluck('descripcion')->first());
-            // $localidades = new localidad;
+
         } catch (\Exception $e) {
 
             $mensaje =  $e->getMessage();
@@ -176,13 +156,12 @@ class AfiliadosController extends Controller
 
     public function guardar(afiliadosRequest $request)
     {
-        // $requestData = new afiliado();
+
         $requestData = $request->all();
         $requestData['user_last_name'] = Auth::user()->last_name ;
-        //   dd($requestData);
+
         afiliado::updateorcreate(['id' => $request->id], $requestData);
 
-        // return redirect('afiliados.ficha')->with('mensaje', );
         return back()->with(["mensaje" => 'Afiliado creado con éxito!']);
     }
 
@@ -201,12 +180,11 @@ class AfiliadosController extends Controller
 
     public function preguntas_guardar(Request $request)
     {
-        // $requestData = new afil_pregunta();
+
         $requestData = $request->all();
-        //  dd($requestData);
+
         afil_pregunta::create($requestData);
 
-        // return redirect('afiliados.ficha')->with('mensaje', );
         return back()->with(["mensaje" => 'pregunta y respuesta creado con éxito!']);
     }
 
@@ -287,8 +265,14 @@ class AfiliadosController extends Controller
         if (!empty($request->especialidad_id)) {
             $filtro[] = ['afiliados.especialidad_id', '=', $request->especialidad_id];
         }
+        if (!empty($request->fecha_egreso_ck)) {
+            $filtro[] = ['afiliados.fecha_egreso', '=', null];
+        }
         if (!empty($request->fecha_egreso)) {
             $filtro[] = ['afiliados.fecha_egreso', '<=', $request->fecha_egreso];
+        }
+        if (!empty($request->fecha_egr_empr_ck)) {
+            $filtro[] = ['afiliados.fecha_egr_empr', '=', null];
         }
         if (!empty($request->fecha_egr_empr)) {
             $filtro[] = ['afiliados.fecha_egr_empr', '<=', $request->fecha_egr_empr];

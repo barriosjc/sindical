@@ -41,4 +41,9 @@ class afil_documento extends Model
         return $this->belongsTo('App\Models\afiliado', 'afiliado_id', 'id');
     }
     
+    public function tipos_documentos()
+    {
+        return $this->belongsTo('App\Models\tipo_documento', 'tipo_documento_id', 'id');
+    }  
+    
 }

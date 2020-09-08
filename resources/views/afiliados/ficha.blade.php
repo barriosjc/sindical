@@ -44,7 +44,9 @@
     <div class="bot-20">
         <div class="card ">
             <div class="card-header">
+                @if(Auth::user()->hasrole('administrador') or Auth::user()->haspermissionto('nuevo afiliado'))
                 <a href="{{ route('afiliado.index') }}" class="btn btn-success btn-sm" title="Agregar"> <i class="fa fa-plus" aria-hidden="true"></i> Agregar nuevo</a>
+                @endif
                 Datos personales del titular
             </div>
             <ul class="list-group list-group-flush">
@@ -279,13 +281,13 @@
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label>Fec. baja</label>
-                                <input type="date" id="fecha_egreso" name="fecha_egreso" class="form-control form-control-sm" value="{{ old('fecha_egreso', $registro->fecha_egresoy) }}">
+                                <input type="date" id="fecha_egreso" name="fecha_egreso" class="colorear form-control form-control-sm" value="{{ old('fecha_egreso', $registro->fecha_egresoy) }}">
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="">Motivo baja Sindical</label>
-                                <select name="motivo_egreso_id" id="motivo_egreso_id" class="form-control form-control-sm" style="width: 100%">
+                                <select name="motivo_egreso_id" id="motivo_egreso_id" class="colorear form-control form-control-sm" style="width: 100%">
                                     <option value="">--Seleccione--</option>
                                     @foreach($motivos_egresos_sind as $dato)
                                     <option value="{{$dato->id}}" {{(empty($registro->motivo_egreso_id) ? old('motivos_egresos_sind') : $registro->motivo_egreso_id)  == $dato->id ? 'selected' : ''}}>{{$dato->descripcion}}</option>
@@ -310,7 +312,7 @@
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label>Fec. afiliación</label>
+                                <label>Fec. ingreso</label>
                                 <input type="date" id="fecha_ing_empr" name="fecha_ing_empr" class="form-control form-control-sm" value="{{ old('fecha_ing_empr', $registro->fecha_ing_empry) }}">
                             </div>
                         </div>
@@ -358,20 +360,20 @@
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label>Fec. afiliación</label>
+                                <label>Fec. ingreso</label>
                                 <input type="date" id="fecha_ingreso_os" name="fecha_ingreso_os" class="form-control form-control-sm" value="{{ old('fecha_ingreso_os', $registro->fecha_ingreso_osy) }}">
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label>Fec. baja</label>
-                                <input type="date" id="fecha_egreso_os" name="fecha_egreso_os" class="form-control form-control-sm" value="{{ old('fecha_egreso_os', $registro->fecha_egreso_osy) }}">
+                                <label>Fec. egreso O.S.</label>
+                                <input type="date" id="fecha_egreso_os" name="fecha_egreso_os" class="colorear form-control form-control-sm" value="{{ old('fecha_egreso_os', $registro->fecha_egreso_osy) }}">
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label for="">Motivo baja</label>
-                                <select name="motivo_egreso_os_id" id="motivo_egreso_os_id" class="form-control form-control-sm" style="width: 100%">
+                                <label for="">Motivo egreso O.S.</label>
+                                <select name="motivo_egreso_os_id" id="motivo_egreso_os_id" class="colorear form-control form-control-sm" style="width: 100%">
                                     <option value="">--Seleccione--</option>
                                     @foreach($motivos_egresos_os as $dato)
                                     <option value="{{$dato->id}}" {{(empty($registro->motivo_egreso_os_id) ? old('motivo_egreso_os_id') : $registro->motivo_egreso_os_id)  == $dato->id ? 'selected' : ''}}>{{$dato->descripcion}}</option>
@@ -433,19 +435,25 @@
 
                 <li class="list-group-item">
                     <div class='row'>
-                        <div class="col-md-8 float-right" >
+                        <div class="col-md-8">
                             @if(isset($registro->id))
-                            <a href=" {{ route('afiliado.documentos', $registro->id) }} " id="btnfoto" class="btn btn-primary">Documentación <span class="badge badge-light">{{$cantidades['documentos']}}</span></a>
-                            <a href=" {{ route('afiliado.carnet', $registro->id) }} " id="btncarnet" class="btn btn-primary">Carnet <span class="badge badge-light">{{$cantidades['foto']}}</span></a>
-                            <a href=" {{ route('familiares.index', $registro->id) }} " id="btgrupofam" class="btn btn-primary">Grupo familiar <span class="badge badge-light">{{$cantidades['grupo_fam']}}</span></a>
-                            <a href=" {{ route('afiliado.preguntas', $registro->id) }} " id="btnpreguntas" class="btn btn-primary">Preguntas <span class="badge badge-light">{{$cantidades['preguntas']}}</span></a>
+                            <div class='float-right'>
+                                <a href=" {{ route('afiliado.documentos', $registro->id) }} " id="btnfoto" class="btn btn-primary">Documentación <span class="badge badge-light">{{$cantidades['documentos']}}</span></a>
+                                <a href=" {{ route('afiliado.carnet', $registro->id) }} " id="btncarnet" class="btn btn-primary">Carnet <span class="badge badge-light">{{$cantidades['foto']}}</span></a>
+                                <a href=" {{ route('familiares.index', $registro->id) }} " id="btgrupofam" class="btn btn-primary">Grupo familiar <span class="badge badge-light">{{$cantidades['grupo_fam']}}</span></a>
+                                <a href=" {{ route('afiliado.preguntas', $registro->id) }} " id="btnpreguntas" class="btn btn-primary">Preguntas <span class="badge badge-light">{{$cantidades['preguntas']}}</span></a>
+                            </div>
                             @endif
                         </div>
 
                         <div class="col-md-4">
-                            <button type="submit" id="btnAgr" class="btn btn-info float-right">Guardar datos</button>
-                            <a href="{{ route('afiliado.buscar.index', isset($registro->id) ? $registro->id : 0) }}" id="btnbuscartit" class="btn btn-info float-right"><i class="fas fa-search"></i> Titular</a>
-                            <a href="{{ route('familiares.buscar.index', isset($registro->id) ? $registro->id : 0) }}" id="btnbuscarfam" class="btn btn-info float-right"><i class="fas fa-search"></i> Familiar</a>
+                            <div class='float-right'>
+                                <a href="{{ route('familiares.buscar.index', isset($registro->id) ? $registro->id : 0) }}" id="btnbuscarfam" class="btn btn-info"><i class="fas fa-search"></i> Familiar</a>
+                                <a href="{{ route('afiliado.buscar.index', isset($registro->id) ? $registro->id : 0) }}" id="btnbuscartit" class="btn btn-info"><i class="fas fa-search"></i> Titular</a>
+                                @if(Auth::user()->hasrole('administrador') or Auth::user()->haspermissionto('nuevo afiliado'))
+                                    <button type="submit" id="btnAgr" class="btn btn-info">Guardar datos</button>
+                                @endif
+                                </div>
                         </div>
                     </div>
                 </li>

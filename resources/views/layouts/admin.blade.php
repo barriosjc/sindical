@@ -51,7 +51,7 @@
             <div class="sidebar-heading">
                 Afiliados
             </div>
-            @if(Auth::user()->hasrole('administrador') or Auth::user()->haspermissionto('ingreso de afiliados'))
+            @if(Auth::user()->hasrole('administrador') or Auth::user()->haspermissionto('consultar afiliado'))
             <!-- Nav Item - Charts -->
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('afiliado.index') }}">
@@ -59,14 +59,6 @@
                     <span>Ficha de Afiliados</span></a>
             </li>
             @endif
-            @if(Auth::user()->hasrole('administrador') or Auth::user()->haspermissionto('consulta de afiliados'))
-            <!-- Nav Item - Charts -->
-            <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <i class="fas fa-fw fa-search-dollar"></i>
-                    <span>Consultas de Afiliados</span></a>
-            </li>
-            @endcan
             <!-- Divider -->
             <hr class="sidebar-divider">
 
@@ -74,7 +66,7 @@
             <div class="sidebar-heading">
                 Empresas
             </div>
-            @if(Auth::user()->hasrole('administrador') or Auth::user()->haspermissionto('ingreso de empresas'))
+            @if(Auth::user()->hasrole('administrador') or Auth::user()->haspermissionto('consultar empresas'))
             <!-- Nav Item - Charts -->
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('empresa.index') }}">
@@ -82,23 +74,28 @@
                     <span>Fichas empresas</span></a>
             </li>
             @endcan
-            <!-- Nav Item - Tables -->
-            @if(Auth::user()->hasrole('administrador') or Auth::user()->haspermissionto('consulta de empresas'))
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+
+
+            @if(Auth::user()->hasrole('administrador') or Auth::user()->haspermissionto('consultar denuncias'))
+            <!-- Nav Item - Charts -->
             <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <i class="fas fa-fw fa-book-reader"></i>
-                    <span>Consultas</span></a>
+                <a class="nav-link" href="{{ route('empresa.index') }}">
+                    <i class="fas fa-city"></i>
+                    <span>Denuncias</span></a>
             </li>
             @endcan
+
             <!-- Nav Item - Tables -->
-            @if(Auth::user()->hasrole('administrador') or Auth::user()->haspermissionto('informes'))
+            @if(Auth::user()->hasrole('administrador') or Auth::user()->haspermissionto('afiliados informes'))
             <li class="nav-item">
                 <a class="nav-link" href="#">
                     <i class="fas fa-fw fa-file-alt"></i>
                     <span>Informes</span></a>
             </li>
             @endcan
-            @if(Auth::user()->hasrole('administrador') or Auth::user()->haspermissionto('seguridad'))
+            @if(Auth::user()->hasrole('administrador') or Auth::user()->haspermissionto('seguridad consultas'))
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#opadmin" aria-expanded="true" aria-controls="collapseTwo">
                     <i class="fa fa-fw fa-cog"></i>

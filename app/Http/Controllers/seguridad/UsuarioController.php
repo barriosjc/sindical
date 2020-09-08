@@ -22,7 +22,7 @@ class UsuarioController extends Controller
   public function index(Request $request)
   {
     $keyword = $request->get('search');
-    $perPage = 25;
+    $perPage = 10;
 
     if (!empty($keyword)) {
       $user = User::where('name', 'LIKE', "%$keyword%")
@@ -128,6 +128,7 @@ class UsuarioController extends Controller
 
     $requestData = $request->all();
     $user = User::findOrFail($id);
+
     if ($request->hasFile('foto')) {
         $foto_vieja = $user->foto;
         if(!empty($foto_vieja) and $foto_vieja <> config('app.avatar-def')){
@@ -138,12 +139,13 @@ class UsuarioController extends Controller
         $user->foto = $path;
         // $user->save();    
       }
-    $user->password = Hash::make($request->password);
+    $requestData['password']  = Hash::make($request->password);
 
     $user->update($requestData);
     $esabm = true;
+    $user = User::latest()->paginate(10);
 
-    return view('seguridad.usuarios.index',compact('user','esabm'))
+    return view('seguridad.usuario.index',compact('user','esabm'))
             ->with('flash_message', 'Usuario actualizado!');
   }
 

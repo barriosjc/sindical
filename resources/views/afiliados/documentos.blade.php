@@ -73,7 +73,9 @@
                     </div>
                     <div class="col-md-5">
                         <div class="form-group pad-20">
+                            @if(Auth::user()->hasrole('administrador') or Auth::user()->haspermissionto('nuevo documento'))
                             <button type="submit" id="agregarpregunta" class="btn btn-success btn-sm float-right">Agregar</button>
+                            @endif
                         </div>
                     </div>
                 </div>

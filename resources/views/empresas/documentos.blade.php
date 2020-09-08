@@ -26,16 +26,16 @@
 
 <div class="card">
     <div class="card-header">
-        <a href="{{ url('/afiliados/find/' . $afiliado_id) }}" title="Volver"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Volver</button></a>
-        Datos Generales
+        <a href="{{ url('/empresas/find/' . $empresa_id) }}" title="Volver"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Volver</button></a>
+        Documentación de empresa 
     </div>
     <ul class="list-group list-group-flush">
 
         <li class="list-group-item">
-            <form id='formEmp' action="{{route('afiliado.documentos.guardar')}}" method="POST"  accept-charset="UTF-8" class="form-horizontal" enctype="multipart/form-data">
+            <form id='formEmp' action="{{route('empresa.documentos.guardar')}}" method="POST"  accept-charset="UTF-8" class="form-horizontal" enctype="multipart/form-data">
 
                 @csrf
-                <input type='hidden' name='afiliado_id' value="{{ $afiliado_id }}">
+                <input type='hidden' name='empresa_id' value="{{ $empresa_id }}">
                 <div class="row">
                     <div class="col-md-3">
                         <div class="form-group">
@@ -73,7 +73,9 @@
                     </div>
                     <div class="col-md-5">
                         <div class="form-group pad-20">
+                            @if(Auth::user()->hasrole('administrador') or Auth::user()->haspermissionto('nuevo documento'))
                             <button type="submit" id="agregarpregunta" class="btn btn-success btn-sm float-right">Agregar</button>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -93,16 +95,16 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($afil_documentos as $item)
+                            @foreach($empr_documentos as $item)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $item->descripcion }}</td>
+                                <td>{{ $item->tipos_documentos->descripcion }}</td>
                                 <td>{{ $item->fecha_vencimiento }}</td>
                                 <td>{{ $item->obs }}</td>
                                 <td>
                                     <div class="float-right">
-                                        <a href="{{ route('afiliado.download', $item->id) }}" data-toggle="tooltip" class="btn btn-primary btn-sm" title="Descargar documento"><i class="fas fa-file-download"></i> </a>
-                                        <form action="{{ route('afiliado.documentos.borrar', $item->id) }}" method="POST" style="display:inline">
+                                        <a href="{{ route('empresa.download', $item->id) }}" data-toggle="tooltip" class="btn btn-primary btn-sm" title="Descargar documento"><i class="fas fa-file-download"></i> </a>
+                                        <form action="{{ route('empresa.documentos.borrar', $item->id) }}" method="POST" style="display:inline">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger btn-sm"> <i class="far fa-trash-alt text-white" onclick="return confirm('Confima la eliminación?')"></i></button>
@@ -114,7 +116,7 @@
                         </tbody>
                     </table>
                     <!-- @if(!empty($afil_preguntas)) -->
-                    <div class="pagination-wrapper"> {!! $afil_documentos->appends(['search' => Request::get('search')])->render() !!} </div>
+                    <div class="pagination-wrapper"> {!! $empr_documentos->appends(['search' => Request::get('search')])->render() !!} </div>
                     <!-- @endif -->
                 </div>
             </div>

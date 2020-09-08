@@ -54,8 +54,9 @@ class PermisosController extends Controller
      */
     public function store(Request $request)
     {
+
         $this->validate($request, [
-            'name' => 'required|max:255|unique:permission,name',
+            'name' => 'required|max:255|unique:permissions,name',
             'guard_name' => 'required|max:255'
         ]);
 
@@ -85,7 +86,7 @@ class PermisosController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'name' => 'required|max:255|unique:permission,name,'. $id,
+            'name' => 'required|max:255|unique:permissions,name,'. $id,
             'guard_name' => 'required|max:255',
         ]);
 

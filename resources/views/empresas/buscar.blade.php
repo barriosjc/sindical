@@ -102,11 +102,16 @@
                         </div>
                     </div>
                     <div class="col-md-2">
-                        <div class="form-group">
-                            <label>Fec. baja</label>
-                            <input type="date" id="fecha_baja" name="fecha_baja" class="form-control form-control-sm">
+                        <label>Fec. baja</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <input type="checkbox" id='fecha_baja_ck' name='fecha_baja_ck' data-toggle="tooltip" data-placement="top" title="Si tilda se buscará todos los datos que no tengan fecha cargada">
+                                </div>
+                            </div>
+                            <input type="date" id="fecha_baja" name="fecha_baja" class="form-control form-control-sm" value="" data-toggle="tooltip" data-placement="top" title="Se buscarán afiliados hasta la fecha ingresada aquí">
                         </div>
-                    </div>
+                    </div>                    
                     <div class="col-md-3">
                         <div class="form-group">
                             <label for="">Motivo baja Sindical</label>
@@ -119,11 +124,16 @@
                         </div>
                     </div>
                     <div class="col-md-2">
-                        <div class="form-group">
-                            <label>Fec. Ult. Inspec.</label>
-                            <input type="date" id="fecha_ult_inspeccion" name="fecha_ult_inspeccion" class="form-control form-control-sm">
+                        <label>Fec. Ult. Inspec.</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <input type="checkbox" id='fecha_ult_inspeccion_ck' name='fecha_ult_inspeccion_ck' data-toggle="tooltip" data-placement="top" title="Si tilda se buscará todos los datos que no tengan fecha cargada">
+                                </div>
+                            </div>
+                            <input type="date" id="fecha_ult_inspeccion" name="fecha_ult_inspeccion" class="form-control form-control-sm" value="" data-toggle="tooltip" data-placement="top" title="Se buscarán afiliados hasta la fecha ingresada aquí">
                         </div>
-                    </div>
+                    </div>                       
                     <div class="col-md-5">
                         <div class="form-group">
                             <label for="">Novedades</label>

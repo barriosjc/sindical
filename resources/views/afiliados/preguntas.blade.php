@@ -26,8 +26,8 @@
 
 <div class="card">
     <div class="card-header">
-    <a href="{{ url('/afiliados/find/' . $afiliado_id) }}" title="Volver"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Volver</button></a>
-    Datos Generales
+        <a href="{{ url('/afiliados/find/' . $afiliado_id) }}" title="Volver"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Volver</button></a>
+        Datos Generales
     </div>
     <ul class="list-group list-group-flush">
 
@@ -63,7 +63,9 @@
                     </div>
                     <div class="col-md-1">
                         <div class="form-group pad-20">
+                            @if(Auth::user()->hasrole('administrador') or Auth::user()->haspermissionto('nuevo afiliado'))
                             <button type="submit" id="agregarpregunta" class="btn btn-success btn-sm float-right">Agregar</button>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -90,6 +92,7 @@
                                 <td>{{ $item->respuesta }}</td>
                                 <td>{{ $item->obs }}</td>
                                 <td>
+                                    @if(Auth::user()->hasrole('administrador') or Auth::user()->haspermissionto('nuevo afiliado'))
                                     <div class="float-right">
                                         <form action="{{ route('afiliado.preguntas.borrar', $item->id) }}" method="POST">
                                             @csrf
@@ -97,6 +100,7 @@
                                             <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Confima la eliminación?')"> <i class="far fa-trash-alt text-white"></i></button>
                                         </form>
                                     </div>
+                                    @endif
                                 </td>
                             </tr>
                             @endforeach
