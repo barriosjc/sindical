@@ -5,7 +5,7 @@ namespace App\models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class motivo_egreso_sind extends Model
+class den_tipo_movimiento extends Model
 {
     use SoftDeletes;
     
@@ -14,7 +14,7 @@ class motivo_egreso_sind extends Model
      *
      * @var string
      */
-    protected $table = 'motivos_egresos_sind';
+    protected $table = 'den_tipos_movimientos';
 
     /**
     * The database primary key value.
@@ -32,17 +32,9 @@ class motivo_egreso_sind extends Model
             'descripcion'
     ];
 
-    protected $appends = ['tooltips'];
-    public function getTooltipsAttribute()
+    public function denuncias_det()
     {
-        $resu = empty($this->tooltip) ? " " : $this->tooltip;
-
-        return $resu;
-    }
-
-    public function afiliados()
-    {
-        return $this->belongsTo('App\Models\afiliado');
+        return $this->hasMany('App\Models\denuncia_det', 'tipo_movimiento_id', 'id');
     }
     
 }

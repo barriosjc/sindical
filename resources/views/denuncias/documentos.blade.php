@@ -2,40 +2,19 @@
 
 @section('main-content')
 
-<div class="row">
-    <div class="col-md-12">
-        @if (session('mensaje'))
-        <div class="alert alert-success">
-            {{session('mensaje')}}
-        </div>
-        @endif
-
-        <!-- muestra los msg de error de la validacion de campos en db -->
-        @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-        <br />
-        @endif
-    </div>
-</div>
+@include('layouts.mensajes')
 
 <div class="card">
     <div class="card-header">
-        <a href="{{ route('familiares.index', [$afiliado_id, $grupo_familiar_id]) }}" title="Volver"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Volver</button></a>
-        Datos Generales
+        <a href="{{ route('denuncia.index', $denuncia_id) }}" title="Volver"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Volver</button></a>
+        Documentos de denuncias 
     </div>
     <ul class="list-group list-group-flush">
 
         <li class="list-group-item">
-            <form id='formEmp' action="{{ route('familiares.documentos.guardar') }}" method="POST"  accept-charset="UTF-8" class="form-horizontal" enctype="multipart/form-data">
-
+            <form id='formEmp' action="{{ route('denuncia.documentos.guardar') }}" method="POST"  accept-charset="UTF-8" class="form-horizontal" enctype="multipart/form-data">
                 @csrf
-                <input type='hidden' name='grupo_familiar_id' value="{{ $grupo_familiar_id }}">
+                <input type='hidden' name='denuncia_id' value="{{ $denuncia_id }}">
                 <div class="row">
                     <div class="col-md-3">
                         <div class="form-group">
@@ -50,14 +29,14 @@
                     </div>
                     <div class="col-md-2">
                         <div class="form-group">
-                            <label>Fecha Vencimiento</label>
-                            <input type="date" id="fecha_vencimiento" name="fecha_vencimiento" class="form-control form-control-sm" />
+                            <label>Hoja</label>
+                            <input type="text" id="hoja" name="hoja" class="form-control form-control-sm" data-toggle="tooltip" title="Ingrese un texto identeficando la hoja, 'hoja 1', 'frente', 'reverso', etc." maxlength="20"/>
                         </div>
                     </div>
                     <div class="col-md-7">
                         <div class="form-group">
                             <label>Observaciones</label>
-                            <input type="text" id="" name="obs" class="form-control form-control-sm" value="{{ old('obs') }}" maxlength="50" />
+                            <input type="text" id="" name="obs" class="form-control form-control-sm"  maxlength="50" />
                         </div>
                     </div>
                     <div class="col-md-7">
@@ -71,7 +50,13 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-5">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label>Fecha Vencimiento</label>
+                            <input type="date" id="fecha_vencimiento" name="fecha_vencimiento" class="form-control form-control-sm" />
+                        </div>
+                    </div>
+                    <div class="col-md-3">
                         <div class="form-group pad-20">
                             @if(Auth::user()->hasrole('administrador') or Auth::user()->haspermissionto('nuevo documento'))
                             <button type="submit" id="agregarpregunta" class="btn btn-success btn-sm float-right">Agregar</button>
@@ -89,23 +74,25 @@
                             <tr>
                                 <th>#</th>
                                 <th>Tipo docum.</th>
+                                <th>Hoja</th>
                                 <th>Fecha Vto.</th>
                                 <th>Observaciones</th>                            
                                 <th style="width:8%">Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($gf_documentos as $item)
+                            @foreach($documentos as $item)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $item->tipos_documentos->descripcion }}</td>
-                                <td>{{ $item->fecha_vencimiento }}</td>
-                                <td>{{ $item->obs }}</td>                          
+                                <td>{{ $item->documentos_det->hoja }}</td>
+                                <td>{{ $item->documentos_det->fecha_vencimiento }}</td>
+                                <td>{{ $item->documentos_det->obs }}</td>                          
                                 <td>
                                     <div class="float-right">
-                                        <a href="{{ route('familiares.download', $item->id) }}" data-toggle="tooltip" class="btn btn-primary btn-sm" title="Descargar documento"><i class="fas fa-file-download"></i> </a>
+                                        <a href="{{ route('denuncia.download', $item->id) }}" data-toggle="tooltip" class="btn btn-primary btn-sm" title="Descargar documento"><i class="fas fa-file-download"></i> </a>
                                         <!-- <a href="{{ asset('storage/ ') . str_replace('public', '', $item->path) }}" data-toggle="tooltip" class="btn btn-primary btn-sm" title="Descargar documento"><i class="fas fa-file-download"></i> </a> -->
-                                        <form action="{{ route('familiares.documentos.borrar', $item->id) }}" method="POST" style="display:inline">
+                                        <form action="{{ route('denuncia.documentos.borrar', $item->id) }}" method="POST" style="display:inline">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger btn-sm"> <i class="far fa-trash-alt text-white" onclick="return confirm('Confima la eliminación?')"></i></button>
@@ -117,7 +104,7 @@
                         </tbody>
                     </table>
                     <!-- @if(!empty($afil_preguntas)) -->
-                    <div class="pagination-wrapper"> {!! $gf_documentos->appends(['search' => Request::get('search')])->render() !!} </div>
+                    <div class="pagination-wrapper"> {!! $documentos->appends(['search' => Request::get('search')])->render() !!} </div>
                     <!-- @endif -->
                 </div>
             </div>

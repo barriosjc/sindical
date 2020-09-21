@@ -2,27 +2,7 @@
 
 @section('main-content')
 
-<div class="row">
-    <div class="col-md-12">
-        @if (session('mensaje'))
-        <div class="alert alert-success">
-            {{session('mensaje')}}
-        </div>
-        @endif
-
-        <!-- muestra los msg de error de la validacion de campos en db -->
-        @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-        <br />
-        @endif
-    </div>
-</div>
+@include('layouts.mensajes')
 
 <form id='formEmpbus' action="{{route('afiliado.find')}}" method="GET">
     <div class="row bot-20  justify-content-end">
@@ -289,9 +269,9 @@
                                 <label for="">Motivo baja Sindical</label>
                                 <select name="motivo_egreso_id" id="motivo_egreso_id" class="colorear form-control form-control-sm" style="width: 100%">
                                     <option value="">--Seleccione--</option>
-                                    @foreach($motivos_egresos_sind as $dato)
+                                    <!-- @foreach($motivos_egresos_sind as $dato)
                                     <option value="{{$dato->id}}" {{(empty($registro->motivo_egreso_id) ? old('motivos_egresos_sind') : $registro->motivo_egreso_id)  == $dato->id ? 'selected' : ''}}>{{$dato->descripcion}}</option>
-                                    @endforeach
+                                    @endforeach -->
                                 </select>
                             </div>
                         </div>
@@ -302,10 +282,10 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="">Empresa</label>
-                                <select name="empresa_id" id="empresa_id" class="form-control form-control-sm busqueda" style="width: 100%" required>
+                                <select name="empresa_id" id="empresa_id" class="busqueda form-control form-control-sm" style="width: 100%" required>
                                     <option value="">--Seleccione--</option>
                                     @foreach($empresas as $dato)
-                                    <option value="{{$dato->id}}" {{(empty($registro->empresa_id) ? old('empresa_id') : $registro->empresa_id)  == $dato->id ? 'selected' : ''}}>{{$dato->nombre}}</option>
+                                    <option value="{{$dato->id}}" {{(empty($registro->empresa_id) ? old('empresa_id') : $registro->empresa_id)  == $dato->id ? 'selected' : ''}}>{{$dato->razon_social}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -349,9 +329,10 @@
                     <div class="row">
                         <div class="col-md-5">
                             <div class="form-group">
+                            <div id="tooltip_container"></div>
                                 <label for="">Obra social</label>
                                 <select name="obra_social_id" id="obra_social_id" class="form-control form-control-sm" style="width: 100%">
-                                    <option value="">--Seleccione--</option>
+                                    <option value=""data-toggle="tooltip"  data-container="#tooltip_container" title="Finding your IMEI number">--Seleccione--</option>
                                     @foreach($obras_sociales as $dato)
                                     <option value="{{$dato->id}}" {{(empty($registro->obra_social_id) ? old('obra_social_id') : $registro->obra_social_id)  == $dato->id ? 'selected' : ''}}>{{$dato->descripcion}}</option>
                                     @endforeach
@@ -465,5 +446,26 @@
 
 
 <script src="{{ asset('js/scripts.js') }}"></script>
+<script>
+    $(function() {
+
+        var html_select = '';
+        var combo = $('#motivo_egreso_id');
+
+        $.get('/api/afiliado/motivos_egresos/', function(data) {
+            for (var i = 0; i < data.length; ++i) {
+               combo.append(new Option(data[i].descripcion, data[i].id ));
+            //    console.log(combo.children().last());
+               combo.children().last().attr({
+                    "data-toggle":"tooltip",
+                    "title": data[i].tooltips,
+                    "data-placement":"top"
+                    });
+            }
+
+        })        
+    
+    });
+</script>
 
 @endsection

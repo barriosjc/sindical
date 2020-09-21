@@ -81,7 +81,7 @@
             @if(Auth::user()->hasrole('administrador') or Auth::user()->haspermissionto('consultar denuncias'))
             <!-- Nav Item - Charts -->
             <li class="nav-item">
-                <a class="nav-link" href="{{ route('empresa.index') }}">
+                <a class="nav-link" href="{{ route('denuncia.index') }}">
                     <i class="fas fa-city"></i>
                     <span>Denuncias</span></a>
             </li>

@@ -130,4 +130,5 @@ class empresa extends Model
     {
         return $this->belongsTo('App\Models\empresa_estado', 'empresa_estado_id', 'id');
     } 
+
 }

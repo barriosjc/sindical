@@ -92,4 +92,21 @@ Route::group(['middleware' => ['permission:seguridad']], function () {
     Route::delete('/empresa/documentos/{id}/borrar', 'gestion\empresasController@documentos_borrar')->name('empresa.documentos.borrar');
     Route::get('/empresa/documentos/{id}/descargar', 'gestion\empresasController@download')->name('empresa.download');
 
+
+    Route::get('/denuncias/carga', 'gestion\DenunciasController@index')->name('denuncia.index');
+    Route::post('/denuncias/guardar', 'gestion\DenunciasController@guardar')->name('denuncia.guardar');
+    Route::get('/denuncias/find/{id?}', 'gestion\DenunciasController@find')->name('denuncia.find');
+
+    Route::get('/denuncia/{id}/buscar/index', 'gestion\DenunciasController@buscar_index')->name('denuncia.buscar.index');
+    Route::get('/denuncia/buscar', 'gestion\DenunciasController@buscar')->name('denuncia.buscar');
+    Route::get('/denuncia/{id}/familiar/buscar/index', 'gestion\DenunciasController@buscar_index')->name('denuncia.afiliados');
+    Route::get('/denuncia/siguiente', 'gestion\DenunciasController@nroEmprSiguiente')->name('denuncia.siguiente');
+
+    Route::get('/denuncia/{id}/documentos', 'gestion\DenunciasController@documentos_index')->name('denuncia.documentos');
+    Route::post('/denuncia/documentos/guardar', 'gestion\DenunciasController@documentos_guardar')->name('denuncia.documentos.guardar');
+    Route::delete('/denuncia/documentos/{id}/borrar', 'gestion\DenunciasController@documentos_borrar')->name('denuncia.documentos.borrar');
+    Route::get('/denuncia/documentos/{id}/descargar', 'gestion\DenunciasController@download')->name('denuncia.download');
     
+    Route::post('/denuncias/{id}/guardar/movimiento', 'gestion\DenunciasController@guardar_movimiento')->name('denuncia.guardar.movimiento');
+    Route::post('/denuncias/borrar/{id}/movimiento', 'gestion\DenunciasController@borrar_movimiento')->name('denuncia.borrar.movimiento');
+ 

@@ -5,7 +5,7 @@ namespace App\models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class grupo_familiar extends Model
+class denuncia extends Model
 {
     use SoftDeletes;
 
@@ -14,7 +14,7 @@ class grupo_familiar extends Model
      *
      * @var string
      */
-    protected $table = 'grupo_familiar';
+    protected $table = 'denuncias';
 
     /**
      * The database primary key value.
@@ -29,41 +29,24 @@ class grupo_familiar extends Model
      * @var array
      */
     protected $fillable = [
+        'tipo_denuncia_id',
         'afiliado_id',
-        'nro_grupo_fam',
-        'apellido_nombres',
-        'tipo_documento_id',
-        'nro_doc',
-        'fecha_nac',
-        'sexo',
-        'edad',
-        'tipo_parentesco_id',
-        'cuil',
-        'calle',
-        'calle_nro',
-        'calle_piso',
-        'calle_obs',
-        'cod_postal',
-        'localidad_id',
-        'provincia_id',
-        'telefonos',
-        'fecha_ingreso_sind',
-        'fecha_egreso_sind',
-        'motivo_egreso_sind_id',
-        'discapacitado',
-        'fecha_venc_disca',
-        'estado_civil_id',
-        'nacionalidad_id',
-        'docum_pendiente',
-        'docum_entregada',
-        'obs',
-        'created_at',
-        'updated_at',
-        'deleted_at',
-        'user_last_name'
+        'fecha_ingreso',
+        'nombre',
+        'nro_carnet',
+        'direccion',
+        'empresa',
+        'cuit',
+        'direccion_empr',
+        'descripcion',
+        'numero',
+        'user_last_name',
+        'ministerio_id',
+        'numero_expediente',
+        'tomo_denuncia'
     ];
 
-    public function getFechaNacAttribute($value)
+    public function getFechaIngresoAttribute($value)
     {
         $resu = '';
         if (!empty($value)) {
@@ -72,92 +55,31 @@ class grupo_familiar extends Model
 
         return $resu;
     }
-    public function getFechaIngresoSindAttribute($value)
-    {
-        $resu = '';
-        if (!empty($value)) {
-            $resu = date('d/m/Y', strtotime($value));
-        }
 
-        return $resu;
-    }
-    public function getFechaEgresoSindAttribute($value)
-    {
-        $resu = '';
-        if (!empty($value)) {
-            $resu = date('d/m/Y', strtotime($value));
-        }
-
-        return $resu;
-    }
     //----------------------------------------------------------------------------------
-    public function getDocumPendienteyAttribute()
+    public function getFechaIngresoyAttribute()
     {
-        $resu = $this->docum_pendiente;
+        $resu = $this->fecha_ingreso;
         if (!empty($resu)) {
-            $resu = date('Y-m-d', strtotime($resu));
-        }
-
-        return $resu;
-    }
-    public function getDocumEntregadayAttribute()
-    {
-        $resu = $this->docum_entregada;
-        if (!empty($resu)) {
-            $resu = date('Y-m-d', strtotime($resu));
-        }
-
-        return $resu;
-    }
-    public function getFechaNacyAttribute()
-    {
-        $resu = $this->fecha_nac;
-        if (!empty($resu)) {
-            $resu = date('Y-m-d', strtotime($resu));
-        }
-
-        return $resu;
-    }
-    public function getFechaIngresoSindyAttribute()
-    {
-        $resu = $this->fecha_ingreso_sind;
-        if (!empty($resu)) {
-            $resu = date('Y-m-d', strtotime($resu));
-        }
-
-        return $resu;
-    }
-    public function getFechaEgresoSindyAttribute()
-    {
-        $resu = $this->fecha_egreso_sind;
-        if (!empty($resu)) {
-            $resu = date('Y-m-d', strtotime($resu));
-        }
-
-        return $resu;
-    }
-    public function getFechaVencDiscayAttribute()
-    {
-        $resu = $this->fecha_venc_disca;
-        if (!empty($resu)) {
-            $resu = date('Y-m-d', strtotime($resu));
+            $resu = date('Y-d-m', strtotime($resu));
         }
 
         return $resu;
     }
     //--------------------------------------------------------------------
-    public function afiliados()
+    public function tipos_denuncias()
     {
-        return $this->belongsTo('App\Models\afiliado');
+        return $this->belongsTo('App\Models\den_tipo_denuncia', 'tipo_denuncia_id', 'id');
     }
 
-    public function tipos_parentescos()
+    public function denuncias_det()
     {
-        return $this->belongsTo('App\Models\tipo_parentesco', 'tipo_parentesco_id', 'id');
+        return $this->hasMany('App\Models\denuncias_det', 'denuncia_id', 'id');
     }
 
-    public function documentos()
+    public function den_ministerios()
     {
-        return $this->belongsTo('App\Models\gf_documento', 'grupo_familiar_id', 'id');
+        return $this->belongsTo('App\Models\den_ministerio', 'ministerio_id', 'id');
     }
+
 }

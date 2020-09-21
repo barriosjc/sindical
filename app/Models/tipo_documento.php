@@ -48,5 +48,10 @@ class tipo_documento extends Model
     public function empr_documentos()
     {
         return $this->hasMany('App\Models\empr_documento', 'tipo_documento_id', 'id');
+    }
+    
+    public function denuncias()
+    {
+        return $this->hasMany('App\Models\denuncias', 'tipo_documento_id', 'id');
     }    
 }

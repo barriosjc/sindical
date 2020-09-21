@@ -5,7 +5,7 @@ namespace App\models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class motivo_egreso_sind extends Model
+class den_documento_det extends Model
 {
     use SoftDeletes;
     
@@ -14,7 +14,7 @@ class motivo_egreso_sind extends Model
      *
      * @var string
      */
-    protected $table = 'motivos_egresos_sind';
+    protected $table = 'den_documentos_det';
 
     /**
     * The database primary key value.
@@ -29,20 +29,16 @@ class motivo_egreso_sind extends Model
      * @var array
      */
     protected $fillable = [
-            'descripcion'
+            'documento_cab_id',
+            'path',
+            'obs',
+            'fecha_vencimiento',
+            'hoja'
     ];
 
-    protected $appends = ['tooltips'];
-    public function getTooltipsAttribute()
+    public function documentos_cab()
     {
-        $resu = empty($this->tooltip) ? " " : $this->tooltip;
-
-        return $resu;
-    }
-
-    public function afiliados()
-    {
-        return $this->belongsTo('App\Models\afiliado');
+        return $this->belongsTo('App\Models\den_documento_cab', 'documentos_cab_id', 'id');
     }
     
 }

@@ -78,6 +78,14 @@ class afiliado extends Model
     ];
 
     // este foramto para mostrarlo en la grilla --------------------------------------
+    protected $appends = ['direccion'];
+    public function getDireccionAttribute()
+    {
+        $resu = $this->calle . ' ' . $this->calle_nro . ' ' . $this->calle_piso;
+
+        return $resu;
+    }
+
     public function getFechaEgresoAttribute($value)
     {
         $resu = '';
