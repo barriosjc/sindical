@@ -82,17 +82,25 @@
             <!-- Nav Item - Charts -->
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('denuncia.index') }}">
-                    <i class="fas fa-city"></i>
+                    <i class="fas fa-balance-scale"></i>
                     <span>Denuncias</span></a>
             </li>
             @endcan
 
             <!-- Nav Item - Tables -->
-            @if(Auth::user()->hasrole('administrador') or Auth::user()->haspermissionto('afiliados informes'))
+            @if(Auth::user()->hasrole('administrador') or Auth::user()->haspermissionto('Padron secretariado'))
             <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <i class="fas fa-fw fa-file-alt"></i>
-                    <span>Informes</span></a>
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#opsecretariado" aria-expanded="true" aria-controls="collapseTwo">
+                    <i class="fa fa-fw fa-cog"></i>
+                    <span>Padron secretariado</span>
+                </a>
+                <div id="opsecretariado" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <!-- <h6 class="collapse-header">Menu:</h6> -->
+                        <a class="collapse-item" href="{{ route('secretariado.importar') }}">Importar padron</a>
+                        <a class="collapse-item" href="{{ route('secretariado.informes') }}">Informes</a>
+                    </div>
+                </div>
             </li>
             @endcan
             @if(Auth::user()->hasrole('administrador') or Auth::user()->haspermissionto('seguridad consultas'))
