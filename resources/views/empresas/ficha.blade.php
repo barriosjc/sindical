@@ -5,8 +5,11 @@
 @include('layouts.mensajes')
 
 <form id='formEmpbus' action="{{route('empresa.find')}}" method="GET">
-    <div class="row bot-20  justify-content-end">
+    <div class="row">
         <div class="col-md-4">
+            <h4>Ficha de Empresa</h4>
+        </div>
+        <div class="col-md-4 offset-md-4 bot-20 justify-content-end">
             <div class="input-group">
                 <input type="text" data-toggle="tooltip" data-placement="top" title="Ingrese un número de dni a buscar" placeholder="CUIT" id="buscuit" name="buscuit" class="solonros form-control form-control-sm" aria-describedby="buscar" maxlength="13">
                 <input type="text" data-toggle="tooltip" data-placement="top" title="Ingrese un número de código empresa" placeholder="Cód. de empresa" id="buscodempr" name="buscodempr" class="solonros form-control form-control-sm" aria-describedby="buscar" maxlength="12">
@@ -22,9 +25,9 @@
     @csrf
     <input type='hidden' id='id' name='id' value="{{$registro->id}}" />
     <div class="bot-20">
-        <div class="card ">
+        <div class="card border-primary">
             <div class="card-header">
-                @if(Auth::user()->hasrole('administrador') or Auth::user()->haspermissionto('nueva empresa'))                
+                @if(Auth::user()->hasrole('administrador') or Auth::user()->haspermissionto('nueva empresa'))
                 <a href="{{ route('empresa.index') }}" class="btn btn-success btn-sm" title="Agregar"> <i class="fa fa-plus" aria-hidden="true"></i> Agregar nuevo</a>
                 @endif
                 Datos de empresa
@@ -202,7 +205,7 @@
     </div>
 
     <div class="bot-20">
-        <div class="card ">
+        <div class="card border-primary">
             <div class="card-header">
                 Direccion de producción
             </div>
@@ -263,7 +266,7 @@
     </div>
 
     <div class="bot-20">
-        <div class="card ">
+        <div class="card border-primary">
             <div class="card-header">
                 Direccion administrativa
             </div>
@@ -324,7 +327,7 @@
     </div>
 
     <div class="bot-20">
-        <div class="card">
+        <div class="card border-primary">
             <div class="card-header">
                 Datos Generales
             </div>

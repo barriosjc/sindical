@@ -182,6 +182,9 @@ return [
         'username'              => 'usuario',
         'year'                  => 'año',
         'path'                  => 'archivo',
-        'motivo_egreso_os_id'   => 'Motivo de egreso de O.S.',
+        'motivo_egreso_os_id'   => 'Motivo de baja O.S.',
+        'motivo_egreso_id'   => 'Motivo de baja Sindical',
+        'fecha_egreso_os'   => 'Fecha de egreso O.S.',
+        'cod_empresa'       => "Código de empresa",
     ],
 ];

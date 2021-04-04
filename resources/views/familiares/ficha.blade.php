@@ -4,50 +4,49 @@
 
 @include('layouts.mensajes')
 
-    <div class="row">
-        <div class="col-md-12 text-center alert alert-dark">
-            {{$titular}}
-        </div>
+<div class="row">
+    <div class="col-md-12 text-center alert alert-dark">
+        {{$titular}}
     </div>
-    <div class="row">
-        <div class="col-md-12">
-            <div class="table-responsive">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Apellido y nombre</th>
-                            <th>DNI</th>
-                            <th>Parentesco</th>
-                            <th>Fecha nac.</th>
-                            <th>Fecha alta</th>
-                            <th>Fecha baja</th>
-                            <th style="width:8%">Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($grupo_familiar as $item)
-                        <tr @if(!empty($item->fecha_egreso_sind)) class="table-danger" @endif>
-                            <td>{{ $loop->iteration }}</td>
-                            <td>{{ $item->apellido_nombres }}</td>
-                            <td>{{ $item->nro_doc }}</td>
-                            <td> {{$item->tipos_parentescos->descripcion }} </td>
-                            <td>{{ $item->fecha_nac }}</td>
-                            <td>{{ $item->fecha_ingreso_sind }}</td>
-                            <td>{{ $item->fecha_egreso_sind }}</td>
-                            <td>
-                                <div class="float-right">
-                                    <a href="{{ route('familiares.index', [$afiliado_id, $item->id]) }}" class="btn btn-success btn-sm" title="Modificar y consultar datos completos del familiar y sus datos asociados como ser documentos."><i class="fa fa-users" aria-hidden="true"></i></a>
-                                </div>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-                <!-- @if(!empty($afil_preguntas)) -->
-                <div class="pagination-wrapper"> {!! $grupo_familiar->appends(['search' => Request::get('search')])->render() !!} </div>
-                <!-- @endif -->
-            </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Apellido y nombre</th>
+                        <th>DNI</th>
+                        <th>Parentesco</th>
+                        <th>Fecha nac.</th>
+                        <th>Fecha alta</th>
+                        <th>Fecha baja</th>
+                        <th style="width:8%">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($grupo_familiar as $item)
+                    <tr @if(!empty($item->fecha_egreso_sind)) class="table-danger" @endif>
+                        <td>{{ $loop->iteration }}</td>
+                        <td>{{ $item->apellido_nombres }}</td>
+                        <td>{{ $item->nro_doc }}</td>
+                        <td> {{$item->tipos_parentescos->descripcion }} </td>
+                        <td>{{ $item->fecha_nac }}</td>
+                        <td>{{ $item->fecha_ingreso_sind }}</td>
+                        <td>{{ $item->fecha_egreso_sind }}</td>
+                        <td>
+                            <div class="float-right">
+                                <a href="{{ route('familiares.index', [$afiliado_id, $item->id]) }}" class="btn btn-success btn-sm" title="Modificar y consultar datos completos del familiar y sus datos asociados como ser documentos."><i class="fa fa-users" aria-hidden="true"></i></a>
+                            </div>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+            <!-- @if(!empty($afil_preguntas)) -->
+            <div class="pagination-wrapper"> {!! $grupo_familiar->appends(['search' => Request::get('search')])->render() !!} </div>
+            <!-- @endif -->
         </div>
     </div>
 </div>
@@ -60,7 +59,7 @@
         <div class="card ">
             <div class="card-header">
                 <a href="{{ route('afiliado.find', $afiliado_id) }}" title="Volver" class="btn btn-warning btn-sm"> <i class="fa fa-arrow-left" aria-hidden="true"></i> Volver</a>
-                @if(Auth::user()->hasrole('administrador') or Auth::user()->haspermissionto('nuevo afiliado'))                
+                @if(Auth::user()->hasrole('administrador') or Auth::user()->haspermissionto('nuevo afiliado'))
                 <a href="{{ route('familiares.index', $afiliado_id) }}" class="btn btn-success btn-sm" title="Agregar nuevo Role"> <i class="fa fa-plus" aria-hidden="true"></i> Agregar nuevo</a>
                 @endif
                 Datos completos del familiar

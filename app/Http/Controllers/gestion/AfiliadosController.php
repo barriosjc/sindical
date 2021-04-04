@@ -11,6 +11,7 @@ use Barryvdh\DomPDF\Facade as PDF;
 use App\models\afil_estado_ficha;
 use Illuminate\Http\Request;
 use App\Models\afiliado;
+use App\Models\afiliado_empresa;
 use App\models\tipo_documento;
 use App\models\estados_civil;
 use App\models\tipos_nacionalidad;
@@ -53,6 +54,7 @@ class AfiliadosController extends Controller
     {
 
         $registro = new afiliado;
+        $empresa_afil = new afiliado_empresa;
         $estados = afil_estado_ficha::get();
         $tipos_documentos = tipo_documento::where('tipo', 'AFI')->get();
         $nacionalidades = tipos_nacionalidad::get();
@@ -83,7 +85,8 @@ class AfiliadosController extends Controller
             'motivos_egresos_os',
             'motivos_egresos_sind',
             'especialidades',
-            'obras_sociales'
+            'obras_sociales',
+            'empresa_afil'
         ));
     }
 
@@ -118,6 +121,9 @@ class AfiliadosController extends Controller
             $empresas = empresa::get();
             $motivos_egresos_os = motivo_egreso_os::get();
             $motivos_egresos_sind = motivo_egreso_sind::get();
+            $empresa_afil = afiliado_empresa::where('afiliado_id', $registro->id)->orderByDesc("id")->first();
+            // dump($id, $empresa_afil);
+            // exit;
             $cant = afil_pregunta::where('afiliado_id', $registro->id)->count();
             $cantidades = ['preguntas' => $cant];
             $cant = grupo_familiar::where('afiliado_id', $registro->id)->count();
@@ -126,6 +132,8 @@ class AfiliadosController extends Controller
             $cantidades['foto'] = $cant;
             $cant = afil_documento::where('afiliado_id', $registro->id)->where('tipo_documento_id', '!=', 11)->count();
             $cantidades['documentos'] = $cant;
+            $cant = afiliado_empresa::where('afiliado_id', $registro->id)->count();
+            $cantidades['empresas'] = $cant;
 
         } catch (\Exception $e) {
 
@@ -150,7 +158,8 @@ class AfiliadosController extends Controller
             'motivos_egresos_os',
             'especialidades',
             'motivos_egresos_sind',
-            'obras_sociales'
+            'obras_sociales',
+            'empresa_afil'
         ));
     }
 
@@ -162,7 +171,7 @@ class AfiliadosController extends Controller
 
         afiliado::updateorcreate(['id' => $request->id], $requestData);
 
-        return back()->with(["mensaje" => 'Afiliado creado con éxito!']);
+        return back()->with(["mensaje" => 'Afiliado creado o actualizado con éxito!']);
     }
 
     public function preguntas_index(int $afiliado_id)
@@ -223,7 +232,7 @@ class AfiliadosController extends Controller
             'categorias',
             'empresas',
             'motivos_egresos_os',
-            'motivos_egresos_afil',
+            'motivos_egresos_sind',
             'afiliados'
         ));
     }
@@ -395,4 +404,54 @@ class AfiliadosController extends Controller
         // return view('afiliados.carnet', compact('afiliado'));
 
     }
+    public function empresas_index(int $afiliado_id)
+    {
+        // dd($afiliado_id);
+        $tipos_documentos = tipo_documento::where('tipo', 'TIT')->get();
+        $afil_documentos = afil_documento::query()
+            ->join('tipos_documentos as td', 'td.id', 'afil_documentos.tipo_documento_id')
+            ->select('td.descripcion', 'fecha_vencimiento', 'obs', 'tipo_documento_id', 'afiliado_id', 'afil_documentos.id')
+            ->where('afil_documentos.afiliado_id', $afiliado_id)
+            ->paginate(5);
+
+        return view('afiliados.documentos', compact('afiliado_id', 'tipos_documentos', 'afil_documentos'));
+    }
+
+    public function empresas_guardar(Request $request)
+    {
+        $request->validate([
+            'tipo_documento_id' => 'required',
+            'path' => 'required|file',
+            'obs' => 'nullable|string|max:150'
+        ]);
+
+        // $requestData = new afil_pregunta();
+        $requestData = $request->all();
+        if ($request->hasFile('path')) {
+            //guarda en documentacion porque documentos entra en conflicto con una route
+            // $path = $request->file('path')->store('public/afiliados/documentacion');
+            $path = Storage::disk('uploads')->put('afiliados/documentacion',  $request->file('path'));
+            // dd($path);
+            $requestData['path'] = $path;
+        }
+        //  dd($requestData);
+        afil_documento::create($requestData);
+
+        // return redirect('afiliados.ficha')->with('mensaje', );
+        return back()->with(["mensaje" => 'documentación cargada con éxito!']);
+    }
+
+    public function empresas_borrar(int $id)
+    {  
+
+        $preg = afil_documento::find($id);
+        if (!empty($preg->path)){
+            // Storage::delete($preg->path);
+        }
+        $preg->delete();
+
+        return back()->with(["mensaje" => 'pregunta y respuesta borrada con éxito!']);
+    }
+    
+
 }

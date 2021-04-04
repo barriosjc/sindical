@@ -25,9 +25,9 @@ class empresasRequest extends FormRequest
     {
         return [  //   'sexo' => ['required'],
             'empresa_estado_id' => ['required'],
-            'razon_social' => ['bail', 'nullable', 'max:150'],
-            'cod_empresa' => ['required', 'numeric', 'digits_between:3,12']
-            // 'telefono' => ['nullable', 'regex:/^[0-9\s-]{6,18}$/'],
+            'razon_social' => ['bail', 'required', 'max:150'],
+            'cod_empresa' => ['required', 'numeric', 'digits_between:3,12'],
+            'cuit' => ['required', 'digits:13'],
             // 'email' => ["nullable", 'email'],
             // 'fecegreso' => ['required_with:egreso'],
 

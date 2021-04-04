@@ -35,8 +35,6 @@ class afiliadosRequest extends FormRequest
             'motivo_egreso_os_id' => ['required_with:fecha_egreso_os'],
             'delegado_desde' => ['bail', 'nullable','required_with:delegado_hasta', 'date', 'before_or_equal:delegado_hasta'],
             'delegado_hasta' => ['required_with:delegado_desde'],
-
-
         ];
     }
 }

@@ -73,7 +73,6 @@ class FamiliaresController extends Controller
 
         return view('familiares.ficha', compact(
             'grupo_familiar',
-            'nro_grupo_fam',
             'afiliado_id',
             'titular',
             'registro',

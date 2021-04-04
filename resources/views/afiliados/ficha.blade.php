@@ -5,8 +5,11 @@
 @include('layouts.mensajes')
 
 <form id='formEmpbus' action="{{route('afiliado.find')}}" method="GET">
-    <div class="row bot-20  justify-content-end">
+    <div class="row">
         <div class="col-md-4">
+            <h4>Ficha de Afiliado</h4>
+        </div>
+        <div class="col-md-4 offset-md-4 bot-20  justify-content-end">
             <div class="input-group">
                 <input type="text" data-toggle="tooltip" data-placement="top" title="Ingrese un número de dni a buscar" placeholder="D.N.I." id="busdni" name="busdni" class="solonros form-control form-control-sm" aria-describedby="buscar" maxlength="10">
                 <input type="text" data-toggle="tooltip" data-placement="top" title="Ingrese un número de afiliado sindical" placeholder="Nro Afiliado" id="busnroafil" name="busnroafil" class="solonros form-control form-control-sm" aria-describedby="buscar" maxlength="12">
@@ -22,7 +25,7 @@
     @csrf
     <input type='hidden' id='id' name='id' value="{{$registro->id}}" />
     <div class="bot-20">
-        <div class="card ">
+        <div class="card border-primary">
             <div class="card-header">
                 @if(Auth::user()->hasrole('administrador') or Auth::user()->haspermissionto('nuevo afiliado'))
                 <a href="{{ route('afiliado.index') }}" class="btn btn-success btn-sm" title="Agregar"> <i class="fa fa-plus" aria-hidden="true"></i> Agregar nuevo</a>
@@ -210,9 +213,9 @@
         </div>
     </div>
     <div class="bot-20">
-        <div class="card">
+        <div class="card border-primary">
             <div class="card-header">
-                Datos laborales
+                Datos laborales (ACTUAL)
             </div>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
@@ -223,7 +226,7 @@
                                 <select name="seccional_id" id="seccional_id" class="form-control form-control-sm" style="width: 100%" required>
                                     <option value="">--Seleccione--</option>
                                     @foreach($seccionales as $dato)
-                                    <option value="{{$dato->id}}" {{ (empty($registro->seccional_id) ? old('seccional_id') : $registro->seccional_id)  == $dato->id ? 'selected' : ''}}>{{$dato->descripcion}}</option>
+                                    <option value="{{$dato->id}}" {{ (empty($empresa_afil->seccional_id) ? old('seccional_id') : $empresa_afil->seccional_id)  == $dato->id ? 'selected' : ''}}>{{$dato->descripcion}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -234,7 +237,7 @@
                                 <select name="categoria_id" id="categoria_id" class="form-control form-control-sm" style="width: 100%">
                                     <option value="">--Seleccione--</option>
                                     @foreach($categorias as $dato)
-                                    <option value="{{$dato->id}}" {{    (empty($registro->categoria_id) ? old('categoria_id') : $registro->categoria_id)  == $dato->id ? 'selected' : ''}}>{{$dato->descripcion}}</option>
+                                    <option value="{{$dato->id}}" {{    (empty($empresa_afil->categoria_id) ? old('categoria_id') : $empresa_afil->categoria_id)  == $dato->id ? 'selected' : ''}}>{{$dato->descripcion}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -245,7 +248,7 @@
                                 <select name="especialidad_id" id="especialidad_id" class="form-control form-control-sm" style="width: 100%">
                                     <option value="">--Seleccione--</option>
                                     @foreach($especialidades as $dato)
-                                    <option value="{{$dato->id}}" {{(empty($registro->especialidad_id) ? old('especialidad_id') : $registro->especialidad_id)  == $dato->id ? 'selected' : ''}}>{{$dato->descripcion}}</option>
+                                    <option value="{{$dato->id}}" {{(empty($empresa_afil->especialidad_id) ? old('especialidad_id') : $empresa_afil->especialidad_id)  == $dato->id ? 'selected' : ''}}>{{$dato->descripcion}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -255,13 +258,13 @@
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label>Fec. afiliación</label>
-                                <input type="date" id="fecha_ingreso" name="fecha_ingreso_" class="form-control form-control-sm" value="{{  old('fecha_ingreso', $registro->fecha_ingresoy) }}">
+                                <input type="date" id="fecha_ingreso" name="fecha_ingreso" class="form-control form-control-sm" value="{{  old('fecha_ingreso', $empresa_afil->fecha_ingresoy) }}">
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label>Fec. baja</label>
-                                <input type="date" id="fecha_egreso" name="fecha_egreso" class="colorear form-control form-control-sm" value="{{ old('fecha_egreso', $registro->fecha_egresoy) }}">
+                                <input type="date" id="fecha_egreso" name="fecha_egreso" class="colorear form-control form-control-sm" value="{{ old('fecha_egreso', $empresa_afil->fecha_egresoy) }}">
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -270,7 +273,7 @@
                                 <select name="motivo_egreso_id" id="motivo_egreso_id" class="colorear form-control form-control-sm" style="width: 100%">
                                     <option value="">--Seleccione--</option>
                                     <!-- @foreach($motivos_egresos_sind as $dato)
-                                    <option value="{{$dato->id}}" {{(empty($registro->motivo_egreso_id) ? old('motivos_egresos_sind') : $registro->motivo_egreso_id)  == $dato->id ? 'selected' : ''}}>{{$dato->descripcion}}</option>
+                                    <option value="{{$dato->id}}" {{(empty($empresa_afil->motivo_egreso_id) ? old('motivos_egresos_sind') : $empresa_afil->motivo_egreso_id)  == $dato->id ? 'selected' : ''}}>{{$dato->descripcion}}</option>
                                     @endforeach -->
                                 </select>
                             </div>
@@ -285,7 +288,7 @@
                                 <select name="empresa_id" id="empresa_id" class="busqueda form-control form-control-sm" style="width: 100%" required>
                                     <option value="">--Seleccione--</option>
                                     @foreach($empresas as $dato)
-                                    <option value="{{$dato->id}}" {{(empty($registro->empresa_id) ? old('empresa_id') : $registro->empresa_id)  == $dato->id ? 'selected' : ''}}>{{$dato->razon_social}}</option>
+                                    <option value="{{$dato->id}}" {{(empty($empresa_afil->empresa_id) ? old('empresa_id') : $empresa_afil->empresa_id)  == $dato->id ? 'selected' : ''}}>{{$dato->razon_social}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -293,25 +296,25 @@
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label>Fec. ingreso</label>
-                                <input type="date" id="fecha_ing_empr" name="fecha_ing_empr" class="form-control form-control-sm" value="{{ old('fecha_ing_empr', $registro->fecha_ing_empry) }}">
+                                <input type="date" id="fecha_ing_empr" name="fecha_ing_empr" class="form-control form-control-sm" value="{{ old('fecha_ing_empr', $empresa_afil->fecha_ing_empry) }}">
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label>Fec. baja</label>
-                                <input type="date" id="fecha_egr_empr" name="fecha_egr_empr" class="form-control form-control-sm" value="{{ old('fecha_egr_empr', $registro->fecha_egr_empry) }}">
+                                <input type="date" id="fecha_egr_empr" name="fecha_egr_empr" class="form-control form-control-sm" value="{{ old('fecha_egr_empr', $empresa_afil->fecha_egr_empry) }}">
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label>Delegado desde</label>
-                                <input type="date" id="delegado_desde" name="delegado_desde" class="form-control form-control-sm" value="{{ old('delegado_desde', $registro->delegado_desdey) }}">
+                                <input type="date" id="delegado_desde" name="delegado_desde" class="form-control form-control-sm" value="{{ old('delegado_desde', $empresa_afil->delegado_desdey) }}">
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label>Delegado hasta</label>
-                                <input type="date" id="delegado_hasta" name="delegado_hasta" class="form-control form-control-sm" value="{{ old('delegado_hasta', $registro->delegado_hastay) }}">
+                                <input type="date" id="delegado_hasta" name="delegado_hasta" class="form-control form-control-sm" value="{{ old('delegado_hasta', $empresa_afil->delegado_hastay) }}">
                             </div>
                         </div>
                     </div>
@@ -320,7 +323,7 @@
         </div>
     </div>
     <div class="bot-20">
-        <div class="card">
+        <div class="card border-primary">
             <div class="card-header">
                 Datos de Obra social
             </div>
@@ -353,7 +356,7 @@
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label for="">Motivo egreso O.S.</label>
+                                <label for="">Motivo de baja O.S.</label>
                                 <select name="motivo_egreso_os_id" id="motivo_egreso_os_id" class="colorear form-control form-control-sm" style="width: 100%">
                                     <option value="">--Seleccione--</option>
                                     @foreach($motivos_egresos_os as $dato)
@@ -395,7 +398,7 @@
         </div>
     </div>
     <div class="bot-20">
-        <div class="card">
+        <div class="card border-primary">
             <div class="card-header">
                 Datos Generales
             </div>
@@ -419,6 +422,7 @@
                         <div class="col-md-8">
                             @if(isset($registro->id))
                             <div class='float-right'>
+                                <a href=" {{ route('afiliado.empresas', $registro->id) }} " id="btnempresas" class="btn btn-primary">Empresas <span class="badge badge-light">{{$cantidades['empresas']}}</span></a>
                                 <a href=" {{ route('afiliado.documentos', $registro->id) }} " id="btnfoto" class="btn btn-primary">Documentación <span class="badge badge-light">{{$cantidades['documentos']}}</span></a>
                                 <a href=" {{ route('afiliado.carnet', $registro->id) }} " id="btncarnet" class="btn btn-primary">Carnet <span class="badge badge-light">{{$cantidades['foto']}}</span></a>
                                 <a href=" {{ route('familiares.index', $registro->id) }} " id="btgrupofam" class="btn btn-primary">Grupo familiar <span class="badge badge-light">{{$cantidades['grupo_fam']}}</span></a>

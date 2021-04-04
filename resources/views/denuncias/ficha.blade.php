@@ -5,8 +5,11 @@
 <div class="container-fluid sin-padding">
     @include('layouts.mensajes')
     <form id='formEmpbus' action="{{route('denuncia.find')}}" method="GET">
-        <div class="row bot-20  justify-content-end">
+        <div class="row">
             <div class="col-md-4">
+                <h4>Carga de denuncias</h4>
+            </div>
+            <div class="col-md-4 offset-md-4 bot-20  justify-content-end">
                 <div class="input-group">
                     <input type="text" data-toggle="tooltip" data-placement="top" title="Ingrese un número de denuncia a buscar" placeholder="nro denuncia" id="busdenuncia" name="busdenuncia" class="solonros form-control form-control-sm" aria-describedby="buscar" maxlength="12">
                     <input type="text" data-toggle="tooltip" data-placement="top" title="Ingrese un número de v_ult_denuncias.nto" placeholder="Nro DNI" id="busnrodni" name="busnrodni" class="solonros form-control form-control-sm" aria-describedby="buscar" maxlength="12">
@@ -22,7 +25,7 @@
         @csrf
         <input type='hidden' id='id' name='id' value="{{$registro->id}}" />
         <div class="bot-20">
-            <div class="card ">
+            <div class="card border-primary">
                 <div class="card-header">
                     @if(Auth::user()->hasrole('administrador') or Auth::user()->haspermissionto('nueva denuncia'))
                     <a href="{{ route('denuncia.index') }}" class="btn btn-success btn-sm" title="Agregar nuevo Role"> <i class="fa fa-plus" aria-hidden="true"></i> Agregar nuevo</a>
@@ -50,7 +53,8 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="">Tipo de denuncia</label>
-                                    <select name="tipo_denuncia_id" id="tipo_denuncia_id" class="form-control form-control-sm" style="width: 100%" required>
+                                    <select name="tipo_denuncia_id" id="tipo_denuncia_id" class="form-control form-control-sm" style="width: 100%"
+                                            data-toggle="tooltip" data-placement="top" title="Seleccione un elemento de la lista" required>
                                         <option value="">--Seleccione--</option>
                                         @foreach($tipos_denuncias as $dato)
                                         <option value="{{$dato->id}}" {{(empty($registro->tipo_denuncia_id) ? old('tipo_denuncia_id') : $registro->tipo_denuncia_id)  == $dato->id ? 'selected' : ''}}>{{$dato->descripcion}}</option>
@@ -64,7 +68,7 @@
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label>Nro DNI</label>
-                                    <div class="input-group" data-toggle="tooltip" data-placement="top" title="Ingrese el nro de DNI y luego presione el botón, si encuentra los datos cargará el nombre y demas datos.">
+                                    <div class="input-group" data-toggle="tooltip" data-placement="top" title="Ingrese el nro de DNI y luego presione el botón, si encuentra los datos en Gestión cargará el nombre y demas datos.">
                                         <input type="text" id="nro_dni" name="nro_dni" class="solonros form-control form-control-sm" aria-describedby="signroafil" value="{{  old('nro_dni', $registro->nro_dni) }}" maxlength="10">
                                         <div class="input-group-append">
                                             <button class="btn btn-outline-primary btn-sm" id="buscaafil"><i class="far fa-hand-point-right"></i></button>
@@ -111,7 +115,7 @@
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label>CUIT</label>
-                                    <input type="text" id="cuit" name="cuit" class="solonros form-control form-control-sm" value="{{ old('cuit', $registro->cuit) }}" maxlength="15" />
+                                    <input type="text" id="cuit" name="cuit" data-quitasignos="guion" class="solonros form-control form-control-sm" value="{{ old('cuit', $registro->cuit) }}" maxlength="15" />
                                 </div>
                             </div>
                             <div class="col-md-5">
@@ -207,7 +211,7 @@
     @if(!empty($registro->id))
 
     <div class="bot-20">
-        <div class="card ">
+        <div class="card border-primary">
             <div class="card-header">
                 Movimientos de denuncias
             </div>
@@ -299,6 +303,7 @@
     <script src="{{ asset('js/scripts.js') }}"></script>
 
     <script type="text/javascript">
+
         $('#buscaafil').on('click', function(e) {
             e.preventDefault();
             if ($('#nro_dni').val() == '') {
