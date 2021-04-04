@@ -1,4 +1,4 @@
-/node_modules
+j/node_modules
 /public/hot
 /public/storage
 /storage/*.key
@@ -10,5 +10,4 @@ Homestead.json
 Homestead.yaml
 npm-debug.log
 yarn-error.log
-public/afiliados/documentacion/iBEive1F8JQTjnMMDRQDbhb68LNXe099Ub8IsaLJ.jpeg
-public/afiliados/documentacion/UJpjqkt77ZeZNUok5STPy1ShBbJ9mP3F4txM6Ym0.txt
+public/afiliados/documentacion/*
