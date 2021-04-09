@@ -33,9 +33,9 @@ class seccional extends Model
             'localidad'
     ];
 
-    public function afiliados()
+    public function afiliado_empresa()
     {
-        return $this->hasMany('App\Models\afiliado', 'seccional_id','id');
+        return $this->hasMany('App\Models\afiliado_empresa', 'seccional_id','id');
     }
-    
+
 }

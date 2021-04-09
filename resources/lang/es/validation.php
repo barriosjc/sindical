@@ -186,5 +186,7 @@ return [
         'motivo_egreso_id'   => 'Motivo de baja Sindical',
         'fecha_egreso_os'   => 'Fecha de egreso O.S.',
         'cod_empresa'       => "Código de empresa",
+        'fecha_ingreso'     => "Fecha de afiliación",
+        'today' => 'hoy'
     ],
 ];

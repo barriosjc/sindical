@@ -65,7 +65,7 @@ Route::group(['middleware' => ['permission:consultar afiliado']], function () {
     Route::delete('/afiliado/documentos/{id}/borrar', 'gestion\AfiliadosController@documentos_borrar')->name('afiliado.documentos.borrar');
     Route::get('/afiliado/documentos/{id}/descargar', 'gestion\AfiliadosController@download')->name('afiliado.download');
     Route::get('/afiliado/carnet/{id}', 'gestion\AfiliadosController@carnet')->name('afiliado.carnet');
-    Route::get('/afiliado/{id}/empresas', 'gestion\AfiliadosController@empresas_index')->name('afiliado.empresas');
+    Route::get('/afiliado/{id}/empresas{ae_id?}', 'gestion\AfiliadosController@empresas_index')->name('afiliado.empresas');
     Route::post('/afiliado/empresas/guardar', 'gestion\AfiliadosController@empresas_guardar')->name('afiliado.empresas.guardar');
     Route::delete('/afiliado/empresas/{id}/borrar', 'gestion\AfiliadosController@empresas_borrar')->name('afiliado.empresas.borrar');
 

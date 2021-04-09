@@ -30,7 +30,7 @@ class afiliado_empresa extends Model
      * @var array
      */
     protected $fillable = [
-        'usuario_id',
+        'afiliado_id',
         'empresa_id',
         'fecha_ingreso',
         'fecha_egreso',
@@ -46,6 +46,15 @@ class afiliado_empresa extends Model
     ];
 
     public function getFechaEgresoAttribute($value)
+    {
+        $resu = '';
+        if (!empty($value)) {
+            $resu = date('d/m/Y', strtotime($value));
+        }
+
+        return $resu;
+    }
+    public function getFechaIngresoAttribute($value)
     {
         $resu = '';
         if (!empty($value)) {
@@ -117,13 +126,17 @@ class afiliado_empresa extends Model
     }
 
     // -----------------------------------------------------------------------------------
+    public function empresas()
+    {
+        return $this->belongsTo('App\Models\empresa', 'empresa_id', 'id');
+    }    
     public function seccionales()
     {
         return $this->belongsTo('App\Models\seccional', 'seccional_id', 'id');
     }
-    public function motivoegresos()
+    public function motivo_egreso_sind()
     {
-        return $this->belongsTo('App\Models\motivos_egresos_sind', 'motivo_egreso_id', 'id');
+        return $this->belongsTo('App\Models\motivo_egreso_sind', 'motivo_egreso_id', 'id');
     }
 
     

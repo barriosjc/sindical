@@ -106,9 +106,9 @@ class empresa extends Model
     }
     
     //-----------------------------------------------------------------------------------
-    public function afiliados()
+    public function afiliado_empresa()
     {
-        return $this->belongsTo('App\Models\afiliado');
+        return $this->hasMany('App\Models\afiliado_empresa', 'empresa_id', 'id');
     }
 
     public function seccionales()
