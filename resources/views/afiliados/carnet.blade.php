@@ -1,45 +1,41 @@
-<!DOCTYPE html>
-<html lang="en">
-<style>
-    .avatar {
-        /* cambia estos dos valores para definir el tamaño de tu círculo */
-        height: 100px;
-        width: 100px;
-        /* los siguientes valores son independientes del tamaño del círculo */
-        background-repeat: no-repeat;
-        background-position: 70%;
-        border-radius: 50%;
-        background-size: 100% auto;
-        padding-right: 10px;
-    }
-</style>
+@extends('layouts.admin')
 
-<head>
-    <title>Carnet de afiliado</title>
-</head>
+@section('main-content')
 
-<body>
-    <h5>UNION OBRERA METALÚRGICA SECCIONAL AVALLANEDA</h5>
-    <table>
-        <tr>
-            <td style="width:17%">
-                <!-- <img alt="foto" src="{{ public_path() . '/' . $afiliado->path }}" class="avatar" alt=""> -->
-                <img alt="foto" src="{{ asset($afiliado->path) }}" class="avatar" alt="">
-            </td>
-            <td>
-                <h4>Nro Afiliado:</h4>
-                <p>Nombre : </p>
-                <p>DNI : </p>
-                <p>Seccional : </p>
-            </td>
-            <td>
-                <h4>{{$afiliado->nro_afil_sindical}}</h4>
-                <p>{{$afiliado->apellido_nombres}}</p>
-                <p>{{$afiliado->nro_doc}}</p>
-                <p>{{$afiliado->seccionales->descripcion}}</p>
-            </td>
-        </tr>
-    </table>
-</body>
 
-</html>
+<div class="card">
+    <div class="card-header">
+        <a href="{{ url('/afiliados/find/' . $afiliado->id) }}" title="Volver"><button class="btn btn-warning btn-sm"><i
+                    class="fa fa-arrow-left" aria-hidden="true"></i> Volver</button></a>
+
+        Carnet del afiliado: {{$afiliado->apellido_nombres}}
+    </div>
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item">
+        <div class="row">
+                <div class="col-md-6">
+                    <a href="{{ route('familiares.buscar.index', 0) }}" id="btnbuscarfam" class="btn btn-info"><i
+                            class="fas fa-search"></i> Seleccionar foto</a>
+                </div>
+                <div class="col-md-6">
+                    <a href="{{ route('familiares.buscar.index', 0) }}" id="btnbuscarfam" class="btn btn-info"><i
+                            class="fas fa-search"></i> Tomar foto</a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-8">
+                <img  class="img-foto" src="" alt="foto del afiliado" >
+                </div>
+                <div class="col-md-4">
+                <a href="{{ route('familiares.buscar.index', 0) }}" id="btnbuscarfam" class="btn btn-info"><i
+                            class="fas fa-search"></i>Guardar datos</a>
+                            <a href="{{ route('familiares.buscar.index', 0) }}" id="btnbuscarfam" class="btn btn-info"><i
+                            class="fas fa-search"></i>Generar Carnet</a>
+                </div>
+            </div>
+        </li>
+    </ul>
+</div>
+
+
+@endsection
