@@ -19,6 +19,7 @@
             class="form-horizontal" enctype="multipart/form-data">
             @csrf
             <li class="list-group-item">
+                <input type='hidden' name='id' value="{{ $afil_emp->id }}">            
                 <input type='hidden' name='afiliado_id' value="{{ $afiliado_id }}">
                 <div class="row">
                     <div class="col-md-3">
@@ -99,9 +100,7 @@
                     <div class="col-md-5">
                         <div class='float-right pad-20'>
                             @if (Auth::user()->hasrole('administrador') or Auth::user()->haspermissionto('nuevo afiliado'))
-                            @if (empty($afil_emp->id) )
                             <button type="submit" id="btnAgr" class="btn btn-info">Guardar datos</button>
-                            @endif
                             @endif
                         </div>
                     </div>

@@ -11,7 +11,7 @@
         </div>
         <div class="col-md-4 offset-md-4 bot-20 justify-content-end">
             <div class="input-group">
-                <input type="text" data-toggle="tooltip" data-placement="top" title="Ingrese un número de dni a buscar" placeholder="CUIT" id="buscuit" name="buscuit" class="solonros form-control form-control-sm" aria-describedby="buscar" maxlength="13">
+                <input type="text" data-toggle="tooltip" data-placement="top" title="Ingrese un número de dni a buscar" placeholder="CUIT" id="buscuit" name="buscuit" class="solonros form-control form-control-sm" aria-describedby="buscar" maxlength="11">
                 <input type="text" data-toggle="tooltip" data-placement="top" title="Ingrese un número de código empresa" placeholder="Cód. de empresa" id="buscodempr" name="buscodempr" class="solonros form-control form-control-sm" aria-describedby="buscar" maxlength="12">
                 <div class="input-group-append">
                     <button class="btn btn-outline-primary btn-sm" type="submit" id="buscar"><i class="fas fa-search"></i></button>
@@ -31,14 +31,15 @@
                 <a href="{{ route('empresa.index') }}" class="btn btn-success btn-sm" title="Agregar"> <i class="fa fa-plus" aria-hidden="true"></i> Agregar nuevo</a>
                 @endif
                 Datos de empresa
+                <span class='fa-trash-alt float-right'>(*) todo lo marcado con asterisco es un dato obligatorio.</span>
             </div>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
                     <div class="row">
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label for="">Seccional</label>
-                                <select name="seccional_id" id="seccional_id" class="form-control form-control-sm" style="width: 100%" required>
+                                <label for="">Seccional</label><span class='s-red'>*</span>
+                                <select name="seccional_id" id="seccional_id" class="busqueda form-control form-control-sm" style="width: 100%" required>
                                     <option value="">--Seleccione--</option>
                                     @foreach($seccionales as $dato)
                                     <option value="{{$dato->id}}" {{ (empty($registro->seccional_id) ? old('seccional_id') : $registro->seccional_id)  == $dato->id ? 'selected' : ''}}>{{$dato->descripcion}}</option>
@@ -47,7 +48,7 @@
                             </div>
                         </div>
                         <div class="col-md-2">
-                            <label for="">Código de empresa</label>
+                            <label for="">Código de empresa</label><span class='s-red'>*</span>
                             <div class="input-group" data-toggle="tooltip" data-placement="top" title="Presione el botón para obtener un número de empresa, trae un dato solo si la casilla de texto esta en blanco.">
                                 <input type="text" id="cod_empresa" name="cod_empresa" data-tipo="NRO_EMPRESA" class="valorsiguiente solonros form-control form-control-sm" aria-describedby="signroafil" value="{{  old('cod_empresa', $registro->cod_empresa) }}" maxlength="12">
                                 <div class="input-group-append">
@@ -57,7 +58,7 @@
                         </div>
                         <div class="col-md-7">
                             <div class="form-group">
-                                <label for="">Razón social</label>
+                                <label for="">Razón social</label><span class='s-red'>*</span>
                                 <input type="text" id="razon_social" name="razon_social" class="aMayusculas form-control form-control-sm" value="{{  old('razon_social', $registro->razon_social) }}" maxlength="150" />
                             </div>
                         </div>
@@ -85,19 +86,19 @@
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label for="">CUIT</label>
+                                <label for="">CUIT</label><span class='s-red'>*</span>
                                 <input type="text" id="" name="cuit" class="solonros form-control form-control-sm" value="{{  old('cuit', $registro->cuit) }}" maxlength="13" />
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label>Fec. Sindical</label>
+                                <label>Fec. Sindical</label><span class='s-red'>*</span>
                                 <input type="date" id="fecha_inicio_actividad" name="fecha_inicio_actividad" class="form-control form-control-sm" value="{{  old('fecha_inicio_actividad', $registro->fecha_inicio_actividady) }}">
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label>Fec. Alta</label>
+                                <label>Fec. Alta</label><span class='s-red'>*</span>
                                 <input type="date" id="fecha_alta" name="fecha_alta" class="form-control form-control-sm" value="{{  old('fecha_alta', $registro->fecha_altay) }}">
                             </div>
                         </div>
@@ -133,13 +134,13 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>Email 1</label>
-                                <input type="email" id="" name="email" class="form-control form-control-sm" value="{{ old('email', $registro->email) }}" maxlength="60" />
+                                <input type="email" id="" name="email" class="form-control form-control-sm" value="{{ old('email', $registro->email) }}" maxlength="100" />
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label>Email 2</label>
-                                <input type="email" id="" name="email2" class="form-control form-control-sm" value="{{ old('email2', $registro->email2) }}" maxlength="60" />
+                                <input type="email" id="" name="email2" class="form-control form-control-sm" value="{{ old('email2', $registro->email2) }}" maxlength="100" />
                             </div>
                         </div>
                         <div class="col-md-2">
@@ -150,7 +151,7 @@
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label for="">Estado</label>
+                                <label for="">Estado</label><span class='s-red'>*</span>
                                 <select name="empresa_estado_id" id="empresa_estado_id" class="form-control form-control-sm" style="width: 100%" required>
                                     <option value="">--Seleccione--</option>
                                     @foreach($empresas_estados as $dato)
@@ -215,7 +216,7 @@
                         <div class="col-md-5">
                             <div class="form-group">
                                 <label>Calle</label>
-                                <input type="text" id="" name="calle" class="aMayusculas form-control form-control-sm" value="{{ old('calle', $registro->calle) }}" maxlength="100" />
+                                <input type="text" id="" name="calle" class="aMayusculas form-control form-control-sm" value="{{ old('calle', $registro->calle) }}" maxlength="50" />
                             </div>
                         </div>
                         <div class="col-md-1">

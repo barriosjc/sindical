@@ -61,7 +61,7 @@ class denuncia extends Model
     {
         $resu = $this->fecha_ingreso;
         if (!empty($resu)) {
-            $resu = date('Y-d-m', strtotime($resu));
+            $resu = date(env('DATE_FORM', 'Y-m-d'), strtotime($resu));
         }
 
         return $resu;

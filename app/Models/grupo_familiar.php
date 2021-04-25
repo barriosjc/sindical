@@ -95,7 +95,7 @@ class grupo_familiar extends Model
     {
         $resu = $this->docum_pendiente;
         if (!empty($resu)) {
-            $resu = date('Y-m-d', strtotime($resu));
+            $resu = date(env('DATE_FORM', 'Y-m-d'), strtotime($resu));
         }
 
         return $resu;
@@ -104,7 +104,7 @@ class grupo_familiar extends Model
     {
         $resu = $this->docum_entregada;
         if (!empty($resu)) {
-            $resu = date('Y-m-d', strtotime($resu));
+            $resu = date(env('DATE_FORM', 'Y-m-d'), strtotime($resu));
         }
 
         return $resu;
@@ -113,7 +113,7 @@ class grupo_familiar extends Model
     {
         $resu = $this->fecha_nac;
         if (!empty($resu)) {
-            $resu = date('Y-m-d', strtotime($resu));
+            $resu = date(env('DATE_FORM', 'Y-m-d'), strtotime($resu));
         }
 
         return $resu;
@@ -122,7 +122,7 @@ class grupo_familiar extends Model
     {
         $resu = $this->fecha_ingreso_sind;
         if (!empty($resu)) {
-            $resu = date('Y-m-d', strtotime($resu));
+            $resu = date(env('DATE_FORM', 'Y-m-d'), strtotime($resu));
         }
 
         return $resu;
@@ -131,7 +131,7 @@ class grupo_familiar extends Model
     {
         $resu = $this->fecha_egreso_sind;
         if (!empty($resu)) {
-            $resu = date('Y-m-d', strtotime($resu));
+            $resu = date(env('DATE_FORM', 'Y-m-d'), strtotime($resu));
         }
 
         return $resu;
@@ -140,7 +140,7 @@ class grupo_familiar extends Model
     {
         $resu = $this->fecha_venc_disca;
         if (!empty($resu)) {
-            $resu = date('Y-m-d', strtotime($resu));
+            $resu = date(env('DATE_FORM', 'Y-m-d'), strtotime($resu));
         }
 
         return $resu;

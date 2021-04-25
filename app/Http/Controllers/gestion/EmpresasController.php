@@ -18,6 +18,7 @@ use App\models\tipo_baja_empr;
 use App\models\provincia;
 use App\models\localidad;
 use App\models\afiliado;
+use App\models\afiliado_empresa;
 use App\models\empr_documento;
 use App\models\tipo_documento;
 
@@ -74,11 +75,9 @@ class EmpresasController extends Controller
 
     public function find(Request $request, int $id = null)
     {
-
         if (!empty($id)) {
             $registro = empresa::where('id', $id)->first();
-        } else 
-        if (!empty($request->buscuit)) {
+        } elseif (!empty($request->buscuit)) {
             $registro = empresa::where('cuit', $request->buscuit)->first();
         } else {
             $registro = empresa::where('cod_empresa', $request->buscodempr)->first();
@@ -98,19 +97,15 @@ class EmpresasController extends Controller
             $provincias = provincia::get();
             $tipos_actividad_empr = tipo_actividad_empr::get();
             $tipos_baja_empr = tipo_baja_empr::get();
-
             $cant = empr_documento::where('empresa_id', $registro->id)->count();
             $cantidades['documentos'] = $cant;
-            $cantidades['afiliados'] = afiliado::where('empresa_id', $registro->id)->count();
+            $cantidades['afiliados'] = afiliado_empresa::where('empresa_id', $registro->id)->count();
             $cant_empadronados = $cantidades['afiliados'];
-
         } catch (\Exception $e) {
-
             $mensaje =  $e->getMessage();
 
             return back()->withErrors(['mensaje' => $mensaje])->withInput();
         }
-
 
         return view('empresas.ficha', compact(
             'cantidades',
@@ -119,7 +114,7 @@ class EmpresasController extends Controller
             'empresas_estados',
             'tipos_rama_empr',
             'tipos_actividad_empr',
-            'tipos_baja_empr',  
+            'tipos_baja_empr',
             'provincias',
             'localidades',
             'localidades_adm',
@@ -141,7 +136,6 @@ class EmpresasController extends Controller
 
     public function buscar_index(int $id)
     {
-
         $seccionales = seccional::get();
         $empresas_estados = empresa_estado::get();
         $tipos_rama_empr = tipo_rama_empr::get();
@@ -149,7 +143,6 @@ class EmpresasController extends Controller
         $tipos_actividad_empr = tipo_actividad_empr::get();
         $tipos_baja_empr = tipo_baja_empr::get();
         $empresa_id = $id;
-
 
         return view('empresas.buscar', compact(
             'seccionales',
@@ -164,7 +157,6 @@ class EmpresasController extends Controller
 
     public function buscar(Request $request)
     {
-
         $filtro = [];
         if (!empty($request->empresa_estado_id)) {
             $filtro[] = ['empresas.empresa_estado_id', '=', $request->empresa_estado_id];
@@ -269,7 +261,7 @@ class EmpresasController extends Controller
         if ($request->hasFile('path')) {
             //guarda en documentacion porque documentos entra en conflicto con una route
             // $path = $request->file('path')->store('public/empresas/documentacion');
-            $path = Storage::disk('uploads')->put('empresas/documentacion',  $request->file('path'));
+            $path = Storage::disk('uploads')->put('empresas/documentacion', $request->file('path'));
             // dd($path);
             $requestData['path'] = $path;
         }
@@ -281,10 +273,9 @@ class EmpresasController extends Controller
     }
 
     public function documentos_borrar(int $id)
-    {  
-
+    {
         $preg = empr_documento::find($id);
-        if (!empty($preg->path)){
+        if (!empty($preg->path)) {
             // Storage::delete($preg->path);
         }
         $preg->delete();
@@ -292,15 +283,13 @@ class EmpresasController extends Controller
         return back()->with(["mensaje" => 'pregunta y respuesta borrada con éxito!']);
     }
     
-    public function download(int $id){
-
+    public function download(int $id)
+    {
         $path = empr_documento::find($id)->path;
-        if(!file_exists($path)){
+        if (!file_exists($path)) {
             return back()->withErrors(['mensaje' => "El archivo que intenta descargar no se encuentra almacenado en el servidor."]);
         }
         
         return response()->download(public_path() . '/' . $path);
-
     }
-
 }

@@ -187,6 +187,7 @@ return [
         'fecha_egreso_os'   => 'Fecha de egreso O.S.',
         'cod_empresa'       => "Código de empresa",
         'fecha_ingreso'     => "Fecha de afiliación",
-        'today' => 'hoy'
+        'today' => 'hoy',
+        'fecha_egreso' => 'Fecha baja'
     ],
 ];

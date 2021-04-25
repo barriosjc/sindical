@@ -132,7 +132,7 @@ class AfiliadosController extends Controller
             $afiliado_empresa = afiliado_empresa::where('afiliado_id', $registro->id)
                 ->orderByDesc('fecha_ingreso')
                 ->first();
-            //  dd( $afiliado_empresa);
+            // dd( $afiliado_empresa);
             // exit;
             $cant = afil_pregunta::where('afiliado_id', $registro->id)->count();
             $cantidades = ['preguntas' => $cant];
@@ -321,50 +321,50 @@ class AfiliadosController extends Controller
         }
         if (!empty($request->seccional_id)) {
             $filtro[] = [
-                'afiliados.seccional_id',
+                'ae.seccional_id',
                 '<=',
                 $request->seccional_id,
             ];
         }
         if (!empty($request->empresa_id)) {
-            $filtro[] = ['afiliados.empresa_id', '=', $request->empresa_id];
+            $filtro[] = ['ae.empresa_id', '=', $request->empresa_id];
         }
         if (!empty($empresa_id)) {
-            $filtro[] = ['afiliados.empresa_id', '=', $empresa_id];
+            $filtro[] = ['ae.empresa_id', '=', $empresa_id];
         }
         if (!empty($request->categoria_id)) {
-            $filtro[] = ['afiliados.categoria_id', '=', $request->categoria_id];
+            $filtro[] = ['ae.categoria_id', '=', $request->categoria_id];
         }
         if (!empty($request->especialidad_id)) {
             $filtro[] = [
-                'afiliados.especialidad_id',
+                'ae.especialidad_id',
                 '=',
                 $request->especialidad_id,
             ];
         }
         if (!empty($request->fecha_egreso_ck)) {
-            $filtro[] = ['afiliados.fecha_egreso', '=', null];
+            $filtro[] = ['ae.fecha_egreso', '=', null];
         }
         if (!empty($request->fecha_egreso)) {
             $filtro[] = [
-                'afiliados.fecha_egreso',
+                'ae.fecha_egreso',
                 '<=',
                 $request->fecha_egreso,
             ];
         }
         if (!empty($request->fecha_egr_empr_ck)) {
-            $filtro[] = ['afiliados.fecha_egr_empr', '=', null];
+            $filtro[] = ['ae.fecha_egr_empr', '=', null];
         }
         if (!empty($request->fecha_egr_empr)) {
             $filtro[] = [
-                'afiliados.fecha_egr_empr',
+                'ae.fecha_egr_empr',
                 '<=',
                 $request->fecha_egr_empr,
             ];
         }
         if (!empty($request->delegado_hasta)) {
             $filtro[] = [
-                'afiliados.delegado_hasta',
+                'ae.delegado_hasta',
                 '<=',
                 $request->delegado_hasta,
             ];
@@ -406,12 +406,11 @@ class AfiliadosController extends Controller
                     );
                 }
             }
-
+                // dd('llego aca');
             // DB::enableQueryLog();
-
-            // no uso estado ficha pero no lo quite de la consulta, si hace falta sacar estado ficha
             $afiliados = afiliado::query()
-                ->leftjoin('empresas as e', 'e.id', 'afiliados.empresa_id')
+                ->leftjoin('afiliados_empresas as ae', 'ae.afiliado_id', 'afiliados.id')
+                ->leftjoin('empresas as e', 'e.id', 'ae.empresa_id')
                 ->leftjoin(
                     'afil_estado_ficha as ef',
                     'ef.id',
@@ -419,12 +418,14 @@ class AfiliadosController extends Controller
                 )
                 ->select(
                     'afiliados.*',
+                    'ae.fecha_ingreso',
                     'e.razon_social as empresa_nom',
                     'ef.descripcion as estado_desc'
                 )
                 ->where($filtro)
                 ->orderby('afiliados.apellido_nombres')
                 ->paginate(15);
+
             // $log = DB::getQueryLog();
             // dd($log);
         } catch (\Exception $e) {
@@ -432,7 +433,7 @@ class AfiliadosController extends Controller
             return back()->withErrors(['mensaje' => $msg]);
         }
 
-        return view('afiliados.buscar_resultados', compact('afiliados'));
+        return view('afiliados.buscar_resultados', compact('afiliados', 'empresa_id'));
     }
 
     public function documentos_index(int $afiliado_id)
@@ -517,17 +518,29 @@ class AfiliadosController extends Controller
 
     public function carnet($id)
     {
+        //     //   DB::enableQueryLog();
         $afiliado = afiliado::query()
+            ->join('afiliados_empresas as ae', 'ae.afiliado_id', 'afiliados.id')
             ->join('afil_documentos as d', 'd.afiliado_id', 'afiliados.id')
-            ->join('seccionales as s', 's.id', 'afiliados.seccional_id')
+            ->join('seccionales as s', 's.id', 'ae.seccional_id')
             ->select('afiliados.*', 'd.path', 's.descripcion')
-            ->where('d.tipo_documento_id', 11)
+            ->where('d.tipo_documento_id', env('TIPO_DOCUMENTO_ID', 11))
+            ->where('afiliados.id', $id)
             ->first();
+        //     // $log = DB::getQueryLog();
+        //     // dd($log);
+        // $pdf = PDF::loadView('afiliados.carnet', compact('afiliado'));
+        // return $pdf->download('carnet_' . $afiliado->nro_doc . '.pdf');
+        // // return view('afiliados.carnet', compact('afiliado'));
 
-        $pdf = PDF::loadView('afiliados.carnet', compact('afiliado'));
+        return view(
+            'afiliados.Carnet',
+            compact(
+                'afiliado'
+            )
+        );
 
-        return $pdf->download('carnet_' . $afiliado->nro_doc . '.pdf');
-        // return view('afiliados.carnet', compact('afiliado'));
+
     }
 
     // --------------------------------------------------------------------------------------------------------
@@ -572,8 +585,6 @@ class AfiliadosController extends Controller
 
     public function empresas_guardar(Request $request)
     {
-        dd('entro por aca');
-
         $request->validate([
             'seccional_id' => 'required',
             'empresa_id' => 'required',
@@ -586,33 +597,33 @@ class AfiliadosController extends Controller
         ]);
 
         if (!empty($request->fecha_egreso)) {
-            $request->validate(['fecha_egreso' => ['required_with:motivo_egreso_id', 'date', 'before_or_equal:fecha_ingreso']]);
+            $request->validate(['fecha_egreso' => ['required_with:motivo_egreso_id', 'date', 'after_or_equal:fecha_ingreso']]);
         }
         if (!empty($request->fecha_egr_empr)) {
-            $request->validate(['fecha_egr_empr' => [ 'date', 'before_or_equal:fecha_ing_empr']]);
+            $request->validate(['fecha_egr_empr' => [ 'date', 'after_or_equal:fecha_ing_empr']]);
         }
         if (!empty($request->delegado_hasta)) {
-            $request->validate(['delegado_hasta' => [ 'date', 'before_or_equal:delegado_desde']]);
+            $request->validate(['delegado_hasta' => [ 'date', 'after_or_equal:delegado_desde']]);
         }
 
-        // $requestData = $request->all();
-        $afi_emp = new afiliado_empresa;
+         $requestData = $request->all();
+        // $afi_emp = new afiliado_empresa;
         //  dd( $request->all());
-        $afi_emp->afiliado_id = $request->afiliado_id;
-        $afi_emp->empresa_id = $request->empresa_id;
-        $afi_emp->seccional_id = $request->seccional_id;
-        $afi_emp->categoria_id = $request->categoria_id;
-        $afi_emp->especialidad_id = $request->especialidad_id;
-        $afi_emp->fecha_ingreso = $request->fecha_ingreso;
-        $afi_emp->fecha_egreso = $request->fecha_egreso;
-        $afi_emp->motivo_egreso_id = $request->motivo_egreso_id;
-        $afi_emp->fecha_ing_empr = $request->fecha_ing_empr;
-        $afi_emp->fecha_egr_empr = $request->fecha_egr_empr;
-        $afi_emp->delegado_desde = $request->delegado_desde;
-        $afi_emp->delegado_hasta = $request->delegado_hasta;
-        $afi_emp->user_last_name =  Auth::user()->last_name;
-
-        $afi_emp->save();
+        // $afi_emp->afiliado_id = $request->afiliado_id;
+        // $afi_emp->empresa_id = $request->empresa_id;
+        // $afi_emp->seccional_id = $request->seccional_id;
+        // $afi_emp->categoria_id = $request->categoria_id;
+        // $afi_emp->especialidad_id = $request->especialidad_id;
+        // $afi_emp->fecha_ingreso = $request->fecha_ingreso;
+        // $afi_emp->fecha_egreso = $request->fecha_egreso;
+        // $afi_emp->motivo_egreso_id = $request->motivo_egreso_id;
+        // $afi_emp->fecha_ing_empr = $request->fecha_ing_empr;
+        // $afi_emp->fecha_egr_empr = $request->fecha_egr_empr;
+        // $afi_emp->delegado_desde = $request->delegado_desde;
+        // $afi_emp->delegado_hasta = $request->delegado_hasta;
+        // $afi_emp->user_last_name = Auth::user()->last_name;
+        $requestData['user_last_name'] = Auth::user()->last_name;
+        afiliado_empresa::updateorcreate(['id' => $request->id], $requestData);
 
         return back()->with([
             'mensaje' => 'Empresa asignada al afiliado con éxito!',

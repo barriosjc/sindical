@@ -88,7 +88,7 @@
             @endcan
 
             <!-- Nav Item - Tables -->
-            @if(Auth::user()->hasrole('administrador') or Auth::user()->haspermissionto('Padron secretariado'))
+            @if(Auth::user()->hasrole('administrador') or Auth::user()->haspermissionto('padron secretariado'))
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#opsecretariado" aria-expanded="true" aria-controls="collapseTwo">
                     <i class="fa fa-fw fa-cog"></i>

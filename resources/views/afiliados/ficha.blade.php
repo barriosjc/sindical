@@ -39,13 +39,14 @@
                         class="fa fa-plus" aria-hidden="true"></i> Agregar nuevo</a>
                 @endif
                 Datos personales del titular
+                <span class='fa-trash-alt float-right'>(*) todo lo marcado con asterisco es un dato obligatorio.</span>
             </div>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
                     <div class="row">
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label for="">estado</label>
+                                <label for="">Estado </label><span class='s-red'>*</span>
                                 <select name="afil_estado_ficha_id" id="afil_estado_ficha_id"
                                     class="form-control form-control-sm" style="width: 100%" required>
                                     <option value="">--Seleccione--</option>
@@ -74,7 +75,7 @@
                             </div>
                         </div>
                         <div class="col-md-2">
-                            <label for="">Nro Afiliado</label>
+                            <label for="">Nro Afiliado</label><span class='s-red'>*</span>
                             <div class="input-group" data-toggle="tooltip" data-placement="top"
                                 title="Presione el botón para obtener un número de afiliado, trae un dato solo si la casilla de texto esta en blanco.">
                                 <input type="text" id="nro_afil_sindical" name="nro_afil_sindical"
@@ -91,7 +92,7 @@
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label for="">CUIL</label>
+                                <label for="">CUIL</label><span class='s-red'>*</span>
                                 <input type="text" id="" name="cuil" class="solonros form-control form-control-sm"
                                     value="{{  old('cuil', $registro->cuil) }}" maxlength="13" />
                             </div>
@@ -100,7 +101,7 @@
                     <div class="row">
                         <div class="col-md-5">
                             <div class="form-group">
-                                <label for="">Apellido y nombre</label>
+                                <label for="">Apellido y nombre</label><span class='s-red'>*</span>
                                 <input type="text" id="apellido_nombres" name="apellido_nombres"
                                     class="aMayusculas form-control form-control-sm"
                                     value="{{  old('apellido_nombres', $registro->apellido_nombres) }}"
@@ -109,7 +110,7 @@
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label for="">Tipo Doc</label>
+                                <label for="">Tipo Doc</label><span class='s-red'>*</span>
                                 <select name="tipo_documento_id" id="tipo_documento_id"
                                     class="form-control form-control-sm" style="width: 100%" required>
                                     <option value="">--Seleccione--</option>
@@ -123,14 +124,14 @@
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label>Nro docum.</label>
+                                <label>Nro docum.</label><span class='s-red'>*</span>
                                 <input type="text" id="" name="nro_doc" class="solonros form-control form-control-sm"
                                     value="{{ old('nro_doc', $registro->nro_doc) }}" maxlength="12" />
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label>Fec. Nac.</label>
+                                <label>Fec. Nac.</label><span class='s-red'>*</span>
                                 <input type="date" id="fecha_nac" name="fecha_nac" class="form-control form-control-sm"
                                     value="{{ old('fecha_nac', $registro->fecha_nacy) }}">
                             </div>
@@ -160,7 +161,7 @@
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label for="">Estado civil</label>
+                                <label for="">Estado civil</label><span class='s-red'>*</span>
                                 <select name="estado_civil_id" id="estado_civil_id" class="form-control form-control-sm"
                                     style="width: 100%">
                                     <option value="">--Seleccione--</option>
@@ -174,7 +175,7 @@
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label for="">Sexo</label>
+                                <label for="">Sexo</label><span class='s-red'>*</span>
                                 <select name="sexo" id="sexo" class="form-control form-control-sm" style="width: 100%">
                                     <option value="">--Seleccione--</option>
                                     <option value="F"
@@ -206,14 +207,14 @@
                     <div class="row">
                         <div class="col-md-5">
                             <div class="form-group">
-                                <label>Calle</label>
+                                <label>Calle</label><span class='s-red'>*</span>
                                 <input type="text" id="" name="calle" class="aMayusculas form-control form-control-sm"
                                     value="{{ old('calle', $registro->calle) }}" maxlength="100" />
                             </div>
                         </div>
                         <div class="col-md-1">
                             <div class="form-group">
-                                <label>Nro</label>
+                                <label>Nro</label><span class='s-red'>*</span>
                                 <input type="text" id="" name="calle_nro" class="form-control form-control-sm"
                                     value="{{ old('calle_nro', $registro->calle_nro) }}" maxlength="10" />
                             </div>
@@ -275,8 +276,8 @@
                     <div class="row">
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label for="">Seccional</label>
-                                <select name="seccional_id" id="seccional_id" class="form-control form-control-sm"
+                                <label for="">Seccional</label><span class='s-red'>*</span>
+                                <select name="seccional_id" id="seccional_id" class="busqueda form-control form-control-sm"
                                     style="width: 100%" required>
                                     <option value="">--Seleccione--</option>
                                     @foreach($seccionales as $dato)
@@ -290,7 +291,7 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="">Categoria</label>
-                                <select name="categoria_id" id="categoria_id" class="form-control form-control-sm"
+                                <select name="categoria_id" id="categoria_id" class="busqueda form-control form-control-sm"
                                     style="width: 100%">
                                     <option value="">--Seleccione--</option>
                                     @foreach($categorias as $dato)
@@ -319,7 +320,7 @@
                     <div class="row">
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label>Fec. afiliación</label>
+                                <label>Fec. afiliación</label><span class='s-red'>*</span>
                                 <input type="date" id="fecha_ingreso" name="fecha_ingreso"
                                     class="form-control form-control-sm"
                                     value="{{  old('fecha_ingreso', $afiliado_empresa->fecha_ingresoy) }}">
@@ -339,9 +340,9 @@
                                 <select name="motivo_egreso_id" id="motivo_egreso_id"
                                     class="colorear form-control form-control-sm" style="width: 100%">
                                     <option value="">--Seleccione--</option>
-                                    <!-- @foreach($motivos_egresos_sind as $dato)
-                                    <option value="{{$dato->id}}" {{(empty($afiliado_empresa->motivo_egreso_id) ? old('motivos_egresos_sind') : $afiliado_empresa->motivo_egreso_id)  == $dato->id ? 'selected' : ''}}>{{$dato->descripcion}}</option>
-                                    @endforeach -->
+                                    @foreach($motivos_egresos_sind as $dato)
+                                    <option value="{{$dato->id}}" {{ old('motivos_egresos_sind', $afiliado_empresa->motivo_egreso_id)  == $dato->id ? 'selected' : '' }}>{{$dato->descripcion}}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
@@ -351,7 +352,7 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="">Empresa</label>
+                                <label for="">Empresa</label><span class='s-red'>*</span>
                                 <select name="empresa_id" id="empresa_id" class="busqueda form-control form-control-sm"
                                     style="width: 100%" required>
                                     <option value="">--Seleccione--</option>
@@ -365,7 +366,7 @@
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label>Fec. ingreso</label>
+                                <label>Fec. ingreso</label><span class='s-red'>*</span>
                                 <input type="date" id="fecha_ing_empr" name="fecha_ing_empr"
                                     class="form-control form-control-sm"
                                     value="{{ old('fecha_ing_empr', $afiliado_empresa->fecha_ing_empry) }}">

@@ -72,7 +72,7 @@ class empresa extends Model
     {
         $resu = $this->fecha_inicio_actividad;
         if (!empty($resu)) {
-            $resu = date('Y-m-d', strtotime($resu));
+            $resu = date(env('DATE_FORM', 'Y-m-d'), strtotime($resu));
         }
 
         return $resu;
@@ -81,7 +81,7 @@ class empresa extends Model
     {
         $resu = $this->fecha_alta;
         if (!empty($resu)) {
-            $resu = date('Y-m-d', strtotime($resu));
+            $resu = date(env('DATE_FORM', 'Y-m-d'), strtotime($resu));
         }
 
         return $resu;
@@ -90,7 +90,7 @@ class empresa extends Model
     {
         $resu = $this->fecha_baja;
         if (!empty($resu)) {
-            $resu = date('Y-m-d', strtotime($resu));
+            $resu = date(env('DATE_FORM', 'Y-m-d'), strtotime($resu));
         }
 
         return $resu;
@@ -99,7 +99,7 @@ class empresa extends Model
     {
         $resu = $this->fecha_ult_inspeccion;
         if (!empty($resu)) {
-            $resu = date('Y-m-d', strtotime($resu));
+            $resu = date(env('DATE_FORM', 'Y-m-d'), strtotime($resu));
         }
 
         return $resu;

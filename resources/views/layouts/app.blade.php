@@ -20,7 +20,7 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <!-- Favicon -->
-    <link href="{{ asset('img/iconobasa.png') }}" rel="icon" type="image/png">
+    <link href="{{ asset('img/logo_avellaneda.png') }}" rel="icon" type="image/png">
 
 
 </head>

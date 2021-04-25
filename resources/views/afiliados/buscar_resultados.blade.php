@@ -5,10 +5,12 @@
 
 <div class="card">
     <div class="card-header">
-
+    @if(empty($empresa_id))
     <a href="{{ route('afiliado.buscar.index', 0) }}" title="Volver"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Volver</button></a>
-
-      Resultados de la busqueda ({{$afiliados->total()}}) afiliados
+    @else
+    <a href="{{ url('/empresas/find/' . $empresa_id) }}" title="Volver"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Volver</button></a>
+    @endif
+    Resultados de la busqueda ({{$afiliados->total()}}) afiliados
     </div>
     <ul class="list-group list-group-flush">
         <li class="list-group-item">
@@ -34,7 +36,7 @@
                                 <td>{{ $item->nro_doc }}</td>
                                 <td>{{ $item->nro_afil_sindical }}</td>
                                 <td>{{ $item->empresa_nom }}</td>
-                                <td>{{ $item->fecha_alta }}</td>
+                                <td>{{ $item->fecha_ingreso }}</td>
                                 <td>
                                     <div class="float-right">
                                         <form action="{{ route('afiliado.find', $item->id) }}" method="GET">

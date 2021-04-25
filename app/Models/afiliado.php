@@ -47,12 +47,7 @@ class afiliado extends Model
         'estado_civil_id',
         'nro_afil_sindical',
         'fecha_vigencia',
-        'fecha_ingreso',
-        'fecha_egreso',
-        'motivo_egreso_id',
-        'empresa_id',
         'cuil',
-        'seccional_id',
         'obra_social_id',
         'nro_legajo',
         'nro_ben_anses',
@@ -67,13 +62,7 @@ class afiliado extends Model
         'docum_pendiente',
         'docum_entregada',
         'fecha_jubilacion',
-        'categoria_id',
-        'especialidad_id',
-        'fecha_ing_empr',
-        'fecha_egr_empr',
         'SOC_CONT_ID',
-        'delegado_desde',
-        'delegado_hasta',
         'user_last_name'
     ];
 
@@ -95,13 +84,23 @@ class afiliado extends Model
 
         return $resu;
     }
+    
+    public function getFechaIngresoAttribute($value)
+    {
+        $resu = '';
+        if (!empty($value)) {
+            $resu = date('d/m/Y', strtotime($value));
+        }
+
+        return $resu;
+    }
 
     //este formato para mostrarlo en un form -------------------------------------------
     public function getDocumPendienteyAttribute()
     {
         $resu = $this->docum_pendiente;
         if (!empty($resu)) {
-            $resu = date('Y-m-d', strtotime($resu));
+            $resu = date(env('DATE_FORM', 'Y-m-d'), strtotime($resu));
         }
 
         return $resu;
@@ -110,7 +109,7 @@ class afiliado extends Model
     {
         $resu = $this->docum_entregada;
         if (!empty($resu)) {
-            $resu = date('Y-m-d', strtotime($resu));
+            $resu = date(env('DATE_FORM', 'Y-m-d'), strtotime($resu));
         }
 
         return $resu;
@@ -119,7 +118,7 @@ class afiliado extends Model
     {
         $resu = $this->fecha_nac;
         if (!empty($resu)) {
-            $resu = date('Y-m-d', strtotime($resu));
+            $resu = date(env('DATE_FORM', 'Y-m-d'), strtotime($resu));
         }
 
         return $resu;
@@ -128,7 +127,7 @@ class afiliado extends Model
     {
         $resu = $this->fecha_ingreso;
         if (!empty($resu)) {
-            $resu = date('Y-m-d', strtotime($resu));
+            $resu = date(env('DATE_FORM', 'Y-m-d'), strtotime($resu));
         }
 
         return $resu;
@@ -137,7 +136,7 @@ class afiliado extends Model
     {
         $resu = $this->fecha_ingreso_os;
         if (!empty($resu)) {
-            $resu = date('Y-m-d', strtotime($resu));
+            $resu = date(env('DATE_FORM', 'Y-m-d'), strtotime($resu));
         }
 
         return $resu;
@@ -146,7 +145,7 @@ class afiliado extends Model
     {
         $resu = $this->fecha_egreso_os;
         if (!empty($resu)) {
-            $resu = date('Y-m-d', strtotime($resu));
+            $resu = date(env('DATE_FORM', 'Y-m-d'), strtotime($resu));
         }
 
         return $resu;
@@ -155,7 +154,7 @@ class afiliado extends Model
     {
         $resu = $this->fecha_egreso;
         if (!empty($resu)) {
-            $resu = date('Y-m-d', strtotime($resu));
+            $resu = date(env('DATE_FORM', 'Y-m-d'), strtotime($resu));
         }
 
         return $resu;
@@ -164,7 +163,7 @@ class afiliado extends Model
     {
         $resu = $this->fecha_jubilacion;
         if (!empty($resu)) {
-            $resu = date('Y-m-d', strtotime($resu));
+            $resu = date(env('DATE_FORM', 'Y-m-d'), strtotime($resu));
         }
 
         return $resu;
@@ -173,7 +172,7 @@ class afiliado extends Model
     {
         $resu = $this->fecha_ing_empr;
         if (!empty($resu)) {
-            $resu = date('Y-m-d', strtotime($resu));
+            $resu = date(env('DATE_FORM', 'Y-m-d'), strtotime($resu));
         }
 
         return $resu;
@@ -182,7 +181,7 @@ class afiliado extends Model
     {
         $resu = $this->fecha_egr_empr;
         if (!empty($resu)) {
-            $resu = date('Y-m-d', strtotime($resu));
+            $resu = date(env('DATE_FORM', 'Y-m-d'), strtotime($resu));
         }
 
         return $resu;
@@ -191,7 +190,7 @@ class afiliado extends Model
     {
         $resu = $this->delegado_desde;
         if (!empty($resu)) {
-            $resu = date('Y-m-d', strtotime($resu));
+            $resu = date(env('DATE_FORM', 'Y-m-d'), strtotime($resu));
         }
 
         return $resu;
@@ -200,7 +199,7 @@ class afiliado extends Model
     {
         $resu = $this->delegado_hasta;
         if (!empty($resu)) {
-            $resu = date('Y-m-d', strtotime($resu));
+            $resu = date(env('DATE_FORM', 'Y-m-d'), strtotime($resu));
         }
 
         return $resu;

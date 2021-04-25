@@ -24,11 +24,15 @@ class empresasRequest extends FormRequest
     public function rules()
     {
         return [  //   'sexo' => ['required'],
+            'fecha_inicio_actividad' => ['bail', 'required', 'date', 'before_or_equal:today'],            
+            'fecha_alta' => ['bail', 'required', 'date', 'before_or_equal:today'],            
+            'seccional_id' => ['required'],
             'empresa_estado_id' => ['required'],
             'razon_social' => ['bail', 'required', 'max:150'],
-            'cod_empresa' => ['required', 'numeric', 'digits_between:3,12'],
-            'cuit' => ['required', 'digits:13'],
-            // 'email' => ["nullable", 'email'],
+            'cod_empresa' => ['required', 'numeric', 'digits_between:2,12'],
+            'cuit' => ['required', 'numeric', 'digits:11'],
+            'empresa_estado_id' => ['required', 'numeric']
+            // 'email' => ["nullable", 'email'],, 
             // 'fecegreso' => ['required_with:egreso'],
 
         ];
