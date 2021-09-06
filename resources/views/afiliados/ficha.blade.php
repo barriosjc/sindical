@@ -544,9 +544,8 @@
                                     id="btnbuscarfam" class="btn btn-info"><i class="fas fa-search"></i> Familiar</a>
                                 <a href="{{ route('afiliado.buscar.index', isset($registro->id) ? $registro->id : 0) }}"
                                     id="btnbuscartit" class="btn btn-info"><i class="fas fa-search"></i> Titular</a>
-                                @if(Auth::user()->hasrole('administrador') or Auth::user()->haspermissionto('nuevo
-                                afiliado'))
-                                <button type="submit" id="btnAgr" class="btn btn-info">Guardar datos</button>
+                                @if(Auth::user()->hasrole('administrador') or Auth::user()->hasPermissionTo('nuevo afiliado'))
+                                        <button type="submit" id="btnAgr" class="btn btn-info">Guardar datos</button>
                                 @endif
                             </div>
                         </div>

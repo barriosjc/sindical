@@ -64,11 +64,15 @@ Route::group(['middleware' => ['permission:consultar afiliado']], function () {
     Route::post('/afiliado/documentos/guardar', 'gestion\AfiliadosController@documentos_guardar')->name('afiliado.documentos.guardar');
     Route::delete('/afiliado/documentos/{id}/borrar', 'gestion\AfiliadosController@documentos_borrar')->name('afiliado.documentos.borrar');
     Route::get('/afiliado/documentos/{id}/descargar', 'gestion\AfiliadosController@download')->name('afiliado.download');
-    Route::get('/afiliado/carnet/{id}', 'gestion\AfiliadosController@carnet')->name('afiliado.carnet');
-    Route::get('/afiliado/{id}/empresas{ae_id?}', 'gestion\AfiliadosController@empresas_index')->name('afiliado.empresas');
+    Route::post('/afiliado/carnet/cropfoto', 'gestion\AfiliadosController@crop_foto')->name('afiliado.carnet.crop.foto');
+    Route::match(array('GET', 'POST'),'/afiliado/carnet/tomarfoto', 'gestion\AfiliadosController@tomar_foto')->name('afiliado.carnet.tomar_foto');
+    Route::get('/afiliado/carnet2/{id}', 'gestion\AfiliadosController@carnet')->name('afiliado.carnet');
+    Route::post('/afiliado/carnet/fotoup', 'gestion\AfiliadosController@file_input_Photo')->name('afiliado.carnet.fotoup');
+    Route::post('/afiliado/carnet/foto/guardar', 'gestion\AfiliadosController@foto_guardar')->name('afiliado.carnet.foto.guardar');
+    Route::post('/afiliado/carnet/imprimir', 'gestion\AfiliadosController@imprimir')->name('afiliado.carnet.imprimir');
+    Route::get('/afiliado/{id}/empresas/{ae_id?}', 'gestion\AfiliadosController@empresas_index')->name('afiliado.empresas');
     Route::post('/afiliado/empresas/guardar', 'gestion\AfiliadosController@empresas_guardar')->name('afiliado.empresas.guardar');
     Route::delete('/afiliado/empresas/{id}/borrar', 'gestion\AfiliadosController@empresas_borrar')->name('afiliado.empresas.borrar');
-
     // Route::get('/comunes/volver', 'comunes\comunesController@volver')->name('volver');
     Route::get('/afiliado/{afi_id}/familiar/{id?}', 'gestion\familiaresController@index')->name('familiares.index');
     Route::post('/familiares/guardar', 'gestion\familiaresController@guardar')->name('familiares.guardar');

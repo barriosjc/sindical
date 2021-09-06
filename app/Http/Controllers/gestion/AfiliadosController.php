@@ -68,6 +68,7 @@ class AfiliadosController extends Controller
         $motivos_egresos_sind = motivo_egreso_sind::get();
         $localidades = null;
 
+
         // $localidades = new localidad;
 
         return view(
@@ -476,10 +477,7 @@ class AfiliadosController extends Controller
         if ($request->hasFile('path')) {
             //guarda en documentacion porque documentos entra en conflicto con una route
             // $path = $request->file('path')->store('public/afiliados/documentacion');
-            $path = Storage::disk('uploads')->put(
-                'afiliados/documentacion',
-                $request->file('path')
-            );
+            $path = Storage::disk('uploads')->put('afiliados/documentacion', $request->file('path') );
             // dd($path);
             $requestData['path'] = $path;
         }
@@ -527,6 +525,8 @@ class AfiliadosController extends Controller
             ->where('d.tipo_documento_id', env('TIPO_DOCUMENTO_ID', 11))
             ->where('afiliados.id', $id)
             ->first();
+
+            $result['path'] = "/img/usuario.png";
         //     // $log = DB::getQueryLog();
         //     // dd($log);
         // $pdf = PDF::loadView('afiliados.carnet', compact('afiliado'));
@@ -536,13 +536,73 @@ class AfiliadosController extends Controller
         return view(
             'afiliados.Carnet',
             compact(
-                'afiliado'
+                'afiliado',
+                'result'
             )
         );
+    }
 
+    public function crop_foto(Request $request){
+                             
+        $image_parts = explode(";base64,", $request->image);
+        $image_base64 = base64_decode($image_parts[1]);
+        $name =  'crop_'. md5("foto") . '.png';
+
+        Storage::disk('fotostmp')->put($name, $image_base64);
+
+        $data['success'] = true;
+        $data['path'] = Storage::disk('fotostmp')->url($name);
+    
+        return response()->json($data);
+    }
+
+    public function tomar_foto(Request $request) {
+        
+        $file = $request->image;
+        $imagenCodificadaLimpia = str_replace("data:image/png;base64,", "", urldecode($file));
+        $imagenDecodificada = base64_decode($imagenCodificadaLimpia);        
+        $name =  'foto_'.  md5("foto") . '.png';
+        
+        Storage::disk('fotostmp')->put($name, $imagenDecodificada);    
+
+        $data['success'] = true;
+        $data['path'] = Storage::disk('fotostmp')->url($name);
+    
+        return response()->json($data);
+   }
+
+    public function file_input_Photo(Request $request) {
+    
+        $this->validate($request, [
+            'photo' => 'required|image'
+        ]);
+        $file = $request->file('photo');
+        $extension = $file->getClientOriginalExtension(); 
+
+        $name = Storage::disk('fotostmp')->put('', $file);    
+
+        $data['success'] = true;
+        $data['path'] = Storage::disk('fotostmp')->url($name);
+     
+        return $data;
+    
+    }
+
+    public function foto_guardar(Request $request){
+        
+        $foto = $request->foto;
+
+        // validar que se haya cargado una foto
+        if(){}
+
+        
 
     }
 
+    public function imprimir() {
+
+    }
+    
     // --------------------------------------------------------------------------------------------------------
     public function empresas_index(int $afiliado_id, int $afil_emp_id = null)
     {
@@ -550,7 +610,7 @@ class AfiliadosController extends Controller
         // dd($afil_emp);
         $seccionales = seccional::get();
         $especialidades = especialidad::get();
-        $categorias = categoria::get();
+            $categorias = categoria::get();
         $empresas = empresa::get();
         $motivos_egresos_sind = motivo_egreso_sind::get();
         $afiliado = afiliado::select('apellido_nombres', 'nro_doc')

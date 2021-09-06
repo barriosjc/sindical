@@ -46,6 +46,14 @@
 *::after {
   box-sizing: border-box;
 }
+
+/* @media only screen and (max-width: 700px) { */
+  .video {
+    width: 100%;
+    max-width: 100%;
+  }
+/* } */
+
 .RbtnMargin { 
   margin-left: 5px; 
 }
@@ -55,7 +63,27 @@
   padding-left: 0rem !important;
 }
 
-.img-foto {
+.image-resu {
+  width: 48%;
+}
+
+.img-crop {
+  display: block;
+  max-width: 100%;
+}
+.preview {
+  overflow: hidden;
+  width: 160px; 
+  height: 160px;
+  margin: 10px;
+  border: 1px solid red;
+}
+
+.modal-lg{
+  max-width: 700px;
+}
+
+.img-camara {
   width:"500";
   height:"600";
   border:"5px";
@@ -116,6 +144,12 @@ body {
 
 .btn-mb {
   margin-bottom: 11 !important;
+}
+
+.pull-bott-right{
+  position: absolute;
+  right:    0;
+  bottom:   0;
 }
 
 hr {
@@ -5694,7 +5728,7 @@ a.close.disabled {
 @media (min-width: 992px) {
   .modal-lg,
   .modal-xl {
-    max-width: 800px;
+    max-width: 700px;
   }
 }
 

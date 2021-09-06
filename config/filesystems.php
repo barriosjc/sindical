@@ -60,6 +60,19 @@ return [
             'visibility' => 'public',
         ],
 
+        'fotostmp' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/afiliados/carnet/tmp'),
+            'url' => env('APP_URL').'/storage/afiliados/carnet/tmp/',
+            'visibility' => 'public',
+        ],
+
+        'fotos' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/afiliados/carnet'),
+            'url' => env('APP_URL').'/storage/afiliados/carnet/',
+            'visibility' => 'public',
+        ],
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),
