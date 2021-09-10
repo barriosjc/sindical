@@ -2,17 +2,17 @@
 
 @section('main-content')
 
+@include('layouts.mensajes')
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.6/cropper.css"
     integrity="sha256-jKV9n9bkk/CTP8zbtEtnKaKf+ehRovOYeKoyfthwbC8=" crossorigin="anonymous" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.6/cropper.js"
     integrity="sha256-CgvH7sz3tHhkiVKh05kSUgG97YtzYNnWt6OXcmYzqHY=" crossorigin="anonymous"></script>
 <meta name="csrf-token" content="{{ csrf_token() }}">
-
 <div class="card">
     <div class="card-header">
         <a href="{{ url('/afiliados/find/' . $afiliado->id) }}" title="Volver"><button class="btn btn-warning btn-sm"><i
                     class="fa fa-arrow-left" aria-hidden="true"></i> Volver</button></a>
-
         Carnet del afiliado: {{$afiliado->apellido_nombres}}
     </div>
     <ul class="list-group list-group-flush">
@@ -42,15 +42,23 @@
             </div>
             <div class="row pad-20">
                 <div class="col-md-8">
-                    <img id="avatarImage" class="image-resu" name="image_resu" src="/img/usuario.png"
+                    <img id="avatarImage" class="image-resu" name="image_resu"
+                        src="{{ empty($afiliado->path) ? '/img/usuario.png' : Storage::disk('fotos')->url($afiliado->path) }}"
                         alt="foto del afiliado">
                 </div>
                 <div class="col-md-4">
-                    <div class="pull-bott-right">
-                        <a href="{{ route('afiliado.carnet.foto.guardar') }}" id="btnbuscarfam" class="btn btn-info"><i
-                                class="fas fa-save"></i> Guardar datos</a>
-                        <a href="{{ route('afiliado.imprimir') }}" id="btnbuscarfam" class="btn btn-info"><i
-                                class="fas fa-id-card"></i> Generar Carnet</a>
+                    <div class="form-inline pull-bott-right">
+                        <div class="form-group">
+                            <form action="{{ route('afiliado.carnet.foto.guardar') }}" method="post">
+                                {{ csrf_field() }}
+                                <input type="hidden" id="hi_name" name="hi_name" value="{{$afiliado->path}}" />
+                                <input type='hidden' id='afiliado_id' name='afiliado_id' value="{{$afiliado->id}}" />
+                                <button type="submit" id="btnbuscarfam" class="btn btn-info"><i class="fas fa-save"></i>
+                                    Guardar datos</button>
+                            </form>
+                            <a href="{{ route('afiliado.carnet.pdf', $afiliado->id) }}" id="btnbuscarfam" class="btn btn-info"><i
+                                    class="fas fa-id-card"></i> Generar Carnet</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -71,19 +79,19 @@
             <div class="modal-body">
                 <!-- <form action="{{ route('afiliado.carnet.tomar_foto') }}" method="post" id="fotoForm">
                     {{ csrf_field() }} -->
-                    <div class="img-container">
-                        <div class="row">
+                <div class="img-container">
+                    <div class="row">
                         <div class="col-md-1">
-                        </div>                            
-                            <div class="col-md-10">
-                                <select name="listaDeDispositivos" id="listaDeDispositivos"></select>
-                                <button id="boton" class="btn btn-primary float-right">Tomar foto</button>
-                                <p id="estado"></p>
-                                <video muted="muted" class="video" name="video" id="video"></video>
-                                <canvas id="canvas" style="display: none;"></canvas>
-                            </div>
+                        </div>
+                        <div class="col-md-10">
+                            <select name="listaDeDispositivos" id="listaDeDispositivos"></select>
+                            <button id="boton" class="btn btn-primary float-right">Tomar foto</button>
+                            <p id="estado"></p>
+                            <video muted="muted" class="video" name="video" id="video"></video>
+                            <canvas id="canvas" style="display: none;"></canvas>
                         </div>
                     </div>
+                </div>
                 <!-- </form> -->
             </div>
         </div>
@@ -122,13 +130,18 @@
 
 <script>
 $(function() {
+
+    var $img_foto, $hi_name;
+    $img_foto = $("#avatarImage");
+    $hi_name = $("#hi_name");
+    //-------------------------------------------------------------------------
     //subir archivo
-    var $btn_subir_foto, $avatarInput, $avatarForm, $img_foto;
+    //-------------------------------------------------------------------------
+    var $btn_subir_foto, $avatarInput, $avatarForm;
 
     $btn_subir_foto = $('#subir_foto');
     $avatarInput = $('#avatarInput');
     $avatarForm = $('#avatarForm');
-    $img_foto = $('#avatarImage')
 
     $btn_subir_foto.on('click', function() {
         $avatarInput.click();
@@ -146,7 +159,8 @@ $(function() {
             contentType: false
         }).done(function(data) {
             if (data.success)
-                $img_foto.attr('src', data.path);
+                $img_foto.attr('src', "{!! Storage::disk('fotostmp')->url('') !!}" + data.name);
+                $hi_name.val(data.name);
         }).fail(function() {
             alert('La imagen subida no tiene un formato correcto');
         });
@@ -222,8 +236,8 @@ $(function() {
             return;
         }
         //Aquí guardaremos el stream globalmente
-        let stream;   
- 
+        let stream;
+
         // Comenzamos pidiendo los dispositivos
         obtenerDispositivos()
             .then(dispositivos => {
@@ -282,13 +296,11 @@ $(function() {
                         // e.preventDefault();
                         //Pausar reproducción
                         $video.pause();
-
                         //Obtener contexto del canvas y dibujar sobre él
                         let contexto = $canvas.getContext("2d");
                         $canvas.width = $video.videoWidth;
                         $canvas.height = $video.videoHeight;
                         contexto.drawImage($video, 0, 0, $canvas.width, $canvas.height);
-
                         let foto = $canvas.toDataURL(); //Esta es la foto, en base 64
                         $estado.innerHTML = "Enviando foto. Por favor, espera...";
 
@@ -300,12 +312,14 @@ $(function() {
                                     'content')
                             },
                             data: {
-                                image: encodeURIComponent(foto)
+                                image: encodeURIComponent(foto),
+                                name: $hi_name.val()
                             },
                             success: function(data) {
-                                $modalfoto.modal('hide');  
-                                console.log(data);                  
-                                $img_foto.attr('src', data.path);
+                                $modalfoto.modal('hide');
+                                console.log(data);
+                                $img_foto.attr('src', "{!! Storage::disk('fotostmp')->url('') !!}" + data.name);
+                                $hi_name.val(data.name);
                             },
                             error: function(er) {
                                 console.log(er.responseText);
@@ -325,7 +339,7 @@ $(function() {
     })();
 
     //----------------------------------------------------------------------
-    //                redimensionar imagen
+    //                redimensionar imagen, crop
     // ---------------------------------------------------------------------
 
     var $modal = $('#modal');
@@ -335,31 +349,6 @@ $(function() {
     $('#editar').on("click", function(e) {
         image.src = $img_foto.attr('src');
         $modal.modal('show');
-
-
-//         var files = e.target.files;
-//         var done = function(url) {
-// //            image.src = url;
-//             image.src = $img_foto.src;
-//             $modal.modal('show');
-//         };
-        // var reader;
-        // var file;
-        // var url;
-
-        // if (files && files.length > 0) {
-        //     file = files[0];
-
-        //     if (URL) {
-        //         done(URL.createObjectURL(file));
-        //     } else if (FileReader) {
-        //         reader = new FileReader();
-        //         reader.onload = function(e) {
-        //             done(reader.result);
-        //         };
-        //         reader.readAsDataURL(file);
-        //     }
-        // }
     });
 
     $modal.on('shown.bs.modal', function() {
@@ -379,35 +368,30 @@ $(function() {
             width: 260,
             height: 260,
         });
-
         contenedor.toBlob(function(blob) {
             url = URL.createObjectURL(blob);
             var reader = new FileReader();
             reader.readAsDataURL(blob);
             reader.onloadend = function() {
                 var base64data = reader.result;
-
                 $.ajax({
                     type: "POST",
                     dataType: "json",
                     url: "{{ route('afiliado.carnet.crop.foto') }}",
                     data: {
                         image: base64data,
-                        _token: $('meta[name="csrf-token"]').attr('content')
+                        _token: $('meta[name="csrf-token"]').attr('content'),
+                        hi_name: $hi_name.val()
                     },
                     success: function(data) {
                         //console.log('archivo esta en: ' + data['path']);
                         $modal.modal('hide');
-                        // path = "";
-                        // path = path + "/storage/afiliados/carnet/";
-                        // path = path + data['name'];
                         $img_foto.removeAttr('src');
-                        $img_foto.attr('src', data.path);
-                        //  alert("success upload image");
+                        $img_foto.attr('src', "{!! Storage::disk('fotostmp')->url('') !!}" + data.name + "?m='" + new Date().getTime() + "'");
+                        $hi_name.val(data.name);
                     },
                     error: function(er) {
                         console.log("se produjo un error");
-                        //console.log(er.responseText);
                     }
                 });
             }

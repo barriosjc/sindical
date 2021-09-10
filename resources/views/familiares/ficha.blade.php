@@ -31,7 +31,7 @@
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $item->apellido_nombres }}</td>
                         <td>{{ $item->nro_doc }}</td>
-                        <td> {{$item->tipos_parentescos->descripcion }} </td>
+                        <td>{{$item->tipos_parentescos->descripcion }} </td>
                         <td>{{ $item->fecha_nac }}</td>
                         <td>{{ $item->fecha_ingreso_sind }}</td>
                         <td>{{ $item->fecha_egreso_sind }}</td>
@@ -70,7 +70,7 @@
                         <div class="col-md-5">
                             <div class="form-group">
                                 <label for="">Apellido y nombre</label>
-                                <input type="text" id="apellido_nombres" name="apellido_nombres" class="aMayusculas form-control form-control-sm" value="{{  old('apellido_nombres', $registro->apellido_nombres) }}" maxlength="150" />
+                                <input type="text" id="apellido_nombres" name="apellido_nombres" class="aMayusculas form-control form-control-sm" value="{{ old('apellido_nombres', $registro->apellido_nombres) }}" maxlength="150" />
                             </div>
                         </div>
                         <div class="col-md-2">

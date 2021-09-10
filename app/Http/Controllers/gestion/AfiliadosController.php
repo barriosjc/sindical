@@ -40,9 +40,13 @@ class AfiliadosController extends Controller
      *
      * @return void
      */
+
+    public $name_img;
+
     public function __construct()
     {
         $this->middleware('auth');
+        $this->name_img =  'foto_'.  md5("foto") . '.png';
     }
 
     /**
@@ -514,19 +518,47 @@ class AfiliadosController extends Controller
         return response()->download(public_path() . '/' . $path);
     }
 
+    public function carnet_pdf($id)
+    {
+        $pdf = app('dompdf.wrapper');
+
+
+        
+        
+        //     //   DB::enableQueryLog();
+        $afiliado = afiliado::query()
+            ->join('afiliados_empresas as ae', 'ae.afiliado_id', 'afiliados.id')
+            ->join('seccionales as s', 's.id', 'ae.seccional_id')
+            ->select('afiliados.*', 's.descripcion')
+            ->where('afiliados.id', $id)
+            ->first();
+
+        //     // $log = DB::getQueryLog();
+        //     // dd($log);
+        $pdf->loadView('afiliados.carnet_pdf', compact('afiliado'));
+        return $pdf->download('carnet_' . $afiliado->nro_doc . '.pdf');
+        
+        // $pdf = PDF::loadView('afiliados.carnet_pdf', compact('afiliado'));
+        // return $pdf->download('carnet_' . $afiliado->nro_doc . '.pdf');
+        // // return view('afiliados.carnet', compact('afiliado'));
+
+        // return view(
+        //     'afiliados.Carnet',
+        //     compact(
+        //         'afiliado'
+        //     )
+        // );
+    }
     public function carnet($id)
     {
         //     //   DB::enableQueryLog();
         $afiliado = afiliado::query()
             ->join('afiliados_empresas as ae', 'ae.afiliado_id', 'afiliados.id')
-            ->join('afil_documentos as d', 'd.afiliado_id', 'afiliados.id')
             ->join('seccionales as s', 's.id', 'ae.seccional_id')
-            ->select('afiliados.*', 'd.path', 's.descripcion')
-            ->where('d.tipo_documento_id', env('TIPO_DOCUMENTO_ID', 11))
+            ->select('afiliados.*', 's.descripcion')
             ->where('afiliados.id', $id)
             ->first();
 
-            $result['path'] = "/img/usuario.png";
         //     // $log = DB::getQueryLog();
         //     // dd($log);
         // $pdf = PDF::loadView('afiliados.carnet', compact('afiliado'));
@@ -536,22 +568,20 @@ class AfiliadosController extends Controller
         return view(
             'afiliados.Carnet',
             compact(
-                'afiliado',
-                'result'
+                'afiliado'
             )
         );
     }
 
     public function crop_foto(Request $request){
-                             
+
         $image_parts = explode(";base64,", $request->image);
         $image_base64 = base64_decode($image_parts[1]);
-        $name =  'crop_'. md5("foto") . '.png';
-
-        Storage::disk('fotostmp')->put($name, $image_base64);
+        //$name =  'foto_'. md5("foto") . '.png';
+        Storage::disk('fotostmp')->put($request->hi_name, $image_base64);
 
         $data['success'] = true;
-        $data['path'] = Storage::disk('fotostmp')->url($name);
+        $data['name'] = $request->hi_name;
     
         return response()->json($data);
     }
@@ -561,42 +591,57 @@ class AfiliadosController extends Controller
         $file = $request->image;
         $imagenCodificadaLimpia = str_replace("data:image/png;base64,", "", urldecode($file));
         $imagenDecodificada = base64_decode($imagenCodificadaLimpia);        
-        $name =  'foto_'.  md5("foto") . '.png';
-        
+        $name = $this->name_img;
+        if (!empty($request->hi_name)) {
+            $name = $request->hi_name;
+        }
+
         Storage::disk('fotostmp')->put($name, $imagenDecodificada);    
 
         $data['success'] = true;
-        $data['path'] = Storage::disk('fotostmp')->url($name);
+        //$data['path'] = Storage::disk('fotostmp')->url($name);
+        $data['name'] = $name;
     
         return response()->json($data);
-   }
+    }
 
     public function file_input_Photo(Request $request) {
     
         $this->validate($request, [
             'photo' => 'required|image'
         ]);
-        $file = $request->file('photo');
-        $extension = $file->getClientOriginalExtension(); 
 
+        $file = $request->file('photo');
         $name = Storage::disk('fotostmp')->put('', $file);    
 
         $data['success'] = true;
-        $data['path'] = Storage::disk('fotostmp')->url($name);
-     
+        //$data['path'] = Storage::disk('fotostmp')->url($name);
+        $data['name'] = $name;
+
         return $data;
     
     }
 
     public function foto_guardar(Request $request){
         
-        $foto = $request->foto;
+        if( storage::disk('fotostmp')->exists($request->hi_name) ) {
+            $afiliado = afiliado::where('id', $request->afiliado_id)->first();
+            // dump($afiliado);die;
+            $destino = 'foto_' . $request->afiliado_id . '.png';
+            $origen = '/tmp/' . $request->hi_name;
+            storage::disk('fotos')->delete($destino);
+            storage::disk('fotos')->move($origen, $destino);
 
-        // validar que se haya cargado una foto
-        if(){}
+            $afiliado->path = $destino;
+            $afiliado->save();
+            $result = 'foto guardada con éxito!';
 
+        } else {
+
+            return back()->withErrors( ['mensaje' => 'No se ha modificado la imagen actual, debe Tomar una foto o Subir una foto para luego guardarla en el sistema'] );
+        }
         
-
+       return redirect()->route('afiliado.carnet',  $request->afiliado_id);
     }
 
     public function imprimir() {

@@ -75,6 +75,18 @@ class afiliado extends Model
         return $resu;
     }
 
+    public function getEsDelegadoAttribute()
+    {
+        $resu = "";
+        if ( !empty($afiliado->delegado_hasta) ) {
+            if(date_diff(new DateTime($afiliado->delegado_hasta), now()) > 1) { 
+                $resu = "(DELEGADO) vence: " . $afiliado->delegado_hasta; 
+            }
+        }
+
+        return $resu;
+    }
+
     public function getFechaEgresoAttribute($value)
     {
         $resu = '';
@@ -94,7 +106,16 @@ class afiliado extends Model
 
         return $resu;
     }
+    
+    public function getFechaNacAttribute($value)
+    {
+        $resu = '';
+        if (!empty($value)) {
+            $resu = date('d/m/Y', strtotime($value));
+        }
 
+        return $resu;
+    }
     //este formato para mostrarlo en un form -------------------------------------------
     public function getDocumPendienteyAttribute()
     {

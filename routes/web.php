@@ -67,6 +67,7 @@ Route::group(['middleware' => ['permission:consultar afiliado']], function () {
     Route::post('/afiliado/carnet/cropfoto', 'gestion\AfiliadosController@crop_foto')->name('afiliado.carnet.crop.foto');
     Route::match(array('GET', 'POST'),'/afiliado/carnet/tomarfoto', 'gestion\AfiliadosController@tomar_foto')->name('afiliado.carnet.tomar_foto');
     Route::get('/afiliado/carnet2/{id}', 'gestion\AfiliadosController@carnet')->name('afiliado.carnet');
+    Route::get('/afiliado/carnet/pdf/{id}', 'gestion\AfiliadosController@carnet_pdf')->name('afiliado.carnet.pdf');
     Route::post('/afiliado/carnet/fotoup', 'gestion\AfiliadosController@file_input_Photo')->name('afiliado.carnet.fotoup');
     Route::post('/afiliado/carnet/foto/guardar', 'gestion\AfiliadosController@foto_guardar')->name('afiliado.carnet.foto.guardar');
     Route::post('/afiliado/carnet/imprimir', 'gestion\AfiliadosController@imprimir')->name('afiliado.carnet.imprimir');
