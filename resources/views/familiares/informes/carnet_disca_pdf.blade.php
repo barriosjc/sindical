@@ -13,7 +13,7 @@
     <table>
         <tr>
             <td style="width:30%">
-                <h3 class="text-center"><b>Nro Afil. : {{$familiar->nro_grupo_fam}}</b></h3>
+                <h3 class="text-center"><b>Afil. : {{$familiar->nro_grupo_fam}}</b></h3>
               <!-- <img alt="foto" src="{{ Storage::disk('fotos')->path($familiar->path) }}" class="avatar" alt=""> -->
                 <img alt="foto" src="{{ Storage::disk('fotos')->url($familiar->path) }}" class="avatar" alt="">
             </td>

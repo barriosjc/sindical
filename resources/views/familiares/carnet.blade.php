@@ -11,15 +11,15 @@
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <div class="card">
     <div class="card-header">
-        <a href="{{ url('/afiliados/find/' . $afiliado->id) }}" title="Volver"><button class="btn btn-warning btn-sm"><i
+        <a href="{{ route('familiares.index', [$familiar->afiliado_id, $familiar->id]) }}" title="Volver"><button class="btn btn-warning btn-sm"><i
                     class="fa fa-arrow-left" aria-hidden="true"></i> Volver</button></a>
-        Carnet del afiliado: {{$afiliado->apellido_nombres}}
+        Carnet del familiar: {{$familiar->apellido_nombres}}
     </div>
     <ul class="list-group list-group-flush">
         <li class="list-group-item">
             <div class="row ">
                 <div class="col-md-4">
-                    <form action="{{ url('/afiliado/carnet/fotoup') }}" method="post" style="display: none"
+                    <form action="{{ url('/familiar/carnet/fotoup') }}" method="post" style="display: none"
                         id="avatarForm">
                         {{ csrf_field() }}
                         <input type="file" id="avatarInput" name="photo">
@@ -43,20 +43,20 @@
             <div class="row pad-20">
                 <div class="col-md-8">
                     <img id="avatarImage" class="image-resu" name="image_resu"
-                        src="{{ empty($afiliado->path) ? '/img/usuario.png' : Storage::disk('fotos')->url($afiliado->path) }}"
-                        alt="foto del afiliado">
+                        src="{{ empty($familiar->path) ? '/img/usuario.png' : Storage::disk('fotos')->url($familiar->path) }}"
+                        alt="foto del familiar">
                 </div>
                 <div class="col-md-4">
                     <div class="form-inline pull-bott-right">
                         <div class="form-group">
-                            <form action="{{ route('afiliado.carnet.foto.guardar') }}" method="post">
+                            <form action="{{ route('familiar.carnet.foto.guardar') }}" method="post">
                                 {{ csrf_field() }}
-                                <input type="hidden" id="hi_name" name="hi_name" value="{{$afiliado->path}}" />
-                                <input type='hidden' id='afiliado_id' name='afiliado_id' value="{{$afiliado->id}}" />
+                                <input type="hidden" id="hi_name" name="hi_name" value="{{$familiar->path}}" />
+                                <input type='hidden' id='familiar_id' name='familiar_id' value="{{$familiar->id}}" />
                                 <button type="submit" id="btnbuscarfam" class="btn btn-info"><i class="fas fa-save"></i>
                                     Guardar foto</button>
                             </form>
-                            <a href="{{ route('afiliado.carnet.pdf', $afiliado->id) }}" id="btnbuscarfam" class="btn btn-info"><i
+                            <a href="{{ route('familiar.carnet.pdf', [$familiar->afiliado_id, $familiar->id]) }}" id="btnbuscarfam" class="btn btn-info"><i
                                     class="fas fa-id-card"></i> Generar Carnet</a>
                         </div>
                     </div>
@@ -71,14 +71,12 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="modalLabel">Tomar una foto al afiliado </h5>
+                <h5 class="modal-title" id="modalLabel">Tomar una foto al familiar </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
             <div class="modal-body">
-                <!-- <form action="{{ route('afiliado.carnet.tomar_foto') }}" method="post" id="fotoForm">
-                    {{ csrf_field() }} -->
                 <div class="img-container">
                     <div class="row">
                         <div class="col-md-1">
@@ -92,7 +90,6 @@
                         </div>
                     </div>
                 </div>
-                <!-- </form> -->
             </div>
         </div>
     </div>
@@ -306,7 +303,7 @@ $(function() {
 
                         $.ajax({
                             type: 'POST',
-                            url: "{{ route('afiliado.carnet.tomar_foto') }}",
+                            url: "{{ route('familiar.carnet.tomar_foto') }}",
                             headers: {
                                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
                                     'content')
@@ -377,7 +374,7 @@ $(function() {
                 $.ajax({
                     type: "POST",
                     dataType: "json",
-                    url: "{{ route('afiliado.carnet.crop.foto') }}",
+                    url: "{{ route('familiar.carnet.crop.foto') }}",
                     data: {
                         image: base64data,
                         _token: $('meta[name="csrf-token"]').attr('content'),

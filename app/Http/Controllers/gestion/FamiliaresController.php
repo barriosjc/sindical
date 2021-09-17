@@ -31,9 +31,13 @@ class FamiliaresController extends Controller
      *
      * @return void
      */
+
+    public $name_img;
+
     public function __construct()
     {
         $this->middleware('auth');
+        $this->name_img =  'foto_'.  md5("foto") . '.png';
     }
 
     /**
@@ -234,7 +238,19 @@ class FamiliaresController extends Controller
         return back()->with(["mensaje" => 'pregunta y respuesta borrada con éxito!']);
     }
 
-    public function carnet($afiliado_id, $familiar_id) {
+    public function carnet($afiliado_id, $familiar_id) 
+    {
+        $familiar = grupo_familiar::where("id", $familiar_id)->first();
+
+        return view(
+            'familiares.Carnet',
+            compact(
+                'familiar'
+            )
+        );
+    }
+
+    public function carnet_pdf($afiliado_id, $familiar_id) {
         $pdf = app('dompdf.wrapper');
         // $pdf->loadView('afiliados.carnet_pdf', compact('afiliado'));
         // return $pdf->download('carnet_' . $afiliado->nro_doc . '.pdf');
@@ -249,6 +265,76 @@ class FamiliaresController extends Controller
         return view(
             'familiares.informes.' . $reporte,
             compact('familiar'));
+    }
+
+    public function crop_foto(Request $request){
+
+        $image_parts = explode(";base64,", $request->image);
+        $image_base64 = base64_decode($image_parts[1]);
+        //$name =  'foto_'. md5("foto") . '.png';
+        Storage::disk('fotostmp')->put($request->hi_name, $image_base64);
+
+        $data['success'] = true;
+        $data['name'] = $request->hi_name;
+    
+        return response()->json($data);
+    }
+
+    public function tomar_foto(Request $request) {
+        
+        $file = $request->image;
+        $imagenCodificadaLimpia = str_replace("data:image/png;base64,", "", urldecode($file));
+        $imagenDecodificada = base64_decode($imagenCodificadaLimpia);        
+        $name = $this->name_img;
+        if (!empty($request->hi_name)) {
+            $name = $request->hi_name;
+        }
+
+        Storage::disk('fotostmp')->put($name, $imagenDecodificada);    
+
+        $data['success'] = true;
+        //$data['path'] = Storage::disk('fotostmp')->url($name);
+        $data['name'] = $name;
+    
+        return response()->json($data);
+    }
+
+    public function file_input_Photo(Request $request) {
+    
+        $this->validate($request, [
+            'photo' => 'required|image'
+        ]);
+
+        $file = $request->file('photo');
+        $name = Storage::disk('fotostmp')->put('', $file);    
+
+        $data['success'] = true;
+        $data['name'] = $name;
+
+        return $data;
+    
+    }
+
+    public function foto_guardar(Request $request){
+        
+        if( storage::disk('fotostmp')->exists($request->hi_name) ) {
+            $afiliado = afiliado::where('id', $request->afiliado_id)->first();
+            // dump($afiliado);die;
+            $destino = 'foto_' . $request->familiar_id . '.png';
+            $origen = '/tmp/' . $request->hi_name;
+            storage::disk('fotos')->delete($destino);
+            storage::disk('fotos')->move($origen, $destino);
+
+            $afiliado->path = $destino;
+            $afiliado->save();
+            $result = 'foto guardada con éxito!';
+
+        } else {
+
+            return back()->withErrors( ['mensaje' => 'No se ha modificado la imagen actual, debe Tomar una foto o Subir una foto para luego guardarla en el sistema'] );
+        }
+        
+       return redirect()->route('afiliado.carnet',  $request->afiliado_id);
     }
 
     public function download(int $id)

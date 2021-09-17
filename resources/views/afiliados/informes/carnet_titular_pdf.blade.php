@@ -13,7 +13,7 @@
     <table>
         <tr>
             <td style="width:30%">
-                <h3 class="text-center"><b>Nro Afil. : {{$afiliado->nro_afil_sindical}}</b></h3>
+                <h3 class="text-center"><b>Afil. : {{$afiliado->nro_afil_sindical}}</b></h3>
               <!-- <img alt="foto" src="{{ Storage::disk('fotos')->path($afiliado->path) }}" class="avatar" alt=""> -->
                 <img alt="foto" src="{{ Storage::disk('fotos')->url($afiliado->path) }}" class="avatar" alt="">
             </td>

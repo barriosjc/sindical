@@ -641,9 +641,6 @@ class AfiliadosController extends Controller
        return redirect()->route('afiliado.carnet',  $request->afiliado_id);
     }
 
-    public function imprimir() {
-
-    }
     
     // --------------------------------------------------------------------------------------------------------
     public function empresas_index(int $afiliado_id, int $afil_emp_id = null)

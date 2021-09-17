@@ -66,40 +66,47 @@ Route::group(['middleware' => ['permission:consultar afiliado']], function () {
     Route::get('/afiliado/documentos/{id}/descargar', 'gestion\AfiliadosController@download')->name('afiliado.download');
     Route::post('/afiliado/carnet/cropfoto', 'gestion\AfiliadosController@crop_foto')->name('afiliado.carnet.crop.foto');
     Route::match(array('GET', 'POST'),'/afiliado/carnet/tomarfoto', 'gestion\AfiliadosController@tomar_foto')->name('afiliado.carnet.tomar_foto');
-    Route::get('/afiliado/carnet2/{id}', 'gestion\AfiliadosController@carnet')->name('afiliado.carnet');
+    Route::get('/afiliado/carnet/view/{id}', 'gestion\AfiliadosController@carnet')->name('afiliado.carnet');
     Route::get('/afiliado/carnet/pdf/{id}', 'gestion\AfiliadosController@carnet_pdf')->name('afiliado.carnet.pdf');
     Route::post('/afiliado/carnet/fotoup', 'gestion\AfiliadosController@file_input_Photo')->name('afiliado.carnet.fotoup');
     Route::post('/afiliado/carnet/foto/guardar', 'gestion\AfiliadosController@foto_guardar')->name('afiliado.carnet.foto.guardar');
-    Route::post('/afiliado/carnet/imprimir', 'gestion\AfiliadosController@imprimir')->name('afiliado.carnet.imprimir');
+//    Route::post('/afiliado/carnet/imprimir', 'gestion\AfiliadosController@imprimir')->name('afiliado.carnet.imprimir');
+
     Route::get('/afiliado/{id}/empresas/{ae_id?}', 'gestion\AfiliadosController@empresas_index')->name('afiliado.empresas');
     Route::post('/afiliado/empresas/guardar', 'gestion\AfiliadosController@empresas_guardar')->name('afiliado.empresas.guardar');
     Route::delete('/afiliado/empresas/{id}/borrar', 'gestion\AfiliadosController@empresas_borrar')->name('afiliado.empresas.borrar');
-    // Route::get('/comunes/volver', 'comunes\comunesController@volver')->name('volver');
     Route::get('/afiliado/{afi_id}/familiar/{id?}', 'gestion\familiaresController@index')->name('familiares.index');
     Route::post('/familiares/guardar', 'gestion\familiaresController@guardar')->name('familiares.guardar');
     Route::get('/afiliado/{id}/familiares/modificar', 'gestion\familiaresController@modificar')->name('familiares.modificar');
 
-    Route::get('/afiliado{afi_id}/familiares{id}/documentos', 'gestion\familiaresController@documentos_index')->name('familiares.documentos');
-    Route::get('/afiliado{afi_id}/familiares{id}/carnet', 'gestion\familiaresController@carnet')->name('familiares.carnet');
+    Route::post('/familiar/carnet/fotoup', 'gestion\familiaresController@file_input_Photo')->name('familiar.carnet.fotoup');
+    Route::get('/familiar/carnet/pdf/{id}', 'gestion\familiaresController@carnet_pdf')->name('familiar.carnet.pdf');
+    Route::post('/familiar/carnet/fotoup', 'gestion\familiaresController@file_input_Photo')->name('familiar.carnet.fotoup');
+    Route::post('/familiar/carnet/foto/guardar', 'gestion\familiaresController@foto_guardar')->name('familiar.carnet.foto.guardar');
+    Route::match(array('GET', 'POST'),'/familiar/carnet/tomarfoto', 'gestion\familiaresController@tomar_foto')->name('familiar.carnet.tomar_foto');
+    Route::post('/familiar/carnet/cropfoto', 'gestion\familiaresController@crop_foto')->name('familiar.carnet.crop.foto');
+
+    Route::get('/afiliado/{afi_id}/familiares/{id}/documentos', 'gestion\familiaresController@documentos_index')->name('familiares.documentos');
+    Route::get('/afiliado/{afi_id}/familiares/{id}/carnet', 'gestion\familiaresController@carnet')->name('familiares.carnet');
     Route::post('/familiares/documentos/guardar', 'gestion\familiaresController@documentos_guardar')->name('familiares.documentos.guardar');
     Route::delete('/familiares/documentos/borrar/{id}', 'gestion\familiaresController@documentos_borrar')->name('familiares.documentos.borrar');
     Route::get('/familiares/documentos/id/{id}/descargar', 'gestion\familiaresController@download')->name('familiares.download');
 });
 
 Route::group(['middleware' => ['permission:consultar empresas']], function () {
-Route::get('/empresas/carga', 'gestion\EmpresasController@index')->name('empresa.index');
-Route::post('/empresas/guardar', 'gestion\EmpresasController@guardar')->name('empresa.guardar');
-Route::get('/empresas/find/{id?}', 'gestion\EmpresasController@find')->name('empresa.find');
+    Route::get('/empresas/carga', 'gestion\EmpresasController@index')->name('empresa.index');
+    Route::post('/empresas/guardar', 'gestion\EmpresasController@guardar')->name('empresa.guardar');
+    Route::get('/empresas/find/{id?}', 'gestion\EmpresasController@find')->name('empresa.find');
 
-Route::get('/empresa/{id}/buscar/index', 'gestion\empresasController@buscar_index')->name('empresa.buscar.index');
-Route::get('/empresa/buscar', 'gestion\empresasController@buscar')->name('empresa.buscar');
-Route::get('/empresa/{id}/familiar/buscar/index', 'gestion\empresasController@buscar_index')->name('empresa.afiliados');
-Route::get('/empresa/siguiente', 'gestion\empresasController@nroEmprSiguiente')->name('empresa.siguiente');
+    Route::get('/empresa/{id}/buscar/index', 'gestion\empresasController@buscar_index')->name('empresa.buscar.index');
+    Route::get('/empresa/buscar', 'gestion\empresasController@buscar')->name('empresa.buscar');
+    Route::get('/empresa/{id}/familiar/buscar/index', 'gestion\empresasController@buscar_index')->name('empresa.afiliados');
+    Route::get('/empresa/siguiente', 'gestion\empresasController@nroEmprSiguiente')->name('empresa.siguiente');
 
-Route::get('/empresa/{id}/documentos', 'gestion\empresasController@documentos_index')->name('empresa.documentos');
-Route::post('/empresa/documentos/guardar', 'gestion\empresasController@documentos_guardar')->name('empresa.documentos.guardar');
-Route::delete('/empresa/documentos/{id}/borrar', 'gestion\empresasController@documentos_borrar')->name('empresa.documentos.borrar');
-Route::get('/empresa/documentos/{id}/descargar', 'gestion\empresasController@download')->name('empresa.download');
+    Route::get('/empresa/{id}/documentos', 'gestion\empresasController@documentos_index')->name('empresa.documentos');
+    Route::post('/empresa/documentos/guardar', 'gestion\empresasController@documentos_guardar')->name('empresa.documentos.guardar');
+    Route::delete('/empresa/documentos/{id}/borrar', 'gestion\empresasController@documentos_borrar')->name('empresa.documentos.borrar');
+    Route::get('/empresa/documentos/{id}/descargar', 'gestion\empresasController@download')->name('empresa.download');
 });
 
 Route::group(['middleware' => ['permission:consultar denuncias']], function () {
