@@ -51,7 +51,6 @@ class afiliado extends Model
         'obra_social_id',
         'nro_legajo',
         'nro_ben_anses',
-        'SOC_USUARIO',
         'fecha_vigencia_os',
         'fecha_ingreso_os',
         'fecha_egreso_os',
@@ -62,27 +61,15 @@ class afiliado extends Model
         'docum_pendiente',
         'docum_entregada',
         'fecha_jubilacion',
-        'SOC_CONT_ID',
-        'user_last_name'
+        'user_last_name',
+        'path'
     ];
 
     // este foramto para mostrarlo en la grilla --------------------------------------
-    protected $appends = ['direccion'];
+    protected $appends = ['direccion', 'delegado'];
     public function getDireccionAttribute()
     {
         $resu = $this->calle . ' ' . $this->calle_nro . ' ' . $this->calle_piso;
-
-        return $resu;
-    }
-
-    public function getEsDelegadoAttribute()
-    {
-        $resu = "";
-        if ( !empty($afiliado->delegado_hasta) ) {
-            if(date_diff(new DateTime($afiliado->delegado_hasta), now()) > 1) { 
-                $resu = "(DELEGADO) vence: " . $afiliado->delegado_hasta; 
-            }
-        }
 
         return $resu;
     }
@@ -116,6 +103,18 @@ class afiliado extends Model
 
         return $resu;
     }
+        
+//     public function getDelegadoHastaAttribute($value)
+//     {
+//         $resu = '';
+//         if (!empty($value)) {
+// //            $resu = date('d/m/Y', strtotime($value));
+//             $resu = new DateTime($value);
+//         }date_diff(now(), strtotime($afiliado->delegado_hasta))->format('%a')
+
+//         return $resu;
+//     }
+
     //este formato para mostrarlo en un form -------------------------------------------
     public function getDocumPendienteyAttribute()
     {

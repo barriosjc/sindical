@@ -80,6 +80,7 @@ Route::group(['middleware' => ['permission:consultar afiliado']], function () {
     Route::get('/afiliado/{id}/familiares/modificar', 'gestion\familiaresController@modificar')->name('familiares.modificar');
 
     Route::get('/afiliado{afi_id}/familiares{id}/documentos', 'gestion\familiaresController@documentos_index')->name('familiares.documentos');
+    Route::get('/afiliado{afi_id}/familiares{id}/carnet', 'gestion\familiaresController@carnet')->name('familiares.carnet');
     Route::post('/familiares/documentos/guardar', 'gestion\familiaresController@documentos_guardar')->name('familiares.documentos.guardar');
     Route::delete('/familiares/documentos/borrar/{id}', 'gestion\familiaresController@documentos_borrar')->name('familiares.documentos.borrar');
     Route::get('/familiares/documentos/id/{id}/descargar', 'gestion\familiaresController@download')->name('familiares.download');

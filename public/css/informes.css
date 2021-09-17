@@ -1,0 +1,21 @@
+.avatar {
+    /* cambia estos dos valores para definir el tamaño de tu círculo */
+    height: 150px;
+    width: 150px;
+    border-top-left-radius: 320% 320%;
+    border-top-right-radius: 320% 320%;
+    border-bottom-right-radius: 320% 320%;
+    border-bottom-left-radius: 320% 320%;
+}
+
+.margin-0 {
+    margin: 5px;
+}
+
+.text-right {
+   text-align: right;
+}
+
+.text-center {
+    text-align: center;
+}

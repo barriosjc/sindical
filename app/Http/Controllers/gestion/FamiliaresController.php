@@ -234,6 +234,23 @@ class FamiliaresController extends Controller
         return back()->with(["mensaje" => 'pregunta y respuesta borrada con éxito!']);
     }
 
+    public function carnet($afiliado_id, $familiar_id) {
+        $pdf = app('dompdf.wrapper');
+        // $pdf->loadView('afiliados.carnet_pdf', compact('afiliado'));
+        // return $pdf->download('carnet_' . $afiliado->nro_doc . '.pdf');
+        // dd($afiliado->id);
+        $familiar = DB::select('call pro_familiar_carnet(?, ?)', [$afiliado_id, $familiar_id])[0];
+        if ($familiar->discapacitado == 'S') {
+            $reporte = 'carnet_disca_pdf';
+        } else {
+            $reporte = 'carnet_familiar_pdf';
+        }
+
+        return view(
+            'familiares.informes.' . $reporte,
+            compact('familiar'));
+    }
+
     public function download(int $id)
     {
 

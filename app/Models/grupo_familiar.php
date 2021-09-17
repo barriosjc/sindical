@@ -57,6 +57,7 @@ class grupo_familiar extends Model
         'docum_pendiente',
         'docum_entregada',
         'obs',
+        'path',
         'created_at',
         'updated_at',
         'deleted_at',

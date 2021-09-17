@@ -521,34 +521,31 @@ class AfiliadosController extends Controller
     public function carnet_pdf($id)
     {
         $pdf = app('dompdf.wrapper');
-
-
-        
-        
         //     //   DB::enableQueryLog();
-        $afiliado = afiliado::query()
-            ->join('afiliados_empresas as ae', 'ae.afiliado_id', 'afiliados.id')
-            ->join('seccionales as s', 's.id', 'ae.seccional_id')
-            ->select('afiliados.*', 's.descripcion')
-            ->where('afiliados.id', $id)
-            ->first();
+
+
+            // ->first();
 
         //     // $log = DB::getQueryLog();
         //     // dd($log);
-        $pdf->loadView('afiliados.carnet_pdf', compact('afiliado'));
-        return $pdf->download('carnet_' . $afiliado->nro_doc . '.pdf');
-        
-        // $pdf = PDF::loadView('afiliados.carnet_pdf', compact('afiliado'));
+        // $pdf->loadView('afiliados.carnet_pdf', compact('afiliado'));
         // return $pdf->download('carnet_' . $afiliado->nro_doc . '.pdf');
-        // // return view('afiliados.carnet', compact('afiliado'));
+        // dd($afiliado->id);
+        $afiliado = DB::select('call pro_afiliado_carnet(?)', [$id])[0];
+        if ($afiliado->discapacitado == 'S') {
+            $afiliado = DB::select('call pro_grupo_familiar_carnet(?)', [$id])[0];
+            $reporte = 'carnet_disca_pdf';
+        } elseif(date_diff(now(), new \DateTime($afiliado->delegado_hasta))->format('%a') > 1) {
+            $reporte = 'carnet_titular_pdf';
+        } else {
+            $reporte = 'carnet_titular_pdf';
+        }
 
-        // return view(
-        //     'afiliados.Carnet',
-        //     compact(
-        //         'afiliado'
-        //     )
-        // );
+        return view(
+            'afiliados.informes.' . $reporte,
+            compact('afiliado'));
     }
+
     public function carnet($id)
     {
         //     //   DB::enableQueryLog();
