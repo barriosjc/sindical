@@ -66,7 +66,7 @@ class afiliado extends Model
     ];
 
     // este foramto para mostrarlo en la grilla --------------------------------------
-    protected $appends = ['direccion', 'delegado'];
+    protected $appends = ['direccion'];
     public function getDireccionAttribute()
     {
         $resu = $this->calle . ' ' . $this->calle_nro . ' ' . $this->calle_piso;
@@ -103,17 +103,6 @@ class afiliado extends Model
 
         return $resu;
     }
-        
-//     public function getDelegadoHastaAttribute($value)
-//     {
-//         $resu = '';
-//         if (!empty($value)) {
-// //            $resu = date('d/m/Y', strtotime($value));
-//             $resu = new DateTime($value);
-//         }date_diff(now(), strtotime($afiliado->delegado_hasta))->format('%a')
-
-//         return $resu;
-//     }
 
     //este formato para mostrarlo en un form -------------------------------------------
     public function getDocumPendienteyAttribute()
@@ -125,6 +114,7 @@ class afiliado extends Model
 
         return $resu;
     }
+
     public function getDocumEntregadayAttribute()
     {
         $resu = $this->docum_entregada;
@@ -134,6 +124,7 @@ class afiliado extends Model
 
         return $resu;
     }
+    
     public function getFechaNacyAttribute()
     {
         $resu = $this->fecha_nac;
@@ -143,6 +134,7 @@ class afiliado extends Model
 
         return $resu;
     }
+    
     public function getFechaIngresoyAttribute()
     {
         $resu = $this->fecha_ingreso;
@@ -152,6 +144,7 @@ class afiliado extends Model
 
         return $resu;
     }
+    
     public function getFechaIngresoOsyAttribute()
     {
         $resu = $this->fecha_ingreso_os;
@@ -161,6 +154,7 @@ class afiliado extends Model
 
         return $resu;
     }
+    
     public function getFechaEgresoOsyAttribute()
     {
         $resu = $this->fecha_egreso_os;
@@ -170,7 +164,8 @@ class afiliado extends Model
 
         return $resu;
     }
-        public function getFechaEgresoyAttribute()
+    
+    public function getFechaEgresoyAttribute()
     {
         $resu = $this->fecha_egreso;
         if (!empty($resu)) {
@@ -179,6 +174,7 @@ class afiliado extends Model
 
         return $resu;
     }
+    
     public function getFechaJubilacionyAttribute()
     {
         $resu = $this->fecha_jubilacion;
@@ -188,44 +184,7 @@ class afiliado extends Model
 
         return $resu;
     }
-    public function getFechaIngEmpryAttribute()
-    {
-        $resu = $this->fecha_ing_empr;
-        if (!empty($resu)) {
-            $resu = date(env('DATE_FORM', 'Y-m-d'), strtotime($resu));
-        }
-
-        return $resu;
-    }
-    public function getFechaEgrEmpryAttribute()
-    {
-        $resu = $this->fecha_egr_empr;
-        if (!empty($resu)) {
-            $resu = date(env('DATE_FORM', 'Y-m-d'), strtotime($resu));
-        }
-
-        return $resu;
-    }
-    public function getDelegadoDesdeyAttribute()
-    {
-        $resu = $this->delegado_desde;
-        if (!empty($resu)) {
-            $resu = date(env('DATE_FORM', 'Y-m-d'), strtotime($resu));
-        }
-
-        return $resu;
-    }
-    public function getDelegadoHastayAttribute()
-    {
-        $resu = $this->delegado_hasta;
-        if (!empty($resu)) {
-            $resu = date(env('DATE_FORM', 'Y-m-d'), strtotime($resu));
-        }
-
-        return $resu;
-    }
-
-
+    
     public function afil_estado_fichas()
     {
         return $this->HasMany('App\Models\afil_estado_ficha');

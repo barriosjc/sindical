@@ -86,7 +86,14 @@
                     <span>Denuncias</span></a>
             </li>
             @endcan
-
+            @if(Auth::user()->hasrole('administrador') or Auth::user()->haspermissionto('informes'))
+            <!-- Nav Item - Charts -->
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('informes.index') }}">
+                    <i class="fas fa-file-invoice"></i>
+                    <span>Informes</span></a>
+            </li>
+            @endcan
             <!-- Nav Item - Tables -->
             @if(Auth::user()->hasrole('administrador') or Auth::user()->haspermissionto('padron secretariado'))
             <li class="nav-item">
@@ -187,7 +194,7 @@
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
                         <span>Copyright &copy; Union Obrera Metalúrgica seccional Avellaneda 2020</span>
-                        <span class="float-right" style="padding-right: 30px; font-size: 10px">v1.0.0</span>
+                        <span class="float-right" style="padding-right: 30px; font-size: 10px">v1.1.0</span>
                     </div>
                 </div>
             </footer>

@@ -52,6 +52,7 @@
                             <form action="{{ route('familiar.carnet.foto.guardar') }}" method="post">
                                 {{ csrf_field() }}
                                 <input type="hidden" id="hi_name" name="hi_name" value="{{$familiar->path}}" />
+                                <input type='hidden' id='afiliado_id' name='afiliado_id' value="{{$familiar->afiliado_id}}" />
                                 <input type='hidden' id='familiar_id' name='familiar_id' value="{{$familiar->id}}" />
                                 <button type="submit" id="btnbuscarfam" class="btn btn-info"><i class="fas fa-save"></i>
                                     Guardar foto</button>

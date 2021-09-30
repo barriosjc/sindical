@@ -256,15 +256,26 @@ class FamiliaresController extends Controller
         // return $pdf->download('carnet_' . $afiliado->nro_doc . '.pdf');
         // dd($afiliado->id);
         $familiar = DB::select('call pro_familiar_carnet(?, ?)', [$afiliado_id, $familiar_id])[0];
+
+        $fecha = "";
         if ($familiar->discapacitado == 'S') {
             $reporte = 'carnet_disca_pdf';
-        } else {
+        } elseif(ENV('HIJO_MAYOR_ESTUD') == $familiar->tipo_parentesco_id) {
+            $reporte = 'carnet_hijo_mayor_pdf';
+        } elseif( !empty(in_array($familiar->tipo_parentesco_id, explode(';', ENV('CONYUGUE')))) ) {
             $reporte = 'carnet_familiar_pdf';
+        }else {
+            $reporte = 'carnet_hijo_pdf';
         }
 
+        $fecha = date_add(date_create($familiar->fecha_nac), date_interval_create_from_date_string("21 year"))->format('d/m/Y');
+        //dd($fecha, $familiar->fecha_nac);
+        // if( $fecha->diff(now())->format('%y') > 1 ) { 
+        //    $fecha = $familiar->fecha_nac; 
+        // }
         return view(
             'familiares.informes.' . $reporte,
-            compact('familiar'));
+            compact('familiar', 'fecha'));
     }
 
     public function crop_foto(Request $request){
@@ -318,23 +329,23 @@ class FamiliaresController extends Controller
     public function foto_guardar(Request $request){
         
         if( storage::disk('fotostmp')->exists($request->hi_name) ) {
-            $afiliado = afiliado::where('id', $request->afiliado_id)->first();
-            // dump($afiliado);die;
+            $familiar = grupo_familiar::where('id', $request->familiar_id)->first();
+            // dump($familiar);die;
             $destino = 'foto_' . $request->familiar_id . '.png';
             $origen = '/tmp/' . $request->hi_name;
             storage::disk('fotos')->delete($destino);
             storage::disk('fotos')->move($origen, $destino);
 
-            $afiliado->path = $destino;
-            $afiliado->save();
+            $familiar->path = $destino;
+            $familiar->save();
             $result = 'foto guardada con éxito!';
 
         } else {
 
             return back()->withErrors( ['mensaje' => 'No se ha modificado la imagen actual, debe Tomar una foto o Subir una foto para luego guardarla en el sistema'] );
         }
-        
-       return redirect()->route('afiliado.carnet',  $request->afiliado_id);
+
+       return redirect()->route('familiares.carnet',  [$request->afiliado_id, $request->familiar_id]);
     }
 
     public function download(int $id)

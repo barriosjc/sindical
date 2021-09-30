@@ -73,10 +73,12 @@
         </tr>
         <tr>
             <td class="text-right">
-                Tipo:
+                <b>Vence:</b>
             </td>
             <td class="text-left">
-                <b>DISCAPACITADO</b>
+                <b>
+                {{ $fecha }}                   
+                </b>
             </td>
         </tr>
         <tr>

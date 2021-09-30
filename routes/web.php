@@ -65,7 +65,7 @@ Route::group(['middleware' => ['permission:consultar afiliado']], function () {
     Route::delete('/afiliado/documentos/{id}/borrar', 'gestion\AfiliadosController@documentos_borrar')->name('afiliado.documentos.borrar');
     Route::get('/afiliado/documentos/{id}/descargar', 'gestion\AfiliadosController@download')->name('afiliado.download');
     Route::post('/afiliado/carnet/cropfoto', 'gestion\AfiliadosController@crop_foto')->name('afiliado.carnet.crop.foto');
-    Route::match(array('GET', 'POST'),'/afiliado/carnet/tomarfoto', 'gestion\AfiliadosController@tomar_foto')->name('afiliado.carnet.tomar_foto');
+    Route::match(array('GET', 'POST'), '/afiliado/carnet/tomarfoto', 'gestion\AfiliadosController@tomar_foto')->name('afiliado.carnet.tomar_foto');
     Route::get('/afiliado/carnet/view/{id}', 'gestion\AfiliadosController@carnet')->name('afiliado.carnet');
     Route::get('/afiliado/carnet/pdf/{id}', 'gestion\AfiliadosController@carnet_pdf')->name('afiliado.carnet.pdf');
     Route::post('/afiliado/carnet/fotoup', 'gestion\AfiliadosController@file_input_Photo')->name('afiliado.carnet.fotoup');
@@ -80,10 +80,10 @@ Route::group(['middleware' => ['permission:consultar afiliado']], function () {
     Route::get('/afiliado/{id}/familiares/modificar', 'gestion\familiaresController@modificar')->name('familiares.modificar');
 
     Route::post('/familiar/carnet/fotoup', 'gestion\familiaresController@file_input_Photo')->name('familiar.carnet.fotoup');
-    Route::get('/familiar/carnet/pdf/{id}', 'gestion\familiaresController@carnet_pdf')->name('familiar.carnet.pdf');
+    Route::get('/afiliado/{afil_id}/familiar/carnet/pdf/{id}', 'gestion\familiaresController@carnet_pdf')->name('familiar.carnet.pdf');
     Route::post('/familiar/carnet/fotoup', 'gestion\familiaresController@file_input_Photo')->name('familiar.carnet.fotoup');
     Route::post('/familiar/carnet/foto/guardar', 'gestion\familiaresController@foto_guardar')->name('familiar.carnet.foto.guardar');
-    Route::match(array('GET', 'POST'),'/familiar/carnet/tomarfoto', 'gestion\familiaresController@tomar_foto')->name('familiar.carnet.tomar_foto');
+    Route::match(array('GET', 'POST'), '/familiar/carnet/tomarfoto', 'gestion\familiaresController@tomar_foto')->name('familiar.carnet.tomar_foto');
     Route::post('/familiar/carnet/cropfoto', 'gestion\familiaresController@crop_foto')->name('familiar.carnet.crop.foto');
 
     Route::get('/afiliado/{afi_id}/familiares/{id}/documentos', 'gestion\familiaresController@documentos_index')->name('familiares.documentos');
@@ -110,25 +110,29 @@ Route::group(['middleware' => ['permission:consultar empresas']], function () {
 });
 
 Route::group(['middleware' => ['permission:consultar denuncias']], function () {
-Route::get('/denuncias/carga', 'gestion\DenunciasController@index')->name('denuncia.index');
-Route::post('/denuncias/guardar', 'gestion\DenunciasController@guardar')->name('denuncia.guardar');
-Route::get('/denuncias/find/{id?}', 'gestion\DenunciasController@find')->name('denuncia.find');
+    Route::get('/denuncias/carga', 'gestion\DenunciasController@index')->name('denuncia.index');
+    Route::post('/denuncias/guardar', 'gestion\DenunciasController@guardar')->name('denuncia.guardar');
+    Route::get('/denuncias/find/{id?}', 'gestion\DenunciasController@find')->name('denuncia.find');
 
-Route::get('/denuncia/{id}/buscar/index', 'gestion\DenunciasController@buscar_index')->name('denuncia.buscar.index');
-Route::get('/denuncia/buscar', 'gestion\DenunciasController@buscar')->name('denuncia.buscar');
-Route::get('/denuncia/{id}/familiar/buscar/index', 'gestion\DenunciasController@buscar_index')->name('denuncia.afiliados');
-Route::get('/denuncia/siguiente', 'gestion\DenunciasController@nroEmprSiguiente')->name('denuncia.siguiente');
+    Route::get('/denuncia/{id}/buscar/index', 'gestion\DenunciasController@buscar_index')->name('denuncia.buscar.index');
+    Route::get('/denuncia/buscar', 'gestion\DenunciasController@buscar')->name('denuncia.buscar');
+    Route::get('/denuncia/{id}/familiar/buscar/index', 'gestion\DenunciasController@buscar_index')->name('denuncia.afiliados');
+    Route::get('/denuncia/siguiente', 'gestion\DenunciasController@nroEmprSiguiente')->name('denuncia.siguiente');
 
-Route::get('/denuncia/{id}/documentos', 'gestion\DenunciasController@documentos_index')->name('denuncia.documentos');
-Route::post('/denuncia/documentos/guardar', 'gestion\DenunciasController@documentos_guardar')->name('denuncia.documentos.guardar');
-Route::delete('/denuncia/documentos/{id}/borrar', 'gestion\DenunciasController@documentos_borrar')->name('denuncia.documentos.borrar');
-Route::get('/denuncia/documentos/{id}/descargar', 'gestion\DenunciasController@download')->name('denuncia.download');
+    Route::get('/denuncia/{id}/documentos', 'gestion\DenunciasController@documentos_index')->name('denuncia.documentos');
+    Route::post('/denuncia/documentos/guardar', 'gestion\DenunciasController@documentos_guardar')->name('denuncia.documentos.guardar');
+    Route::delete('/denuncia/documentos/{id}/borrar', 'gestion\DenunciasController@documentos_borrar')->name('denuncia.documentos.borrar');
+    Route::get('/denuncia/documentos/{id}/descargar', 'gestion\DenunciasController@download')->name('denuncia.download');
 
-Route::post('/denuncias/{id}/guardar/movimiento', 'gestion\DenunciasController@guardar_movimiento')->name('denuncia.guardar.movimiento');
-Route::post('/denuncias/borrar/{id}/movimiento', 'gestion\DenunciasController@borrar_movimiento')->name('denuncia.borrar.movimiento');
+    Route::post('/denuncias/{id}/guardar/movimiento', 'gestion\DenunciasController@guardar_movimiento')->name('denuncia.guardar.movimiento');
+    Route::post('/denuncias/borrar/{id}/movimiento', 'gestion\DenunciasController@borrar_movimiento')->name('denuncia.borrar.movimiento');
 
-Route::get('/secretariado/importar', 'gestion\SecretariadoController@importar')->name('secretariado.importar');
-Route::post('/secretariado/importar/guardar', 'gestion\SecretariadoController@guardar')->name('secretariado.guardar');
-Route::get('/secretariado/informes', 'gestion\SecretariadoController@informes')->name('secretariado.informes');
-Route::get('/secretariado/informes/ver', 'gestion\SecretariadoController@informesver')->name('secretariado.informes.ver');
+    Route::get('/secretariado/importar', 'gestion\SecretariadoController@importar')->name('secretariado.importar');
+    Route::post('/secretariado/importar/guardar', 'gestion\SecretariadoController@guardar')->name('secretariado.guardar');
+    Route::get('/secretariado/informes', 'gestion\SecretariadoController@informes')->name('secretariado.informes');
+    Route::get('/secretariado/informes/ver', 'gestion\SecretariadoController@informesver')->name('secretariado.informes.ver');
+
+    Route::get('/informes', 'gestion\InformesController@index')->name('informes.index');
+    Route::post('/informes/generar', 'gestion\InformesController@generar')->name('informes.generar');
+
 });

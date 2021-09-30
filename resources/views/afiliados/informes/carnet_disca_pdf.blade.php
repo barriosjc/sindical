@@ -39,11 +39,9 @@
                 <p  class="margin-0">{{$afiliado->razon_social}}</p>
                 <p  class="margin-0">{{$afiliado->sec_descripcion}}</p>
                 <p  class="margin-0">{{date('d/m/Y', strtoTime($afiliado->fecha_nac))}}</p>
-                <p  class="margin-0"><?php if ( !empty($afiliado->delegado_hasta) ) {
-                    if(date_diff(now(), new DateTime($afiliado->delegado_hasta))->format('%a') > 1) { 
-                       echo(" vence :" .  date('d/m/Y', strtoTime($afiliado->delegado_hasta))); 
-                    }
-                } ?></p>
+                <p  class="margin-0">
+                cambiar este texto
+                </p>
             </td>
         </tr>
     </table>

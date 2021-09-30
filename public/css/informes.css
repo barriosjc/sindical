@@ -7,9 +7,12 @@
     border-bottom-right-radius: 320% 320%;
     border-bottom-left-radius: 320% 320%;
 }
+th, td {
+    padding: 5px;
+  }
 
 .margin-0 {
-    margin: 5px;
+    margin: 10px;
 }
 
 .text-right {
@@ -19,3 +22,11 @@
 .text-center {
     text-align: center;
 }
+
+.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.multi-line { vertical-align: top; height: 40px; overflow: hidden; }

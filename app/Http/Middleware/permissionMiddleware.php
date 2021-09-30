@@ -17,7 +17,7 @@ class permissionMiddleware
     public function handle($request, Closure $next, $permission)
     {
         if (Auth::guest()) {
-            return redirect('/auth/ login');
+            return redirect('/login');
         }
      
         if (! ($request->user()->can($permission) or $request->user()->hasrole('administrador'))) {

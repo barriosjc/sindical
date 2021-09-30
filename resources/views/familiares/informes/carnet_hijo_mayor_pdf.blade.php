@@ -8,18 +8,18 @@
 
 <body>
     <h5>UNION OBRERA METALÚRGICA SECCIONAL AVALLANEDA</h5>
-    <h6>de la República Argentina                Adherida a la C.G.T.</h6>
+    <h6>de la República Argentina Adherida a la C.G.T.</h6>
     <hr />
     <table>
         <tr>
-            <td style="width:170px" rowspan="9">
+            <td style="width:30%" rowspan="9">
                 <h3 class="text-center"><b>Afil. : {{$familiar->nro_grupo_fam}}</b></h3>
                 <img  alt="foto" src="{{ Storage::disk('fotos')->url($familiar->path) }}" class="avatar center" alt="">
             </td>
-            <td style="width:80px" class="text-right">
+            <td class="text-right">
                 Nombre :
             </td>
-            <td style="width:200px" class="text-left">
+            <td class="text-left">
                 {{$familiar->apellido_nombres}}
             </td>
         </tr>
@@ -80,7 +80,7 @@
             </td>
         </tr>
         <tr>
-            <td colspan="2">
+            <td class="text-right" colspan="2">
                 Este carnet no tiene validez sin
                 la presentación del carnet del titular
             </td>
