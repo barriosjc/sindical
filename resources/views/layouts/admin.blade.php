@@ -153,8 +153,7 @@
                             @auth
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ Auth::user()->name }}</span>
-                                <img alt="foto" src="{{ asset('storage') . str_replace('public', '', Auth::user()->foto) }} " class="rounded-circle" width="45px" alt="">
-                                <!-- <img alt="foto" src="{{Storage::url(Auth::user()->foto)}}" class="rounded-circle" width="45px" alt=""> -->
+                               <img alt="foto" src="{{Storage::disk("usuarios")->url(Auth::user()->foto)}}" class="rounded-circle" width="60px" alt=""> 
 
                             </a>
                             @else

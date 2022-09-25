@@ -91,6 +91,11 @@ Route::group(['middleware' => ['permission:consultar afiliado']], function () {
     Route::post('/familiares/documentos/guardar', 'gestion\familiaresController@documentos_guardar')->name('familiares.documentos.guardar');
     Route::delete('/familiares/documentos/borrar/{id}', 'gestion\familiaresController@documentos_borrar')->name('familiares.documentos.borrar');
     Route::get('/familiares/documentos/id/{id}/descargar', 'gestion\familiaresController@download')->name('familiares.download');
+    Route::get('/afiliado/{afi_id}/familiares/{id}/escolaridad', 'gestion\familiaresController@escolaridad_index')->name('familiares.escolaridad');
+    Route::post('/familiares/escolaridad/guardar', 'gestion\familiaresController@escolaridad_guardar')->name('familiares.escolaridad.guardar');
+    Route::delete('/familiares/escolaridad/borrar/{id}', 'gestion\familiaresController@escolaridad_borrar')->name('familiares.escolaridad.borrar');
+    Route::get('/familiares/escolaridad/id/{id}/imprimir', 'gestion\familiaresController@escolaridad_imprimir')->name('familiares.escolaridad.imprimir');
+
 });
 
 Route::group(['middleware' => ['permission:consultar empresas']], function () {

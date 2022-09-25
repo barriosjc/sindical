@@ -24,14 +24,13 @@ class ProfileController extends Controller
     public function update(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
-            'last_name' => 'nullable|string|max:255',
+            'name' => 'required|string|max:50',
+            'last_name' => 'nullable|string|max:100',
             'email' => 'required|string|email|max:255|unique:users,email,' . Auth::user()->id,
-            'current_password' => 'nullable|required_with:new_password',
-            'new_password' => 'nullable|min:8|max:12|required_with:current_password',
-            'password_confirmation' => 'nullable|min:8|max:12|required_with:new_password|same:new_password'
+            'current_password' => 'nullable|required_with:new_password|max:255',
+            'new_password' => 'nullable|min:8|max:12|required_with:current_password|max:255',
+            'password_confirmation' => 'nullable|min:8|max:12|required_with:new_password|same:new_password|max:255'
         ]);
-
 
         $user = User::findOrFail(Auth::user()->id);
         $user->name = $request->input('name');
@@ -40,7 +39,7 @@ class ProfileController extends Controller
 
         if (!is_null($request->input('current_password'))) {
             if (Hash::check($request->input('current_password'), $user->password)) {
-                $user->password = $request->input('new_password');
+                $user->password = Hash::make($request->input('new_password'));
             } else {
                 return redirect()->back()->withInput();
             }
@@ -58,13 +57,16 @@ class ProfileController extends Controller
 
         $user = User::findOrFail(Auth::user()->id);        
         if ($rq->hasFile('file')){
-            // guarda el archivo dentro de storage/app/public/fotos
+            // guarda el archivo dentro de storage/app/fotos
             $foto_vieja = $user->foto;
             if(!empty($foto_vieja)){
                 Storage::delete($foto_vieja);
             }
-            //guarda storage/app/public/fotos
-            $path = $rq->file('file')->store('public/fotos');
+            $path = Storage::disk('usuarios')->put("", $rq->file('file'));
+            // juan foto save
+            //$path = $rq->file('file')->storeAs("","mifoto.jpg", "usuarios");
+            //dd($path);
+            //guarda storage/app/fotos
             $user->foto = $path;
             $user->save();
 

@@ -55,7 +55,7 @@
                     <td>{{ $loop->iteration }}</td>
                     <td>{{ $item->name }}</td>
                     <td>{{ $item->last_name }}</td>
-                    <td><img src="{{Storage::url($item->foto)}}" class="rounded-circle" width="45px" alt=""> </td>
+                    <td><img src="{{Storage::disk("usuarios")->url($item->foto)}}" class="rounded-circle" width="45px" alt=""> </td>
                     <td>{{ $item->email_verified_at }}</td>
                     <td>{{ $item->email }}</td>
                     @if($esabm)

@@ -20,6 +20,8 @@ use App\models\localidad;
 use App\models\motivo_egreso_sind;
 use App\models\gf_documento;
 use App\models\tipo_parentesco;
+use App\models\tipo_material;
+use App\models\gf_escolaridad;
 
 use Symfony\Component\HttpFoundation\Response;
 use Exception;
@@ -187,7 +189,6 @@ class FamiliaresController extends Controller
         //return redirect()->route('familiares.index', $request->afiliado_id)->with(["mensaje" => 'Familiar creado con éxito!']);
     }
 
-
     public function documentos_index(int $afiliado_id, int $grupo_familiar_id)
     {
         $tipos_documentos = tipo_documento::where('tipo', 'FAM')->get();
@@ -350,11 +351,40 @@ class FamiliaresController extends Controller
 
     public function download(int $id)
     {
-
         $path = gf_documento::find($id)->path;
         if (!file_exists($path)) {
             return back()->withErrors(['mensaje' => "El archivo que intenta descargar no se encuentra almacenado en el servidor."]);
         }
         return response()->download(public_path() . '/' . $path);
+    }
+
+    public function escolaridad_index(int $afiliado_id, int $grupo_familiar_id)
+    {
+        $tipos_material = tipo_material::get();
+        $gf_escolaridad = gf_escolaridad::where('grupo_familiar_id', $grupo_familiar_id)->paginate(10);
+
+        return view('familiares.escolaridad', compact('afiliado_id', 'grupo_familiar_id', 'tipos_material', 'gf_escolaridad'));
+    }
+    
+    public function escolaridad_guardar(Request $request)
+    {
+        $request->validate([
+            'tipo_material_id' => 'required',
+            'cantidad' => 'required|integer|max:5',
+            'obs' => 'nullable|string|max:150'
+        ]);
+
+        $requestData = $request->all();
+        gf_escolaridad::create($requestData);
+
+        return back()->with(["mensaje" => 'Material escolar cargado con éxito!']);
+    }
+ 
+    public function escolaridad_borrar(int $id)
+    {
+        $preg = gf_escolaridad::find($id);
+        $preg->delete();
+
+        return back()->with(["mensaje" => 'Material escolar borrado con éxito!']);
     }
 }

@@ -281,8 +281,10 @@
                         <div class="col-md-8">
                             @if(isset($registro->id))
                             <div class='float-right'>
-                            <a href=" {{ route('familiares.documentos', [$afiliado_id, $registro->id]) }} " id="btndocum" class="btn btn-primary">Documentación <span class="badge badge-light">{{$cantidades['documentos']}}</span></a>
-                            <a href=" {{ route('familiares.carnet', [$afiliado_id, $registro->id]) }} " id="btncarnet" class="btn btn-primary">Carnet <span class="badge badge-light">{{$cantidades['foto']}}</span></a>
+                                {{-- <a href=" {{ route('familiares.escolaridad', [$afiliado_id, $registro->id]) }} " id="btnescuela" class="btn btn-primary">Escolaridad <span class="badge badge-light">{{$cantidades['escolaridad']}}</span></a> --}}
+                                <a href=" {{ route('familiares.escolaridad', [$afiliado_id, $registro->id]) }} " id="btnescolaridad" class="btn btn-primary">Escolaridad <span class="badge badge-light">{{$cantidades['foto']}}</span></a>
+                                <a href=" {{ route('familiares.documentos', [$afiliado_id, $registro->id]) }} " id="btndocum" class="btn btn-primary">Documentación <span class="badge badge-light">{{$cantidades['documentos']}}</span></a>
+                                <a href=" {{ route('familiares.carnet', [$afiliado_id, $registro->id]) }} " id="btncarnet" class="btn btn-primary">Carnet <span class="badge badge-light">{{$cantidades['foto']}}</span></a>
                             </div>
                             @endif
                         </div>

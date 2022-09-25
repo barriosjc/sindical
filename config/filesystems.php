@@ -66,7 +66,12 @@ return [
             'url' => env('APP_URL').'/storage/afiliados/carnet/tmp/',
             'visibility' => 'public',
         ],
-
+        'usuarios' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/usuarios'),
+            'url' => env('APP_URL').'/storage/usuarios/',
+            'visibility' => 'public',
+        ],
         'fotos' => [
             'driver' => 'local',
             'root' => storage_path('app/public/afiliados/carnet'),

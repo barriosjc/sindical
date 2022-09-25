@@ -50,7 +50,7 @@ class UsuarioController extends Controller
    * @return \Illuminate\View\View
    */
   public function create()
-  { 
+  {
     return view('seguridad.usuario.create');
   }
 
@@ -72,10 +72,10 @@ class UsuarioController extends Controller
 
     $requestData = $request->all();
     if ($request->hasFile('avatar')) {
-      $requestData['foto'] = $request->file('foto')->store('public/fotos');
+      $requestData['foto'] = $request->file('foto')->store('fotos');
     }
     $requestData['password'] = Hash::make($request->password);
-    
+
     User::create($requestData);
 
     return redirect('usuario')->with('flash_message', 'Usuario agregado con éxito!');
@@ -120,33 +120,36 @@ class UsuarioController extends Controller
   public function update(Request $request, $id)
   {
     $this->validate($request, [
-      'name' => 'required|max:60',
-      'last_name' => 'required|max:60',
-      'password' => 'required',
-      'email' => 'required'
+      'name' => 'required|max:50',
+      'last_name' => 'required|max:100',
+      'password' => 'required|max:255',
+      'email' => 'required|max:255'
     ]);
 
     $requestData = $request->all();
     $user = User::findOrFail($id);
 
     if ($request->hasFile('foto')) {
-        $foto_vieja = $user->foto;
-        if(!empty($foto_vieja) and $foto_vieja <> config('app.avatar-def')){
-            Storage::delete($foto_vieja);
-        }
-        //guarda storage/app/public/fotos
-        $path = $request->file('foto')->store('public/fotos');
-        $user->foto = $path;
-        // $user->save();    
+      $foto_vieja = $user->foto;
+      if (!empty($foto_vieja) and $foto_vieja <> config('app.avatar-def')) {
+        Storage::delete($foto_vieja);
       }
+
+      //guarda storage/app/public/fotos
+      $path = Storage::disk('usuarios')->put("", $request->file('foto'));
+      //$path = $request->file('foto')->store('', 'usuarios');
+      //$user->foto = $path;
+      $requestData['foto']= $path;
+      // $user->save();    
+    }
     $requestData['password']  = Hash::make($request->password);
 
     $user->update($requestData);
     $esabm = true;
     $user = User::latest()->paginate(10);
 
-    return view('seguridad.usuario.index',compact('user','esabm'))
-            ->with('flash_message', 'Usuario actualizado!');
+    return view('seguridad.usuario.index', compact('user', 'esabm'))
+      ->with('flash_message', 'Usuario actualizado!');
   }
 
   /**
@@ -163,63 +166,72 @@ class UsuarioController extends Controller
     return redirect('usuario')->with('flash_message', 'Usuario borrado!');
   }
 
-  public function roles(int $usuid, int $rolid = null, string $tarea = ''){
+  public function roles(int $usuid, int $rolid = null, string $tarea = '')
+  {
 
     $rol = role::find($rolid);
     $user = user::find($usuid);
     switch ($tarea) {
       case 'asignar':
-          $a = $user->assignRole($rol);
-          break;
+        $a = $user->assignRole($rol);
+        break;
 
       case 'desasignar':
-          $a = $user->removeRole($rol);
-          break;
-  }
+        $a = $user->removeRole($rol);
+        break;
+    }
 
     $roles = $user->Roles()->paginate(5);
-    $roless = DB::table('roles')                 
-    ->select( 'id', 'name', 'guard_name', 
-                'created_at', 'updated_at')
-    ->whereNotIn('id', DB::table('model_has_roles')->select('role_id')->where('model_id', '=', $usuid))
-    ->paginate(5);
+    $roless = DB::table('roles')
+      ->select(
+        'id',
+        'name',
+        'guard_name',
+        'created_at',
+        'updated_at'
+      )
+      ->whereNotIn('id', DB::table('model_has_roles')->select('role_id')->where('model_id', '=', $usuid))
+      ->paginate(5);
     $esabm = false;
     $padre = "usuarios";
     $titulo = 'asignados al usuario  ->   ' . strtoupper($user->name);
 
-    return view('seguridad.roles.index',compact('padre', 'usuid', 'roles', 'roless', 'esabm', 'titulo'));
-//         ->with('i', ($request->input('page', 1) - 1) * 5);
+    return view('seguridad.roles.index', compact('padre', 'usuid', 'roles', 'roless', 'esabm', 'titulo'));
+    //         ->with('i', ($request->input('page', 1) - 1) * 5);
   }
 
-  public function permisos(int $usuid, int $perid = null, string $tarea = ''){
+  public function permisos(int $usuid, int $perid = null, string $tarea = '')
+  {
 
     $user = user::find($usuid);
     $per = permission::find($perid);
     switch ($tarea) {
-        case 'asignar':
-            // asigna el usu
-            $a = $user->givePermissionTo($per);
-            break;
+      case 'asignar':
+        // asigna el usu
+        $a = $user->givePermissionTo($per);
+        break;
 
-        case 'desasignar':
-            $a = $user->revokePermissionTo($per);
-            break;
+      case 'desasignar':
+        $a = $user->revokePermissionTo($per);
+        break;
     }
 
     $permisos = $user->permissions()->paginate(5);
-    $permisoss = DB::table('permissions')                 
-        ->select('id', 'name', 'guard_name', 
-        'created_at', 'updated_at')
-        ->whereNotIn('id', DB::table('model_has_permissions')->select('permission_id')->where('model_id', '=', $usuid))
-        ->paginate(5);
+    $permisoss = DB::table('permissions')
+      ->select(
+        'id',
+        'name',
+        'guard_name',
+        'created_at',
+        'updated_at'
+      )
+      ->whereNotIn('id', DB::table('model_has_permissions')->select('permission_id')->where('model_id', '=', $usuid))
+      ->paginate(5);
     $esabm = false;
 
     $titulo = 'asignados al uzuario  ->   ' . strtoupper($user->name);
     $padre = "usuarios";
 
-    return view('seguridad.permisos.index',  compact('padre', 'usuid', 'permisos', 'permisoss', 'esabm', 'titulo'));   
-
+    return view('seguridad.permisos.index',  compact('padre', 'usuid', 'permisos', 'permisoss', 'esabm', 'titulo'));
   }
-
 }
-  
