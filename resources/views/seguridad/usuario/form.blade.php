@@ -3,7 +3,7 @@
   <div class="col-md-3">
     <div class="form-group  {{ $errors->has('name') ? 'has-error' : ''}}">
       <label for="name" class="control-label">{{ 'Nombre' }}</label>
-      <input class="form-control" name="name" type="text" id="name" value="{{ isset($user->name) ? $user->name : ''}}" required>
+      <input class="aMayusculas form-control" name="name" type="text" id="name" value="{{ isset($user->name) ? $user->name : ''}}" required>
       {!! $errors->first('name', '<p class="help-block">:message</p>') !!}
     </div>
   </div>
@@ -11,7 +11,7 @@
   <div class="col-md-5">
     <div class="form-group  {{ $errors->has('last_name') ? 'has-error' : ''}}">
       <label for="last_name" class="control-label">{{ 'Nombre Completo' }}</label>
-      <input class="form-control" name="last_name" type="text" id="last_name" value="{{ isset($user->last_name) ? $user->last_name : ''}}" required>
+      <input class="aMayusculas form-control" name="last_name" type="text" id="last_name" value="{{ isset($user->last_name) ? $user->last_name : ''}}" required>
       {!! $errors->first('last_name', '<p class="help-block">:message</p>') !!}
     </div>
   </div>
@@ -54,3 +54,11 @@
     </div>
   </div>
 </div>
+
+<script>
+  $(function() {
+      $(".aMayusculas").on("keyup", function() {
+        this.value = this.value.toUpperCase();
+      });
+    });
+</script>

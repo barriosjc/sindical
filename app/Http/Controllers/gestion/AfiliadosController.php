@@ -689,7 +689,7 @@ class AfiliadosController extends Controller
             'empresa_id' => 'required',
             'categoria_id' => 'required',
             'especialidad_id' => 'required',
-            'fecha_ingreso' => ['bail', 'required','required_with:fecha_egreso', 'date', 'before_or_equal:today'],
+            'fecha_ingreso' => ['bail', 'required', 'date', 'before_or_equal:today'],
             'motivo_egreso_id' => 'required_with:fecha_egreso',
             'fecha_ing_empr' => ['bail', 'required','required_with:fecha_egr_empr', 'date', 'before_or_equal:today'],
             'delegado_desde' => ['bail', 'nullable','required_with:delegado_hasta', 'date', 'before_or_equal:today'],

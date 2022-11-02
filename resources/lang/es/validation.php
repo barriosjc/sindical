@@ -188,6 +188,6 @@ return [
         'cod_empresa'       => "Código de empresa",
         'fecha_ingreso'     => "Fecha de afiliación",
         'today' => 'hoy',
-        'fecha_egreso' => 'Fecha baja'
+        'fecha_egreso' => 'Fecha baja de la empresa'
     ],
 ];

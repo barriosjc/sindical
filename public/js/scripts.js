@@ -1,7 +1,6 @@
 $(function() {
 
-    $('#obtsiguiente').on('click', function(e) 
-    {
+    $('#obtsiguiente').on('click', function(e) {
         e.preventDefault();
 
         if ($('.valorsiguiente').val() != '') {
@@ -34,7 +33,7 @@ $(function() {
         var prov_id = $(this).val();
         var html_select = '';
         var data = $(this).data('localidad');
-        var combo = $('#'+data);
+        var combo = $('#' + data);
         if (!prov_id) {
             combo.html('<option value="">--Seleccione--</option>');
             return
@@ -66,7 +65,7 @@ $(function() {
         language: "es"
     });
 
-    $('.solonros').on('keyup', function(e) {    
+    $('.solonros').on('keyup', function(e) {
         this.value = this.value.replace(/\D/g, '');
     });
 
@@ -84,10 +83,10 @@ $(function() {
         $('#edad').val(edad);
     }
 
-    var elements = document.getElementsByClassName('colorear'); 
-	for(var i = 0; i < elements.length; i++){
-        if(elements[i].value != ''){
-        elements[i].style.backgroundColor = "#f5b7b1";
+    var elements = document.getElementsByClassName('colorear');
+    for (var i = 0; i < elements.length; i++) {
+        if (elements[i].value != '') {
+            elements[i].style.backgroundColor = "#f5b7b1";
         }
-	}
+    }
 })

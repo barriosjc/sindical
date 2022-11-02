@@ -34,6 +34,7 @@ class UsuarioController extends Controller
         ->orWhere('email', 'LIKE', "%$keyword%")
         // ->orWhere('telefono', 'LIKE', "%$keyword%")
         // ->orWhere('observacion', 'LIKE', "%$keyword%")
+        ->orderby("last_name")
         ->latest()->paginate($perPage);
     } else {
       $user = User::latest()->paginate($perPage);

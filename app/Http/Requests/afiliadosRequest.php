@@ -50,7 +50,7 @@ class afiliadosRequest extends FormRequest
             }
             ],
 
-            'fecha_egreso' => ['bail', 'before_or_equal:today',
+            'fecha_egreso' => ['bail', 
                 function ($attribute, $value, $fail) use ($rq) {
                 // dd($attribute, $rq->input('fecha_ing_empr'), $value, $value < $rq->input('fecha_ing_empr'));
                 if (!($rq->input($attribute) == null)) {

@@ -241,7 +241,7 @@
                             </div>
                         </div>
                         <div class="col-md-3">
-                            <div class="form-group">
+                            <div class="form-group" data-placement="top" title="Debe haber seleccionado una Provincia para que se carguen las localidades.">
                                 <label for="">Localidad y C.P.</label>
                                 <select name="localidad_id" id="localidad_id" class="busqueda form-control"
                                     style="width: 100%">
@@ -577,6 +577,9 @@ $(function() {
         }
 
     })
+
+    //$('.select2').select2({});
+
 
 });
 </script>
