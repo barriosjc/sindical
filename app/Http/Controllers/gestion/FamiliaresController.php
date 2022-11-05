@@ -59,7 +59,6 @@ class FamiliaresController extends Controller
         }
 
         $grupo_familiar = grupo_familiar::where('afiliado_id', $afiliado_id)->with('tipos_parentescos')->get();
-
         $motivos_egresos_sind = motivo_egreso_sind::get();
         $tipos_documentos = tipo_documento::where('tipo', 'AFI')->get();
         $nacionalidades = tipos_nacionalidad::get();
