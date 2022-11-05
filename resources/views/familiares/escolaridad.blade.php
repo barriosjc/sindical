@@ -69,7 +69,6 @@
                                 <td>{{ $item->obs }}</td>                          
                                 <td>
                                     <div class="float-right">
-                                        <a href="{{ route('familiares.escolaridad.imprimir', $item->id) }}" data-toggle="tooltip" class="btn btn-primary btn-sm" title="Imprimir documento"><i class="fa fa-print"></i> </a>
                                         {{-- <a href="{{ asset('storage/ ') . str_replace('public', '', $item->path) }}" data-toggle="tooltip" class="btn btn-primary btn-sm" title="Descargar documento"><i class="fas fa-file-download"></i> </a> --}}
                                         <form action="{{ route('familiares.escolaridad.borrar', $item->id) }}" method="POST" style="display:inline">
                                             @csrf
