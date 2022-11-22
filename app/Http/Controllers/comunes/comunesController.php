@@ -18,6 +18,15 @@ class comunesController extends Controller
 
     public function obtener_siguiente(Request $request)
     {
+        // si se quiere obtener los siguientes disponibles, implementar por tabla
+        /*
+        select min(nro_afil_sindical) + 1 from 
+            afiliados
+            where nro_afil_sindical + 1 not in (select nro_afil_sindical from 
+            afiliados
+            where nro_afil_sindical)
+        */
+        
         $param = parametro::where('dato', $request->tipo)->first();
         $nro = 0;
         if ($param != null) {
@@ -31,7 +40,10 @@ class comunesController extends Controller
 
     public function traer_localidades(int $prov_id) {
 
-        $localidades = localidad::where('provincia_id',$prov_id)->get();
+        $localidades = localidad::where('provincia_id',$prov_id)
+        ->orderBy('nombre', 'asc')
+        ->orderBy('cod_postal', 'asc')
+        ->get();
 
         return $localidades;
     }

@@ -558,30 +558,30 @@
 </form>
 
 
-<script src="{{ asset('js/scripts.js') }}"></script>
+<script  type="text/javascript" src="{{ URL::asset('js/scripts.js') }}"></script>
 <script>
-$(function() {
+    $(function() {
 
-    var html_select = '';
-    var combo = $('#motivo_egreso_id');
+        var html_select = '';
+        var combo = $('#motivo_egreso_id');
 
-    $.get('/api/afiliado/motivos_egresos/', function(data) {
-        for (var i = 0; i < data.length; ++i) {
-            combo.append(new Option(data[i].descripcion, data[i].id));
-            //    console.log(combo.children().last());
-            combo.children().last().attr({
-                "data-toggle": "tooltip",
-                "title": data[i].tooltips,
-                "data-placement": "top"
-            });
-        }
+        $.get('/api/afiliado/motivos_egresos/', function(data) {
+            for (var i = 0; i < data.length; ++i) {
+                combo.append(new Option(data[i].descripcion, data[i].id));
+                //    console.log(combo.children().last());
+                combo.children().last().attr({
+                    "data-toggle": "tooltip",
+                    "title": data[i].tooltips,
+                    "data-placement": "top"
+                });
+            }
 
-    })
+        })
 
-    //$('.select2').select2({});
+        //$('.select2').select2({});
 
 
-});
+    });
 </script>
 
 @endsection
