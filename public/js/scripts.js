@@ -26,10 +26,17 @@ $(function() {
         });
     });
 
-
+    $('#copiar').on('click', function(e) {
+        e.preventDefault();
+        if ($('input[name="calle_adm"]').val() == "") {
+            $('input[name="calle_adm"]').val($('input[name="calle"]').val());
+            $('input[name="calle_nro_adm"]').val($('input[name="calle_nro"]').val());
+            $('input[name="calle_piso_adm"]').val($('input[name="calle_piso"]').val());
+            $('input[name="calle_obs_adm"]').val($('input[name="calle_obs"]').val());
+        }
+    });
 
     $('.provincia').on('change', function() {
-
         var prov_id = $(this).val();
         var html_select = '';
         var data = $(this).data('localidad');

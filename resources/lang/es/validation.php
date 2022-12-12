@@ -183,11 +183,14 @@ return [
         'year'                  => 'año',
         'path'                  => 'archivo',
         'motivo_egreso_os_id'   => 'Motivo de baja O.S.',
-        'motivo_egreso_id'   => 'Motivo de baja Sindical',
-        'fecha_egreso_os'   => 'Fecha de egreso O.S.',
-        'cod_empresa'       => "Código de empresa",
-        'fecha_ingreso'     => "Fecha de afiliación",
-        'today' => 'hoy',
-        'fecha_egreso' => 'Fecha baja de la empresa'
+        'motivo_egreso_id'      => 'Motivo de baja Sindical',
+        'fecha_egreso_os'       => 'Fecha de egreso O.S.',
+        'cod_empresa'           => "Código de empresa",
+        'fecha_ingreso'         => "Fecha de afiliación",
+        'today'                 => 'hoy',
+        'fecha_egreso'          => 'Fecha baja de la empresa',
+        'telefono1'             => "Teléfonos",
+        'calle'                 => 'Calle',
+        'calle_nro'             => 'Calle Nro'
     ],
 ];

@@ -7,7 +7,7 @@
 <form id='formEmpbus' action="{{route('afiliado.find')}}" method="GET">
     <div class="row">
         <div class="col-md-4">
-            <h4>Ficha de Afiliado</h4>
+            <h4>Ficha de Afiliado Titular</h4>
         </div>
         <div class="col-md-4 offset-md-4 bot-20  justify-content-end">
             <div class="input-group">
@@ -189,7 +189,7 @@
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label>Telefonos</label>
+                                <label>Telefonos</label><span class='s-red'>*</span>
                                 <input type="text" id="" name="telefono1" class="form-control form-control-sm"
                                     value="{{ old('telefono1', $registro->telefono1) }}" maxlength="60" />
                             </div>
@@ -241,7 +241,8 @@
                             </div>
                         </div>
                         <div class="col-md-3">
-                            <div class="form-group" data-placement="top" title="Debe haber seleccionado una Provincia para que se carguen las localidades.">
+                            <div class="form-group"  data-toggle="tooltip" data-placement="top" data-placement="top" 
+                                    title="Debe haber seleccionado una Provincia para que se carguen las localidades.">
                                 <label for="">Localidad y C.P.</label>
                                 <select name="localidad_id" id="localidad_id" class="busqueda form-control"
                                     style="width: 100%">
@@ -412,7 +413,7 @@
                         <div class="col-md-5">
                             <div class="form-group">
                                 <div id="tooltip_container"></div>
-                                <label for="">Obra social</label>
+                                <label for="">Obra social</label><span class='s-red'>*</span>
                                 <select name="obra_social_id" id="obra_social_id" class="form-control form-control-sm"
                                     style="width: 100%">
                                     <option value="" data-toggle="tooltip" data-container="#tooltip_container"
@@ -427,7 +428,7 @@
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label>Fec. ingreso</label>
+                                <label>Fec. ingreso</label><span class='s-red'>*</span>
                                 <input type="date" id="fecha_ingreso_os" name="fecha_ingreso_os"
                                     class="form-control form-control-sm"
                                     value="{{ old('fecha_ingreso_os', $registro->fecha_ingreso_osy) }}">

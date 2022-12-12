@@ -133,7 +133,7 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label>Email 1</label>
+                                <label>Email 1</label><span class='s-red'>*</span>
                                 <input type="email" id="" name="email" class="form-control form-control-sm" value="{{ old('email', $registro->email) }}" maxlength="100" />
                             </div>
                         </div>
@@ -162,7 +162,7 @@
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label>Telefonos</label>
+                                <label>Telefonos</label><span class='s-red'>*</span>
                                 <input type="text" id="" name="telefono1" class="form-control form-control-sm" value="{{ old('telefono1', $registro->telefono1) }}" maxlength="60" />
                             </div>
                         </div>
@@ -185,7 +185,7 @@
                             </div>
                         </div>
                         <div class="col-md-2">
-                            <label>Tiene delegado/s</label>
+                            <label>Tiene delegado/s</label><span class='s-red'>*</span>
                             <div class="container">
                                 <div class="form-check-inline">
                                     <label class="form-check-label">
@@ -215,13 +215,13 @@
                     <div class="row">
                         <div class="col-md-5">
                             <div class="form-group">
-                                <label>Calle</label>
+                                <label>Calle</label><span class='s-red'>*</span>
                                 <input type="text" id="" name="calle" class="aMayusculas form-control form-control-sm" value="{{ old('calle', $registro->calle) }}" maxlength="50" />
                             </div>
                         </div>
                         <div class="col-md-1">
                             <div class="form-group">
-                                <label>Nro</label>
+                                <label>Nro</label><span class='s-red'>*</span>
                                 <input type="text" id="" name="calle_nro" class="form-control form-control-sm" value="{{ old('calle_nro', $registro->calle_nro) }}" maxlength="10" />
                             </div>
                         </div>
@@ -269,8 +269,9 @@
     <div class="bot-20">
         <div class="card border-primary">
             <div class="card-header">
-                Direccion administrativa
-            </div>
+                Direccion administrativa 
+                <a href="#" id="copiar" class="btn btn-success btn-sm" title="Copiar datos de producción"> <i class="fa fa-copy" aria-hidden="true"></i> Copiar datos de producción</a>
+            </div> 
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
                     <div class="row">
