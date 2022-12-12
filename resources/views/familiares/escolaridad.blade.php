@@ -15,25 +15,96 @@
                 <div class="row">
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label for="">Material a entregar</label>
-                            <select name="tipo_material_id" id="tipo_material_id" class="form-control form-control-sm" style="width: 100%">
+                            <label>Ciclo lectivo</label>
+                            <input typpe="text" id="" name="ciclo" class="form-control form-control-sm" value="{{ old('cliclo') }}" readonly />
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="">Nivel</label>
+                            <select name="tipo_documento_id" id="tipo_documento_id" class="form-control form-control-sm" style="width: 100%">
                                 <option value="">--Seleccione--</option>
-                                @foreach($tipos_material as $dato)
-                                <option value="{{$dato->id}}">{{$dato->descripcion}}</option>
-                                @endforeach
+                                <option value="jardin">Jardin</option>
+                                <option value="preescolar">Preescolar</option>
+                                <option value="primario">Primario</option>
+                                <option value="secundario">Secundario</option>
+                                <option value="postsecundario">Post secundario</option>
                             </select>
                         </div>
                     </div>
-                    <div class="col-md-1">
+                    <div class="col-md-3">
                         <div class="form-group">
-                            <label>Cantidad</label>
-                            <input type="text" id="cantidad" name="cantidad" class="form-control form-control-sm" />
+                            <label for="">Tipo educación</label>
+                            <select name="tipo_educacion" id="tipo_educacion" class="form-control form-control-sm" style="width: 100%">
+                                <option value="">--Seleccione--</option>
+                                <option value="publica">Pública</option>
+                                <option value="privada">Privada</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2">
+                        <label>Mochila</label><span class='s-red'>*</span>
+                        <div class="container">
+                            <div class="form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="radio" class="form-check-input" value="S" name="mochila" {{(empty($registro->mochila) ? old('mochila') : $registro->mochila) =='S' ? 'checked' : ''}}>SI</input>
+                                </label>
+                            </div>
+                            <div class="form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="radio" class="form-check-input" value="N" name="mochila" {{(empty($registro->mochila) ? old('mochila')  : $registro->mochila) =='N' ? 'checked' : ''}}>NO</input>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <label>Kit escolar</label><span class='s-red'>*</span>
+                        <div class="container">
+                            <div class="form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="radio" class="form-check-input" value="S" name="kitescolar" {{(empty($registro->kitescolar) ? old('kitescolar') : $registro->kitescolar) =='S' ? 'checked' : ''}}>SI</input>
+                                </label>
+                            </div>
+                            <div class="form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="radio" class="form-check-input" value="N" name="kitescolar" {{(empty($registro->kitescolar) ? old('kitescolar')  : $registro->kitescolar) =='N' ? 'checked' : ''}}>NO</input>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <label>Delantal</label><span class='s-red'>*</span>
+                        <div class="container">
+                            <div class="form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="radio" class="form-check-input" value="S" name="delantal" {{(empty($registro->delantal) ? old('delantal') : $registro->delantal) =='S' ? 'checked' : ''}}>SI</input>
+                                </label>
+                            </div>
+                            <div class="form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="radio" class="form-check-input" value="N" name="delantal" {{(empty($registro->delantal) ? old('delantal')  : $registro->delantal) =='N' ? 'checked' : ''}}>NO</input>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="">Talle</label>
+                            <select name="talle" id="talle" class="form-control form-control-sm" style="width: 100%">
+                                <option value="">--Seleccione--</option>
+                                <option value="t6">T 6</option>
+                                <option value="t8">T 8</option>
+                                <option value="t10">T 10</option>
+                                <option value="t12">T 12</option>
+                            </select>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>Observaciones</label>
-                            <input type="text" id="" name="obs" class="form-control form-control-sm" value="{{ old('obs') }}" maxlength="50" />
+                            <input typpe="text" id="" name="obs" class="form-control form-control-sm" value="{{ old('obs') }}" maxlength="100" />
                         </div>
                     </div>
 
@@ -47,46 +118,7 @@
                 </div>
             </form>
         </li>
-        <li class="list-group-item">
-            <div class="row">
-                <div class="table-responsive">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Material</th>
-                                <th>Cantidad</th>
-                                <th>Observaciones</th>                            
-                                <th style="width:8%">Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($gf_escolaridad as $item)
-                            <tr>
-                                <td>{{ $loop->iteration }}</td>
-                                <td>{{ $item->tipos_material->descripcion }}</td>
-                                <td>{{ $item->cantidad }}</td>
-                                <td>{{ $item->obs }}</td>                          
-                                <td>
-                                    <div class="float-right">
-                                        {{-- <a href="{{ asset('storage/ ') . str_replace('public', '', $item->path) }}" data-toggle="tooltip" class="btn btn-primary btn-sm" title="Descargar documento"><i class="fas fa-file-download"></i> </a> --}}
-                                        <form action="{{ route('familiares.escolaridad.borrar', $item->id) }}" method="POST" style="display:inline">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-sm"> <i class="far fa-trash-alt text-white" onclick="return confirm('Confima la eliminación?')"></i></button>
-                                        </form>
-                                    </div>
-                                </td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                     {{-- @if(!empty($gf_escolaridad)) --}}
-                    <div class="pagination-wrapper"> {!! $gf_escolaridad->appends(['search' => Request::get('search')])->render() !!} </div>
-                     {{-- @endif  --}}
-                </div>
-            </div>
-        </li>
+
     </ul>
 </div>
 
