@@ -30,8 +30,12 @@ class gf_escolaridad extends Model
      */
     protected $fillable = [
             'grupo_familiar_id',
-            'tipo_material_id',
-            'cantidad',
+            'ciclo_lectivo',
+            'nivel',
+            'tipo_educacion',
+            'kit_escolar',
+            'delantal',
+            'talle',
             'obs',
             'periodo'
     ];

@@ -22,7 +22,7 @@ use App\models\gf_documento;
 use App\models\tipo_parentesco;
 use App\models\tipo_material;
 use App\models\gf_escolaridad;
-
+use Carbon\Carbon;
 use Symfony\Component\HttpFoundation\Response;
 use Exception;
 
@@ -357,10 +357,20 @@ class FamiliaresController extends Controller
         return response()->download(public_path() . '/' . $path);
     }
 
+    //-------------------------------------------------------------------------------------------------------------------------------------
+
     public function escolaridad_index(int $afiliado_id, int $grupo_familiar_id)
     {
         $tipos_material = tipo_material::get();
-        $gf_escolaridad = gf_escolaridad::where('grupo_familiar_id', $grupo_familiar_id)->paginate(10);
+        $gf_escolaridad = gf_escolaridad::where('grupo_familiar_id', $grupo_familiar_id)->first();
+        if(empty($gf_escolaridad)) {
+            $gf_escolaridad = new gf_escolaridad;
+            $gf_escolaridad->ciclo_lectivo = now()->year;
+            $gf_escolaridad->mochila = 'S';
+            $gf_escolaridad->kit_escolar = 'S';
+            $gf_escolaridad->nivel = 'primario';
+        }
+//dd($gf_escolaridad);
 
         return view('familiares.escolaridad', compact('afiliado_id', 'grupo_familiar_id', 'tipos_material', 'gf_escolaridad'));
     }
