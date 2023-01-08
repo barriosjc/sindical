@@ -33,6 +33,7 @@ class gf_escolaridad extends Model
             'ciclo_lectivo',
             'nivel',
             'tipo_educacion',
+            'mochila',
             'kit_escolar',
             'delantal',
             'talle',

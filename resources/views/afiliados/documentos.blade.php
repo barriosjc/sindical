@@ -10,10 +10,8 @@
         Datos Generales
     </div>
     <ul class="list-group list-group-flush">
-
         <li class="list-group-item">
             <form id='formEmp' action="{{route('afiliado.documentos.guardar')}}" method="POST"  accept-charset="UTF-8" class="form-horizontal" enctype="multipart/form-data">
-
                 @csrf
                 <input type='hidden' name='afiliado_id' value="{{ $afiliado_id }}">
                 <div class="row">

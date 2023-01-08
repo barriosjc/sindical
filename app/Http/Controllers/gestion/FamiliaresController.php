@@ -25,6 +25,7 @@ use App\models\gf_escolaridad;
 use Carbon\Carbon;
 use Symfony\Component\HttpFoundation\Response;
 use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class FamiliaresController extends Controller
 {
@@ -39,7 +40,7 @@ class FamiliaresController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->name_img =  'foto_'.  md5("foto") . '.png';
+        $this->name_img =  'foto_' .  md5("foto") . '.png';
     }
 
     /**
@@ -238,7 +239,7 @@ class FamiliaresController extends Controller
         return back()->with(["mensaje" => 'pregunta y respuesta borrada con éxito!']);
     }
 
-    public function carnet($afiliado_id, $familiar_id) 
+    public function carnet($afiliado_id, $familiar_id)
     {
         $familiar = grupo_familiar::where("id", $familiar_id)->first();
 
@@ -250,7 +251,8 @@ class FamiliaresController extends Controller
         );
     }
 
-    public function carnet_pdf($afiliado_id, $familiar_id) {
+    public function carnet_pdf($afiliado_id, $familiar_id)
+    {
         $pdf = app('dompdf.wrapper');
         // $pdf->loadView('afiliados.carnet_pdf', compact('afiliado'));
         // return $pdf->download('carnet_' . $afiliado->nro_doc . '.pdf');
@@ -260,11 +262,11 @@ class FamiliaresController extends Controller
         $fecha = "";
         if ($familiar->discapacitado == 'S') {
             $reporte = 'carnet_disca_pdf';
-        } elseif(ENV('HIJO_MAYOR_ESTUD') == $familiar->tipo_parentesco_id) {
+        } elseif (ENV('HIJO_MAYOR_ESTUD') == $familiar->tipo_parentesco_id) {
             $reporte = 'carnet_hijo_mayor_pdf';
-        } elseif( !empty(in_array($familiar->tipo_parentesco_id, explode(';', ENV('CONYUGUE')))) ) {
+        } elseif (!empty(in_array($familiar->tipo_parentesco_id, explode(';', ENV('CONYUGUE'))))) {
             $reporte = 'carnet_familiar_pdf';
-        }else {
+        } else {
             $reporte = 'carnet_hijo_pdf';
         }
 
@@ -275,10 +277,12 @@ class FamiliaresController extends Controller
         // }
         return view(
             'familiares.informes.' . $reporte,
-            compact('familiar', 'fecha'));
+            compact('familiar', 'fecha')
+        );
     }
 
-    public function crop_foto(Request $request){
+    public function crop_foto(Request $request)
+    {
 
         $image_parts = explode(";base64,", $request->image);
         $image_base64 = base64_decode($image_parts[1]);
@@ -287,48 +291,50 @@ class FamiliaresController extends Controller
 
         $data['success'] = true;
         $data['name'] = $request->hi_name;
-    
+
         return response()->json($data);
     }
 
-    public function tomar_foto(Request $request) {
-        
+    public function tomar_foto(Request $request)
+    {
+
         $file = $request->image;
         $imagenCodificadaLimpia = str_replace("data:image/png;base64,", "", urldecode($file));
-        $imagenDecodificada = base64_decode($imagenCodificadaLimpia);        
+        $imagenDecodificada = base64_decode($imagenCodificadaLimpia);
         $name = $this->name_img;
         if (!empty($request->hi_name)) {
             $name = $request->hi_name;
         }
 
-        Storage::disk('fotostmp')->put($name, $imagenDecodificada);    
+        Storage::disk('fotostmp')->put($name, $imagenDecodificada);
 
         $data['success'] = true;
         //$data['path'] = Storage::disk('fotostmp')->url($name);
         $data['name'] = $name;
-    
+
         return response()->json($data);
     }
 
-    public function file_input_Photo(Request $request) {
-    
+    public function file_input_Photo(Request $request)
+    {
+
         $this->validate($request, [
             'photo' => 'required|image'
         ]);
 
         $file = $request->file('photo');
-        $name = Storage::disk('fotostmp')->put('', $file);    
+        $name = Storage::disk('fotostmp')->put('', $file);
 
         $data['success'] = true;
         $data['name'] = $name;
 
         return $data;
-    
     }
 
-    public function foto_guardar(Request $request){
-        
-        if( storage::disk('fotostmp')->exists($request->hi_name) ) {
+    public function foto_guardar(Request $request)
+    {
+
+        if (storage::disk('fotostmp')->exists($request->hi_name)) {
             $familiar = grupo_familiar::where('id', $request->familiar_id)->first();
             // dump($familiar);die;
             $destino = 'foto_' . $request->familiar_id . '.png';
@@ -339,13 +345,12 @@ class FamiliaresController extends Controller
             $familiar->path = $destino;
             $familiar->save();
             $result = 'foto guardada con éxito!';
-
         } else {
 
-            return back()->withErrors( ['mensaje' => 'No se ha modificado la imagen actual, debe Tomar una foto o Subir una foto para luego guardarla en el sistema'] );
+            return back()->withErrors(['mensaje' => 'No se ha modificado la imagen actual, debe Tomar una foto o Subir una foto para luego guardarla en el sistema']);
         }
 
-       return redirect()->route('familiares.carnet',  [$request->afiliado_id, $request->familiar_id]);
+        return redirect()->route('familiares.carnet',  [$request->afiliado_id, $request->familiar_id]);
     }
 
     public function download(int $id)
@@ -362,33 +367,59 @@ class FamiliaresController extends Controller
     public function escolaridad_index(int $afiliado_id, int $grupo_familiar_id)
     {
         $tipos_material = tipo_material::get();
-        $gf_escolaridad = gf_escolaridad::where('grupo_familiar_id', $grupo_familiar_id)->first();
-        if(empty($gf_escolaridad)) {
+        $gf_escolaridad_hist = gf_escolaridad::where('grupo_familiar_id', $grupo_familiar_id)->paginate();
+        // dd($gf_escolaridad);
+        if (empty($gf_escolaridad)) {
             $gf_escolaridad = new gf_escolaridad;
             $gf_escolaridad->ciclo_lectivo = now()->year;
             $gf_escolaridad->mochila = 'S';
             $gf_escolaridad->kit_escolar = 'S';
             $gf_escolaridad->nivel = 'primario';
         }
-//dd($gf_escolaridad);
 
-        return view('familiares.escolaridad', compact('afiliado_id', 'grupo_familiar_id', 'tipos_material', 'gf_escolaridad'));
+        return view('familiares.escolaridad', compact('gf_escolaridad_hist', 'afiliado_id', 'grupo_familiar_id', 'gf_escolaridad'));
     }
-    
+
     public function escolaridad_guardar(Request $request)
     {
         $request->validate([
-            'tipo_material_id' => 'required',
-            'cantidad' => 'required|integer|max:5',
-            'obs' => 'nullable|string|max:150'
+            'ciclo_lectivo' => 'required',
+            'mochila' => 'required',
+            'kit_escolar' => 'required',
+            'nivel' => 'required',
+            'tipo_educacion' => 'required',
+            'delantal' => ['required',
+                function ($attribute, $value, $fail) use ($request) {
+                    if (($request->input($attribute) == 'S')) {
+                        if ($request->input('talle') == null) {
+                            $fail('Si selecciona que requiere Delantal es obligatorio seleccionar el Talle a entregar.');
+                        }
+                    }
+                }
+            ],
         ]);
 
-        $requestData = $request->all();
-        gf_escolaridad::create($requestData);
+        try {
+            $requestData = $request->all();
+            if ($request->id) {
+                $gf_escolaridad = gf_escolaridad::find($request->id);
+            } else {
+                $existe = gf_escolaridad::where("grupo_familiar_id", $request->grupo_familiar_id)
+                ->where("ciclo_lectivo", $request->ciclo_lectivo)
+                ->first();
+                if ($existe) {
+                    throw new ModelNotFoundException("Ya se encuentra cargado la entrega de Utilies para el Afiliado en este periodo, no es posible guardar los datos.");
+                }
+                $gf_escolaridad = new gf_escolaridad($requestData);
+            }
+            $gf_escolaridad->save();
 
-        return back()->with(["mensaje" => 'Material escolar cargado con éxito!']);
+            return back()->with(["mensaje" => 'Material escolar cargado con éxito!']);
+        } catch (ModelNotFoundException  $e) {
+            return back()->withErrors(['mensaje' => $e->getMessage() ]);
+        }
     }
- 
+
     public function escolaridad_borrar(int $id)
     {
         $preg = gf_escolaridad::find($id);
