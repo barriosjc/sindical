@@ -63,12 +63,48 @@ class afiliado_empresa extends Model
 
         return $resu;
     }
+    public function getFechaIngEmprAttribute($value)
+    {
+        $resu = '';
+        if (!empty($value)) {
+            $resu = date('d/m/Y', strtotime($value));
+        }
 
+        return $resu;
+    }
+    public function getFechaEgrEmprAttribute($value)
+    {
+        $resu = '';
+        if (!empty($value)) {
+            $resu = date('d/m/Y', strtotime($value));
+        }
+
+        return $resu;
+    }
+    public function getDelegadoDesdeAttribute($value)
+    {
+        $resu = '';
+        if (!empty($value)) {
+            $resu = date('d/m/Y', strtotime($value));
+        }
+
+        return $resu;
+    }
+    public function getDelegadoHastaAttribute($value)
+    {
+        $resu = '';
+        if (!empty($value)) {
+            $resu = date('d/m/Y', strtotime($value));
+        }
+
+        return $resu;
+    }
     //este formato para mostrarlo en un form -------------------------------------------
     public function getFechaIngresoyAttribute()
     {
         $resu = $this->fecha_ingreso;
         if (!empty($resu)) {
+            $resu = substr($resu,6,4)."-".substr($resu,3,2)."-".substr($resu,0,2);
             $resu = date(env('DATE_FORM', 'Y-m-d'), strtotime($resu));
         }
 
@@ -79,6 +115,7 @@ class afiliado_empresa extends Model
     {
         $resu = $this->fecha_egreso;
         if (!empty($resu)) {
+            $resu = substr($resu,6,4)."-".substr($resu,3,2)."-".substr($resu,0,2);
             $resu = date(env('DATE_FORM', 'Y-m-d'), strtotime($resu));
         }
 
@@ -89,6 +126,7 @@ class afiliado_empresa extends Model
     {
         $resu = $this->fecha_ing_empr;
         if (!empty($resu)) {
+            $resu = substr($resu,6,4)."-".substr($resu,3,2)."-".substr($resu,0,2);
             $resu = date(env('DATE_FORM', 'Y-m-d'), strtotime($resu));
         }
 
@@ -99,6 +137,7 @@ class afiliado_empresa extends Model
     {
         $resu = $this->fecha_egr_empr;
         if (!empty($resu)) {
+            $resu = substr($resu,6,4)."-".substr($resu,3,2)."-".substr($resu,0,2);
             $resu = date(env('DATE_FORM', 'Y-m-d'), strtotime($resu));
         }
 
@@ -109,6 +148,7 @@ class afiliado_empresa extends Model
     {
         $resu = $this->delegado_desde;
         if (!empty($resu)) {
+            $resu = substr($resu,6,4)."-".substr($resu,3,2)."-".substr($resu,0,2);
             $resu = date(env('DATE_FORM', 'Y-m-d'), strtotime($resu));
         }
 
@@ -119,6 +159,7 @@ class afiliado_empresa extends Model
     {
         $resu = $this->delegado_hasta;
         if (!empty($resu)) {
+            $resu = substr($resu,6,4)."-".substr($resu,3,2)."-".substr($resu,0,2);
             $resu = date(env('DATE_FORM', 'Y-m-d'), strtotime($resu));
         }
 

@@ -16,6 +16,7 @@
                 <thead>
                     <tr>
                         <th>#</th>
+                        <th></th>
                         <th>Apellido y nombre</th>
                         <th>DNI</th>
                         <th>Parentesco</th>
@@ -29,6 +30,10 @@
                     @foreach($grupo_familiar as $item)
                     <tr @if(!empty($item->fecha_egreso_sind)) class="table-danger" @endif>
                         <td>{{ $loop->iteration }}</td>
+                        <td>@if (false)
+                            <i class="fa fa-book" aria-hidden="true"></i>
+                            @endif
+                        </td>
                         <td>{{ $item->apellido_nombres }}</td>
                         <td>{{ $item->nro_doc }}</td>
                         <td>{{$item->tipos_parentescos->descripcion }} </td>
@@ -170,8 +175,8 @@
                             <div class="form-group">
                                 <label for="">Localidad y C.P.</label>
                                 <select name="localidad_id" id="localidad_id" class="busqueda form-control" style="width: 100%">
-                                    @if($localidades != null){
-                                    <option value="{{$localidades->id}}">{{$localidades->nombre . ' - ' . $localidades->cod_postal }}</option>
+                                    @if($localidades != null)
+                                        <option value="{{$localidades->id}}">{{$localidades->nombre . ' - ' . $localidades->cod_postal }}</option>
                                     @endif
                                 </select>
                             </div>
@@ -282,7 +287,7 @@
                             @if(isset($registro->id))
                             <div class='float-right'>
                                 {{-- <a href=" {{ route('familiares.escolaridad', [$afiliado_id, $registro->id]) }} " id="btnescuela" class="btn btn-primary">Escolaridad <span class="badge badge-light">{{$cantidades['escolaridad']}}</span></a> --}}
-                                <a href=" {{ route('familiares.escolaridad', [$afiliado_id, $registro->id]) }} " id="btnescolaridad" class="btn btn-primary">Escolaridad <span class="badge badge-light">{{$cantidades['foto']}}</span></a>
+                                <a href=" {{ route('familiares.escolaridad', [$afiliado_id, $registro->id]) }} " id="btnescolaridad" class="btn btn-primary">Escolaridad <span class="badge badge-light">{{$cantidades['escolaridad']}}</span></a>
                                 <a href=" {{ route('familiares.documentos', [$afiliado_id, $registro->id]) }} " id="btndocum" class="btn btn-primary">Documentación <span class="badge badge-light">{{$cantidades['documentos']}}</span></a>
                                 <a href=" {{ route('familiares.carnet', [$afiliado_id, $registro->id]) }} " id="btncarnet" class="btn btn-primary">Carnet <span class="badge badge-light">{{$cantidades['foto']}}</span></a>
                             </div>

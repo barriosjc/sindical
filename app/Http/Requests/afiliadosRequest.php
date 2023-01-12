@@ -98,16 +98,18 @@ class afiliadosRequest extends FormRequest
 
             'nro_doc' => [function ($attribute, $value, $fail) use ($rq) {
                 if (!($rq->input($attribute) == null)) {
-                    if(!empty($rq->id)){
+                    if(! $rq->id){
                         $afiliado = afiliado::where("nro_doc", $rq->nro_doc)->first(); 
                         if (!empty($afiliado)) {
                             $fail("Otro afiliado titular ya esta dado de alta con el mismo nro de DNI");
                         }   
                     }
                     $gru_fam = grupo_familiar::where("nro_doc", $value)->first();
-                    if (empty($gru_fam->fecha_egreso_sind)){
-                        $fail("Error al dar de alta, Ya existe un Familiar con este dni, primero de de baja el familiar y luego de alta el titular.");
-                    }                 
+                    if ($gru_fam) {
+                        if (empty($gru_fam->fecha_egreso_sind)){
+                            $fail("Error al dar de alta, Ya existe un Familiar con este dni, primero de de baja el familiar y luego de alta el titular.");
+                        }                
+                    } 
                 }
             }
         ],

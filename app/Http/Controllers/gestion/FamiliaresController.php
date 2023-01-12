@@ -74,6 +74,8 @@ class FamiliaresController extends Controller
         $cantidades = ['foto' => $cant];
         $cant = gf_documento::where('grupo_familiar_id', $registro->id)->where('tipo_documento_id', '!=', 11)->count();
         $cantidades['documentos'] = $cant;
+        // $cant = gf_escolaridad::where('grupo_familiar_id', $registro->id)->where('tipo_documento_id', '!=', 11)->count();
+        // $cantidades['escolaridad'] = $cant;
         // dd($afil_preguntas->pluck('descripcion')->first());
         // $localidades = new localidad;
 

@@ -138,7 +138,6 @@ class AfiliadosController extends Controller
                 ->orderByDesc('fecha_ingreso')
                 ->first();
             // dd( $afiliado_empresa);
-            // exit;
             $cant = afil_pregunta::where('afiliado_id', $registro->id)->count();
             $cantidades = ['preguntas' => $cant];
             $cant = grupo_familiar::where('afiliado_id', $registro->id)->count();
@@ -182,7 +181,6 @@ class AfiliadosController extends Controller
                 'especialidades',
                 'motivos_egresos_sind',
                 'obras_sociales',
-                'afiliado_empresa',
                 'afiliado_empresa'
             )
         );

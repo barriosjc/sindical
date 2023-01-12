@@ -74,7 +74,7 @@ class afiliado extends Model
         return $resu;
     }
 
-    public function getFechaEgresoAttribute($value)
+    public function getDocumPendienteAttribute($value)
     {
         $resu = '';
         if (!empty($value)) {
@@ -83,7 +83,24 @@ class afiliado extends Model
 
         return $resu;
     }
-    
+    public function getDocumEntregadaAttribute($value)
+    {
+        $resu = '';
+        if (!empty($value)) {
+            $resu = date('d/m/Y', strtotime($value));
+        }
+
+        return $resu;
+    }
+    public function getFechaNacAttribute($value)
+    {
+        $resu = '';
+        if (!empty($value)) {
+            $resu = date('d/m/Y', strtotime($value));
+        }
+
+        return $resu;
+    }
     public function getFechaIngresoAttribute($value)
     {
         $resu = '';
@@ -93,8 +110,25 @@ class afiliado extends Model
 
         return $resu;
     }
-    
-    public function getFechaNacAttribute($value)
+    public function getFechaIngresoOsAttribute($value)
+    {
+        $resu = '';
+        if (!empty($value)) {
+            $resu = date('d/m/Y', strtotime($value));
+        }
+
+        return $resu;
+    }
+    public function getFechaEgresoOsAttribute($value)
+    {
+        $resu = '';
+        if (!empty($value)) {
+            $resu = date('d/m/Y', strtotime($value));
+        }
+
+        return $resu;
+    }
+    public function getFechaJubilacionAttribute($value)
     {
         $resu = '';
         if (!empty($value)) {
@@ -108,7 +142,8 @@ class afiliado extends Model
     public function getDocumPendienteyAttribute()
     {
         $resu = $this->docum_pendiente;
-        if (!empty($resu)) {
+        if (!empty($resu)) {            
+            $resu = substr($resu,6,4)."-".substr($resu,3,2)."-".substr($resu,0,2);
             $resu = date(env('DATE_FORM', 'Y-m-d'), strtotime($resu));
         }
 
@@ -119,6 +154,7 @@ class afiliado extends Model
     {
         $resu = $this->docum_entregada;
         if (!empty($resu)) {
+            $resu = substr($resu,6,4)."-".substr($resu,3,2)."-".substr($resu,0,2);
             $resu = date(env('DATE_FORM', 'Y-m-d'), strtotime($resu));
         }
 
@@ -129,6 +165,7 @@ class afiliado extends Model
     {
         $resu = $this->fecha_nac;
         if (!empty($resu)) {
+            $resu = substr($resu,6,4)."-".substr($resu,3,2)."-".substr($resu,0,2);
             $resu = date(env('DATE_FORM', 'Y-m-d'), strtotime($resu));
         }
 
@@ -139,6 +176,7 @@ class afiliado extends Model
     {
         $resu = $this->fecha_ingreso;
         if (!empty($resu)) {
+            $resu = substr($resu,6,4)."-".substr($resu,3,2)."-".substr($resu,0,2);
             $resu = date(env('DATE_FORM', 'Y-m-d'), strtotime($resu));
         }
 
@@ -149,6 +187,7 @@ class afiliado extends Model
     {
         $resu = $this->fecha_ingreso_os;
         if (!empty($resu)) {
+            $resu = substr($resu,6,4)."-".substr($resu,3,2)."-".substr($resu,0,2);
             $resu = date(env('DATE_FORM', 'Y-m-d'), strtotime($resu));
         }
 
@@ -159,6 +198,7 @@ class afiliado extends Model
     {
         $resu = $this->fecha_egreso_os;
         if (!empty($resu)) {
+            $resu = substr($resu,6,4)."-".substr($resu,3,2)."-".substr($resu,0,2);
             $resu = date(env('DATE_FORM', 'Y-m-d'), strtotime($resu));
         }
 
@@ -169,6 +209,7 @@ class afiliado extends Model
     {
         $resu = $this->fecha_egreso;
         if (!empty($resu)) {
+            $resu = substr($resu,6,4)."-".substr($resu,3,2)."-".substr($resu,0,2);
             $resu = date(env('DATE_FORM', 'Y-m-d'), strtotime($resu));
         }
 
@@ -179,12 +220,13 @@ class afiliado extends Model
     {
         $resu = $this->fecha_jubilacion;
         if (!empty($resu)) {
+            $resu = substr($resu,6,4)."-".substr($resu,3,2)."-".substr($resu,0,2);
             $resu = date(env('DATE_FORM', 'Y-m-d'), strtotime($resu));
         }
 
         return $resu;
     }
-    
+    //-------------------------------------------------------------------------------------
     public function afil_estado_fichas()
     {
         return $this->HasMany('App\Models\afil_estado_ficha');
