@@ -193,7 +193,7 @@
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
                         <span>Copyright &copy; Union Obrera Metalúrgica seccional Avellaneda 2020</span>
-                        <span class="float-right" style="padding-right: 30px; font-size: 10px">v1.1.0</span>
+                        <span class="float-right" style="padding-right: 30px; font-size: 10px">v1.1.3</span>
                     </div>
                 </div>
             </footer>
