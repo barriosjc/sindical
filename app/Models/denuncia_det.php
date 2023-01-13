@@ -50,6 +50,7 @@ class denuncia_det extends Model
     {
         $resu = $this->fecha;
         if (!empty($resu)) {
+            $resu = substr($resu,6,4)."-".substr($resu,3,2)."-".substr($resu,0,2);
             $resu = date(env('DATE_FORM', 'Y-m-d'), strtotime($resu));
         }
 

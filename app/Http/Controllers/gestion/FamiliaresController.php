@@ -20,7 +20,6 @@ use App\models\localidad;
 use App\models\motivo_egreso_sind;
 use App\models\gf_documento;
 use App\models\tipo_parentesco;
-use App\models\tipo_material;
 use App\models\gf_escolaridad;
 use Carbon\Carbon;
 use Symfony\Component\HttpFoundation\Response;
@@ -74,10 +73,10 @@ class FamiliaresController extends Controller
         $cantidades = ['foto' => $cant];
         $cant = gf_documento::where('grupo_familiar_id', $registro->id)->where('tipo_documento_id', '!=', 11)->count();
         $cantidades['documentos'] = $cant;
-        // $cant = gf_escolaridad::where('grupo_familiar_id', $registro->id)->where('tipo_documento_id', '!=', 11)->count();
+        // $cant = gf_escolaridad::where('grupo_familiar_id', $registro->id)->where('ciclo_lectivo',  now()->year)->count();
         // $cantidades['escolaridad'] = $cant;
-        // dd($afil_preguntas->pluck('descripcion')->first());
-        // $localidades = new localidad;
+
+      //  dd($grupo_familiar[0]->entregado);
 
         return view('familiares.ficha', compact(
             'grupo_familiar',
@@ -368,18 +367,18 @@ class FamiliaresController extends Controller
 
     public function escolaridad_index(int $afiliado_id, int $grupo_familiar_id)
     {
-        $tipos_material = tipo_material::get();
         $gf_escolaridad_hist = gf_escolaridad::where('grupo_familiar_id', $grupo_familiar_id)->paginate();
         // dd($gf_escolaridad);
         if (empty($gf_escolaridad)) {
             $gf_escolaridad = new gf_escolaridad;
+            $gf_escolaridad->grupo_familiar_id = $grupo_familiar_id;
             $gf_escolaridad->ciclo_lectivo = now()->year;
             $gf_escolaridad->mochila = 'S';
             $gf_escolaridad->kit_escolar = 'S';
             $gf_escolaridad->nivel = 'primario';
         }
 
-        return view('familiares.escolaridad', compact('gf_escolaridad_hist', 'afiliado_id', 'grupo_familiar_id', 'gf_escolaridad'));
+        return view('familiares.escolaridad', compact('gf_escolaridad_hist', 'afiliado_id', 'gf_escolaridad'));
     }
 
     public function escolaridad_guardar(Request $request)

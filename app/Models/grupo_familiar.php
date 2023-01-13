@@ -63,7 +63,13 @@ class grupo_familiar extends Model
         'deleted_at',
         'user_last_name'
     ];
+    protected $appends = array('entregado');
+    public function getEntregadoAttribute($value)
+    {
+        $resu = (gf_escolaridad::where('grupo_familiar_id', $this->id)->where('ciclo_lectivo',  now()->year)->count() > 0);
 
+        return $resu;
+    }
     public function getFechaNacAttribute($value)
     {
         $resu = '';
@@ -114,6 +120,7 @@ class grupo_familiar extends Model
     {
         $resu = $this->fecha_nac;
         if (!empty($resu)) {
+            $resu = substr($resu,6,4)."-".substr($resu,3,2)."-".substr($resu,0,2);
             $resu = date(env('DATE_FORM', 'Y-m-d'), strtotime($resu));
         }
 
@@ -123,6 +130,7 @@ class grupo_familiar extends Model
     {
         $resu = $this->fecha_ingreso_sind;
         if (!empty($resu)) {
+            $resu = substr($resu,6,4)."-".substr($resu,3,2)."-".substr($resu,0,2);
             $resu = date(env('DATE_FORM', 'Y-m-d'), strtotime($resu));
         }
 
@@ -132,6 +140,7 @@ class grupo_familiar extends Model
     {
         $resu = $this->fecha_egreso_sind;
         if (!empty($resu)) {
+            $resu = substr($resu,6,4)."-".substr($resu,3,2)."-".substr($resu,0,2);
             $resu = date(env('DATE_FORM', 'Y-m-d'), strtotime($resu));
         }
 
@@ -160,5 +169,10 @@ class grupo_familiar extends Model
     public function documentos()
     {
         return $this->belongsTo('App\Models\gf_documento', 'grupo_familiar_id', 'id');
+    }
+
+    public function gf_escolaridad()
+    {
+        return $this->belongsTo('App\Models\gf_escolaridad', 'grupo_familiar_id', 'id');
     }
 }

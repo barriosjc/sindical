@@ -40,10 +40,10 @@ class gf_escolaridad extends Model
             'obs',
             'periodo'
     ];
-    
-    public function tipos_material()
+     
+    public function grupo_familiar()
     {
-        return $this->belongsTo('App\Models\tipo_material', 'tipo_material_id', 'id');
-    }  
+        return $this->hasMany('App\Models\grupo_familiar', 'grupo_familiar_id', 'id');
+    }
     
 }

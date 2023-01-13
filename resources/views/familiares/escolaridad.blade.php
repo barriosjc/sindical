@@ -4,9 +4,10 @@
 
 <div class="card">
     <div class="card-header">
-        <a href="{{ route('familiares.index', [$afiliado_id, $grupo_familiar_id]) }}" title="Volver"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Volver</button></a>
-        Entrega de útilies escolares
+        <a href="{{ route('familiares.index', [$afiliado_id, $gf_escolaridad->grupo_familiar_id]) }}" title="Volver"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Volver</button></a>
+        Entrega de útilies escolares 
     </div>
+    {{-- ({{$gf_escolaridad->grupo_familiar->apellido_nombres}}) --}}
     <ul class="list-group list-group-flush">
         <li class="list-group-item">
             <div class="row">
@@ -55,7 +56,7 @@
         <li class="list-group-item">
             <form id='formEmp' action="{{ route('familiares.escolaridad.guardar') }}" method="POST"  accept-charset="UTF-8" class="form-horizontal" enctype="multipart/form-data">
                 @csrf
-                <input type='hidden' name='grupo_familiar_id' value="{{ $grupo_familiar_id }}">                
+                <input type='hidden' name='grupo_familiar_id' value="{{ $gf_escolaridad->grupo_familiar_id }}">                
                 <input type='hidden' name='id' value="{{ $gf_escolaridad->id }}">
                 <div class="row">
                     <div class="col-md-3">
