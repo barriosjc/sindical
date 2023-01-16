@@ -40,7 +40,15 @@ class gf_escolaridad extends Model
             'obs',
             'periodo'
     ];
-     
+
+    protected $appends = array('kit');
+    public function getKitAttribute()
+    {
+        $resu = $this->mochila ."-".$this->kit_escolar ."-".$this->delantal."(".$this->talle.")";
+
+        return $resu;
+    }
+
     public function grupo_familiar()
     {
         return $this->hasMany('App\Models\grupo_familiar', 'grupo_familiar_id', 'id');

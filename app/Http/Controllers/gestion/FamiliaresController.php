@@ -377,8 +377,12 @@ class FamiliaresController extends Controller
             $gf_escolaridad->kit_escolar = 'S';
             $gf_escolaridad->nivel = 'primario';
         }
+        $grupo_familiar = grupo_familiar::query()
+            ->join("tipos_parentescos", "tipos_parentescos.id", "tipo_parentesco_id")
+            ->select("descripcion", "fecha_nac", "apellido_nombres")
+            ->where('grupo_familiar.id', $grupo_familiar_id)->first();
 
-        return view('familiares.escolaridad', compact('gf_escolaridad_hist', 'afiliado_id', 'gf_escolaridad'));
+        return view('familiares.escolaridad', compact('gf_escolaridad_hist', 'afiliado_id', 'gf_escolaridad', 'grupo_familiar'));
     }
 
     public function escolaridad_guardar(Request $request)

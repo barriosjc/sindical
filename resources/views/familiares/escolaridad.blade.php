@@ -5,7 +5,7 @@
 <div class="card">
     <div class="card-header">
         <a href="{{ route('familiares.index', [$afiliado_id, $gf_escolaridad->grupo_familiar_id]) }}" title="Volver"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Volver</button></a>
-        Entrega de útilies escolares 
+        Entrega de útilies escolares ({{$grupo_familiar->apellido_nombres . " - ". $grupo_familiar->fecha_nac." - ". $grupo_familiar->descripcion}})
     </div>
     {{-- ({{$gf_escolaridad->grupo_familiar->apellido_nombres}}) --}}
     <ul class="list-group list-group-flush">
@@ -19,6 +19,7 @@
                                 <th>Ciclo Lec.</th>
                                 <th>Nivel</th>
                                 <th>Tipo Educ.</th>  
+                                <th>Mo.kit.Del</th>  
                                 <th>Obs.</th>                            
                                 <th style="width:8%">Acciones</th>
                             </tr>
@@ -30,6 +31,7 @@
                                 <td>{{ $item->ciclo_lectivo }}</td>
                                 <td>{{ $item->nivel }}</td>
                                 <td>{{ $item->tipo_educacion }}</td>
+                                <td>{{ $item->kit }}</td>
                                 <td>{{ $item->obs }}</td>                          
                                 <td>
                                     @if(Auth::user()->hasrole('administrador') or Auth::user()->haspermissionto('nuevo escolaridad'))
@@ -179,5 +181,7 @@
         });                       
     }); 
 </script>
+
+<script src="{{ asset('js/scripts.js') }}"></script>
 
 @endsection
