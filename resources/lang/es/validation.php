@@ -191,6 +191,9 @@ return [
         'fecha_egreso'          => 'Fecha baja de la empresa',
         'telefono1'             => "Teléfonos",
         'calle'                 => 'Calle',
-        'calle_nro'             => 'Calle Nro'
+        'calle_nro'             => 'Calle Nro',
+        'estado_civil_id'       => 'Estado Civil',
+        'provincia_id'          => 'Provincia',
+        'localidad_id'          => 'Localidad'
     ],
 ];

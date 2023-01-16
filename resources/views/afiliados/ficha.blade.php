@@ -167,7 +167,7 @@
                                     <option value="">--Seleccione--</option>
                                     @foreach($estado_civil as $dato)
                                     <option value="{{$dato->id}}"
-                                        {{(empty($registro->estado_civil_id) ? old('estado_civil') : $registro->estado_civil_id)  == $dato->id ? 'selected' : ''}}>
+                                        {{(empty($registro->estado_civil_id) ? old('estado_civil_id') : $registro->estado_civil_id)  == $dato->id ? 'selected' : ''}}>
                                         {{$dato->descripcion}}</option>
                                     @endforeach
                                 </select>
@@ -246,7 +246,7 @@
                                 <label for="">Localidad y C.P.</label>
                                 <select name="localidad_id" id="localidad_id" class="busqueda form-control"
                                     style="width: 100%">
-                                    @if($localidades != null){
+                                    @if($localidades != null)
                                     <option value="{{$localidades->id}}">
                                         {{$localidades->nombre . ' - ' . $localidades->cod_postal }}</option>
                                     @endif

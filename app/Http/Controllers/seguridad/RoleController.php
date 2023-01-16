@@ -138,7 +138,7 @@ class RoleController extends Controller
                         'email_verified_at', 'password', 'remember_token',
                         'foto', 'created_at', 'updated_at', 'deleted_at')
             ->whereNotIn('id', DB::table('model_has_roles')->select('model_id')->where('role_id', '=', $rolid))
-            ->paginate(5);
+            ->paginate(25);
         $esabm = false;
 
         $titulo = 'asignados al rol  ->   ' . strtoupper($rol->name);
@@ -169,7 +169,7 @@ class RoleController extends Controller
             ->select('id', 'name', 'guard_name', 
             'created_at', 'updated_at')
             ->whereNotIn('id', DB::table('role_has_permissions')->select('permission_id')->where('role_id', '=', $rolid))
-            ->paginate(5);
+            ->paginate(25);
         $esabm = false;
 
         $titulo = 'asignados al rol  ->   ' . strtoupper($rol->name);

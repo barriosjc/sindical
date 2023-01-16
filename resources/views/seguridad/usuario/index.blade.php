@@ -52,7 +52,6 @@
                 <tbody>
                   @foreach($user as $item)
                   <tr>
-                  {{Storage::disk("usuarios")->url($item->foto)}}
                     <td>{{ $loop->iteration }}</td>
                     <td>{{ $item->name }}</td>
                     <td>{{ $item->last_name }}</td>

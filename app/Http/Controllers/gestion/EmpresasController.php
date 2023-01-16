@@ -131,7 +131,7 @@ class EmpresasController extends Controller
         empresa::updateorcreate(['id' => $request->id], $requestData);
 
         // return redirect('empresas.ficha')->with('mensaje', );
-        return back()->with(["mensaje" => 'empresa creado con éxito!']);
+        return back()->with(["mensaje" => 'empresa creada o modificada con éxito!']);
     }
 
     public function buscar_index(int $id)

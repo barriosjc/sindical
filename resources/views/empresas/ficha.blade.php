@@ -64,7 +64,7 @@
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label for="">Rama</label>
+                                <label for="">Rama</label><span class='s-red'>*</span>
                                 <select name="tipo_rama_empr_id" id="tipo_rama_empr_id" class="form-control form-control-sm" style="width: 100%" required>
                                     <option value="">--Seleccione--</option>
                                     @foreach($tipos_rama_empr as $dato)
@@ -75,11 +75,12 @@
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label for="">Actividad de la empresa</label>
+                                <label for="">Actividad de la empresa</label><span class='s-red'>*</span>
                                 <select name="tipo_actividad_empr_id" id="tipo_actividad_empr_id" class="busqueda form-control form-control-sm" style="width: 100%" required>
                                     <option value="">--Seleccione--</option>
                                     @foreach($tipos_actividad_empr as $dato)
-                                    <option value="{{$dato->id}}" {{(empty($registro->tipo_actividad_empr_id) ? old('tipo_actividad_empr') : $registro->tipo_actividad_empr_id)  == $dato->id ? 'selected' : ''}}>{{$dato->descripcion}}</option>
+                                    {{-- <option value="{{$dato->id}}" {{(empty($registro->tipo_actividad_empr_id) ? old('tipo_actividad_empr_id') : $registro->tipo_actividad_empr_id)  == $dato->id ? 'selected' : ''}}>{{$dato->descripcion}}</option> --}}
+                                    <option value="{{$dato->id}}" {{old('tipo_actividad_empr_id', $registro->tipo_actividad_empr_id)  == $dato->id ? 'selected' : ''}}>{{$dato->descripcion}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -155,7 +156,7 @@
                                 <select name="empresa_estado_id" id="empresa_estado_id" class="form-control form-control-sm" style="width: 100%" required>
                                     <option value="">--Seleccione--</option>
                                     @foreach($empresas_estados as $dato)
-                                    <option value="{{$dato->id}}" {{(empty($registro->empresa_estado_id) ? old('empresas_estados') : $registro->empresa_estado_id)  == $dato->id ? 'selected' : ''}}>{{$dato->descripcion}}</option>
+                                    <option value="{{$dato->id}}" {{old('empresa_estado_id', $registro->empresa_estado_id) == $dato->id ? 'selected' : ''}}>{{$dato->descripcion}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -233,7 +234,7 @@
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label for="">Provincia</label>
+                                <label for="">Provincia</label><span class='s-red'>*</span>
                                 <select name="provincia_id" id="provincia_id" data-localidad='localidad_id' class="provincia form-control form-control-sm" style="width: 100%">
                                     <option value="">--Seleccione--</option>
                                     @foreach($provincias as $dato)
@@ -244,9 +245,9 @@
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label for="">Localidad y C.P.</label>
+                                <label for="">Localidad y C.P.</label><span class='s-red'>*</span>
                                 <select name="localidad_id" id="localidad_id" class="busqueda form-control" style="width: 100%">
-                                    @if($localidades != null){
+                                    @if($localidades != null)
                                     <option value="{{$localidades->id}}">{{$localidades->nombre . ' - ' . $localidades->cod_postal }}</option>
                                     @endif
                                 </select>
@@ -308,7 +309,7 @@
                             <div class="form-group">
                                 <label for="">Localidad y C.P.</label>
                                 <select name="localidad_adm_id" id="localidad_adm_id" class="busqueda form-control" style="width: 100%">
-                                    @if($localidades_adm != null){
+                                    @if($localidades_adm != null)
                                     <option value="{{$localidades_adm->id}}">{{$localidades_adm->nombre . ' - ' . $localidades->cod_postal }}</option>
                                     @endif
                                 </select>

@@ -32,7 +32,7 @@
                                 <td>{{ $item->tipo_educacion }}</td>
                                 <td>{{ $item->obs }}</td>                          
                                 <td>
-                                    @if(Auth::user()->hasrole('administrador') or Auth::user()->haspermissionto('escolaridad'))
+                                    @if(Auth::user()->hasrole('administrador') or Auth::user()->haspermissionto('nuevo escolaridad'))
                                     <div class="float-right">
                                         <form action="{{ route('familiares.escolaridad.borrar', $item->id) }}" method="POST">
                                             @csrf

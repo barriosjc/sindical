@@ -182,7 +182,7 @@ class UsuarioController extends Controller
         break;
     }
 
-    $roles = $user->Roles()->paginate(5);
+    $roles = $user->Roles()->paginate(25);
     $roless = DB::table('roles')
       ->select(
         'id',
@@ -192,7 +192,7 @@ class UsuarioController extends Controller
         'updated_at'
       )
       ->whereNotIn('id', DB::table('model_has_roles')->select('role_id')->where('model_id', '=', $usuid))
-      ->paginate(5);
+      ->paginate(25);
     $esabm = false;
     $padre = "usuarios";
     $titulo = 'asignados al usuario  ->   ' . strtoupper($user->name);
@@ -217,7 +217,7 @@ class UsuarioController extends Controller
         break;
     }
 
-    $permisos = $user->permissions()->paginate(5);
+    $permisos = $user->permissions()->paginate(25);
     $permisoss = DB::table('permissions')
       ->select(
         'id',
@@ -227,7 +227,7 @@ class UsuarioController extends Controller
         'updated_at'
       )
       ->whereNotIn('id', DB::table('model_has_permissions')->select('permission_id')->where('model_id', '=', $usuid))
-      ->paginate(5);
+      ->paginate(25);
     $esabm = false;
 
     $titulo = 'asignados al uzuario  ->   ' . strtoupper($user->name);

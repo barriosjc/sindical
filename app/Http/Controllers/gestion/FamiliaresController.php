@@ -186,7 +186,7 @@ class FamiliaresController extends Controller
         grupo_familiar::updateorcreate(['id' => $request->id], $requestData);
 
         // return redirect('afiliados.ficha')->with('mensaje', );
-        return back()->with(["mensaje" => 'Familiar creado con éxito!']);
+        return back()->with(["mensaje" => 'Familiar creado o modificado con éxito!']);
         //return redirect()->route('familiares.index', $request->afiliado_id)->with(["mensaje" => 'Familiar creado con éxito!']);
     }
 

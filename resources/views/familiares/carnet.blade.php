@@ -54,11 +54,15 @@
                                 <input type="hidden" id="hi_name" name="hi_name" value="{{$familiar->path}}" />
                                 <input type='hidden' id='afiliado_id' name='afiliado_id' value="{{$familiar->afiliado_id}}" />
                                 <input type='hidden' id='familiar_id' name='familiar_id' value="{{$familiar->id}}" />
-                                <button type="submit" id="btnbuscarfam" class="btn btn-info"><i class="fas fa-save"></i>
-                                    Guardar foto</button>
+                                @if(Auth::user()->hasrole('administrador') or Auth::user()->haspermissionto('nuevo documento'))
+                                    <button type="submit" id="btnbuscarfam" class="btn btn-info"><i class="fas fa-save"></i>
+                                        Guardar foto</button>
+                                @endif
                             </form>
-                            <a href="{{ route('familiar.carnet.pdf', [$familiar->afiliado_id, $familiar->id]) }}" id="btnbuscarfam" class="btn btn-info"><i
-                                    class="fas fa-id-card"></i> Generar Carnet</a>
+                            @if(Auth::user()->hasrole('administrador') or Auth::user()->haspermissionto('nuevo documento'))
+                                <a href="{{ route('familiar.carnet.pdf', [$familiar->afiliado_id, $familiar->id]) }}" id="btnbuscarfam" class="btn btn-info"><i
+                                        class="fas fa-id-card"></i> Generar Carnet</a>
+                            @endif
                         </div>
                     </div>
                 </div>

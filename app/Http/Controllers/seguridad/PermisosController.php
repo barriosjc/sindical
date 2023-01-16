@@ -125,13 +125,13 @@ class PermisosController extends Controller
                 break;
         }
 
-        $user = $per->users()->paginate(5);
+        $user = $per->users()->paginate(25);
         $users = DB::table('users')                 
             ->select( 'id', 'name', 'last_name', 'email',
                         'email_verified_at', 'password', 'remember_token',
                         'foto', 'created_at', 'updated_at', 'deleted_at')
             ->whereNotIn('id', DB::table('model_has_permissions')->select('model_id')->where('permission_id', '=', $perid))
-            ->paginate(5);
+            ->paginate(25);
         $esabm = false;
 
         $titulo = 'asignados al permiso  ->   ' . strtoupper($per->name);
@@ -157,12 +157,12 @@ class PermisosController extends Controller
                 break;
         }
 
-    $roles = $per->Roles()->paginate(5);
+    $roles = $per->Roles()->paginate(25);
     $roless = DB::table('roles')                 
     ->select( 'id', 'name', 'guard_name', 
                 'created_at', 'updated_at')
     ->whereNotIn('id', DB::table('role_has_permissions')->select('role_id')->where('permission_id', '=', $perid))
-    ->paginate(5);
+    ->paginate(25);
     $esabm = false;
     $padre = "permisos";
     $titulo = 'asignados al permiso  ->   ' . strtoupper($per->name);
