@@ -27,8 +27,11 @@ class familiaresRequest extends FormRequest
     public function rules(Request $rq)
     {
         return [ 
-            'fecha_nac' => ['bail', 'nullable', 'date', 'before:today'],
+            'fecha_nac' => ['required', 'nullable', 'date', 'before:today'],
             'apellido_nombres' => ['required', 'max:150'],
+            'tipo_documento_id' => ['required'],
+            'sexo' => ['required'],
+            'tipo_parentesco_id' => ['required'],
             'nro_doc' => ['required', 'numeric', 'digits_between:6,12'],
             function ($attribute, $value, $fail) use ($rq) {
                 if (!($rq->input($attribute) == null)) {

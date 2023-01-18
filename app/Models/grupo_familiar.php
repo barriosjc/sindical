@@ -2,6 +2,7 @@
 
 namespace App\models;
 
+use DateTime;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -63,13 +64,29 @@ class grupo_familiar extends Model
         'deleted_at',
         'user_last_name'
     ];
-    protected $appends = array('entregado');
+    protected $appends = array('entregado','edad');
     public function getEntregadoAttribute($value)
     {
         $resu = (gf_escolaridad::where('grupo_familiar_id', $this->id)->where('ciclo_lectivo',  now()->year)->count() > 0);
 
         return $resu;
+    }    
+    
+    public function getEdadCAttribute($value)
+    {
+        // fecha = $(this).val();
+        $fecha = $this->fecha_nac;
+        $hoy = new DateTime();
+        $cumpleanos = new DateTime($fecha);
+        $edad = $hoy->format("Y") - $cumpleanos->format("Y");
+        $m = $hoy->format("m") - $cumpleanos->format("m");
+
+        if ($m < 0 || ($m === 0 && $hoy->format("d") < $cumpleanos->format("d") )) {
+            $edad = $edad - 1;
+        }
+        return $edad;
     }
+
     public function getFechaNacAttribute($value)
     {
         $resu = '';

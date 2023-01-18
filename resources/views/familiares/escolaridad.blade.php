@@ -5,7 +5,7 @@
 <div class="card">
     <div class="card-header">
         <a href="{{ route('familiares.index', [$afiliado_id, $gf_escolaridad->grupo_familiar_id]) }}" title="Volver"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Volver</button></a>
-        Entrega de útilies escolares ({{$grupo_familiar->apellido_nombres . " - ". $grupo_familiar->fecha_nac." - ". $grupo_familiar->descripcion}})
+        Entrega de útilies escolares ({{$grupo_familiar->apellido_nombres . " - ".$grupo_familiar->edad_c . " - ". $grupo_familiar->descripcion}})
     </div>
     {{-- ({{$gf_escolaridad->grupo_familiar->apellido_nombres}}) --}}
     <ul class="list-group list-group-flush">

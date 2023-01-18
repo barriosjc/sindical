@@ -434,7 +434,7 @@
                                     value="{{ old('fecha_ingreso_os', $registro->fecha_ingreso_osy) }}">
                             </div>
                         </div>
-                        <div class="col-md-2">
+{{--                         <div class="col-md-2">
                             <div class="form-group">
                                 <label>Fec. egreso O.S.</label>
                                 <input type="date" id="fecha_egreso_os" name="fecha_egreso_os"
@@ -455,7 +455,7 @@
                                     @endforeach
                                 </select>
                             </div>
-                        </div>
+                        </div> --}} 
                         <div class="col-md-2">
                             <label>Discapacitado</label>
                             <div class="container">

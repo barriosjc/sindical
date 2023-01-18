@@ -144,12 +144,12 @@
                                 <input type="email" id="" name="email2" class="form-control form-control-sm" value="{{ old('email2', $registro->email2) }}" maxlength="100" />
                             </div>
                         </div>
-                        <div class="col-md-2">
+{{--                         <div class="col-md-2">
                             <div class="form-group">
                                 <label for="">Ing. brutos</label>
                                 <input type="text" id="ing_brutos" name="ing_brutos" class="form-control form-control-sm" value="{{  old('ing_brutos', $registro->ing_brutos) }}" maxlength="20" />
                             </div>
-                        </div>
+                        </div> --}}
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="">Estado</label><span class='s-red'>*</span>

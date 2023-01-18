@@ -73,7 +73,7 @@
                     <div class="row">
                         <div class="col-md-5">
                             <div class="form-group">
-                                <label for="">Apellido y nombre</label>
+                                <label for="">Apellido y nombre</label><span class='s-red'>*</span>
                                 <input type="text" id="apellido_nombres" name="apellido_nombres" class="aMayusculas form-control form-control-sm" value="{{ old('apellido_nombres', $registro->apellido_nombres) }}" maxlength="150" />
                             </div>
                         </div>
@@ -103,7 +103,7 @@
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label for="">Tipo Doc</label>
+                                <label for="">Tipo Doc</label><span class='s-red'>*</span>
                                 <select name="tipo_documento_id" id="tipo_documento_id" class="form-control form-control-sm" style="width: 100%" required>
                                     <option value="">--Seleccione--</option>
                                     @foreach($tipos_documentos as $dato)
@@ -114,13 +114,13 @@
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label>Nro docum.</label>
+                                <label>Nro docum.</label><span class='s-red'>*</span>
                                 <input type="text" id="" name="nro_doc" class="solonros form-control form-control-sm" value="{{ old('nro_doc', $registro->nro_doc) }}" maxlength="12" />
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label>Fec. Nac.</label>
+                                <label>Fec. Nac.</label><span class='s-red'>*</span>
                                 <input type="date" id="fecha_nac" name="fecha_nac" class="form-control form-control-sm" value="{{ old('fecha_nac', $registro->fecha_nacy) }}">
                             </div>
                         </div>
@@ -132,11 +132,11 @@
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label for="">Parentesco</label>
+                                <label for="">Parentesco</label><span class='s-red'>*</span>
                                 <select name="tipo_parentesco_id" id="tipo_parentesco_id" class="form-control form-control-sm" style="width: 100%">
                                     <option value="">--Seleccione--</option>
                                     @foreach($tipos_parentescos as $dato)
-                                    <option value="{{$dato->id}}" {{(empty($registro->tipo_parentesco_id) ? old('tipos_parentescos') : $registro->tipo_parentesco_id)  == $dato->id ? 'selected' : ''}}>{{$dato->descripcion}}</option>
+                                    <option value="{{$dato->id}}" {{ old('tipo_parentesco_id', $registro->tipo_parentesco_id)  == $dato->id ? 'selected' : ''}}>{{$dato->descripcion}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -186,7 +186,7 @@
                                 <select name="nacionalidad_id" id="nacionalidad_id" class="form-control form-control-sm" style="width: 100%">
                                     <option value="">--Seleccione--</option>
                                     @foreach($nacionalidades as $dato)
-                                    <option value="{{$dato->id}}" {{(empty($registro->nacionalidad_id) ? old('nacionalidades') : $registro->nacionalidad_id)  == $dato->id ? 'selected' : ''}}>{{$dato->descripcion}}</option>
+                                    <option value="{{$dato->id}}" {{(empty($registro->nacionalidad_id) ? old('nacionalidad_id') : $registro->nacionalidad_id)  == $dato->id ? 'selected' : ''}}>{{$dato->descripcion}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -197,14 +197,14 @@
                                 <select name="estado_civil_id" id="estado_civil_id" class="form-control form-control-sm" style="width: 100%">
                                     <option value="">--Seleccione--</option>
                                     @foreach($estado_civil as $dato)
-                                    <option value="{{$dato->id}}" {{(empty($registro->estado_civil_id) ? old('estado_civil') : $registro->estado_civil_id)  == $dato->id ? 'selected' : ''}}>{{$dato->descripcion}}</option>
+                                    <option value="{{$dato->id}}" {{(empty($registro->estado_civil_id) ? old('estado_civil_id') : $registro->estado_civil_id)  == $dato->id ? 'selected' : ''}}>{{$dato->descripcion}}</option>
                                     @endforeach
                                 </select>
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label for="">Sexo</label>
+                                <label for="">Sexo</label><span class='s-red'>*</span>
                                 <select name="sexo" id="sexo" class="form-control form-control-sm" style="width: 100%">
                                     <option value="">--Seleccione--</option>
                                     <option value="F" {{(empty($registro->sexo) ? old('sexo') : $registro->sexo)  == "F" ? 'selected' : ''}}>Femenino</option>
@@ -268,7 +268,7 @@
                                 <select name="motivo_egreso_sind_id" id="motivo_egreso_sind_id" class="colorear form-control form-control-sm" style="width: 100%">
                                     <option value="">--Seleccione--</option>
                                     @foreach($motivos_egresos_sind as $dato)
-                                    <option value="{{$dato->id}}" {{(empty($registro->motivo_egreso_sind_id) ? old('motivo_egreso_sind') : $registro->motivo_egreso_sind_id)  == $dato->id ? 'selected' : ''}}>{{$dato->descripcion}}</option>
+                                    <option value="{{$dato->id}}" {{(empty($registro->motivo_egreso_sind_id) ? old('motivo_egreso_sind_id') : $registro->motivo_egreso_sind_id)  == $dato->id ? 'selected' : ''}}>{{$dato->descripcion}}</option>
                                     @endforeach
                                 </select>
                             </div>
