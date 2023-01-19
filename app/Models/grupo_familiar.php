@@ -76,6 +76,7 @@ class grupo_familiar extends Model
     {
         // fecha = $(this).val();
         $fecha = $this->fecha_nac;
+        $fecha = substr($fecha,6,4)."-".substr($fecha,3,2)."-".substr($fecha,0,2);
         $hoy = new DateTime();
         $cumpleanos = new DateTime($fecha);
         $edad = $hoy->format("Y") - $cumpleanos->format("Y");
