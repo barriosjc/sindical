@@ -146,6 +146,8 @@
                                 <option value="t8"  {{ old('talle', $gf_escolaridad->nivel) == 't8' ? 'selected' : ''}} >T 8</option>
                                 <option value="t10"  {{ old('talle', $gf_escolaridad->nivel) == 't10' ? 'selected' : ''}} >T 10</option>
                                 <option value="t12"  {{ old('talle', $gf_escolaridad->nivel) == 't12' ? 'selected' : ''}} >T 12</option>
+                                <option value="t14"  {{ old('talle', $gf_escolaridad->nivel) == 't14' ? 'selected' : ''}} >T 14</option>
+                                <option value="t16"  {{ old('talle', $gf_escolaridad->nivel) == 't16' ? 'selected' : ''}} >T 16</option>
                             </select>
                         </div>
                     </div>
