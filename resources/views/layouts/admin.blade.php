@@ -154,7 +154,6 @@
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ Auth::user()->name }}</span>
                                <img alt="foto" src="{{Storage::disk("usuarios")->url(Auth::user()->foto)}}" class="rounded-circle" width="60px" alt=""> 
-
                             </a>
                             @else
                             <img src="/img/usuario.png" class="rounded-circle" width="45px" alt="">

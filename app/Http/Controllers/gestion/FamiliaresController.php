@@ -190,6 +190,7 @@ class FamiliaresController extends Controller
         //return redirect()->route('familiares.index', $request->afiliado_id)->with(["mensaje" => 'Familiar creado con éxito!']);
     }
 
+    // ---------------------------------------------------------------------------------------------------------
     public function documentos_index(int $afiliado_id, int $grupo_familiar_id)
     {
         $tipos_documentos = tipo_documento::where('tipo', 'FAM')->get();
@@ -240,6 +241,7 @@ class FamiliaresController extends Controller
         return back()->with(["mensaje" => 'pregunta y respuesta borrada con éxito!']);
     }
 
+    // ----------------------------------------------------------------------------------------------------
     public function carnet($afiliado_id, $familiar_id)
     {
         $familiar = grupo_familiar::where("id", $familiar_id)->first();
