@@ -13,7 +13,7 @@ class InformesController extends Controller
 {
     public function index()
     {
-        $informes = ["afiliados" => "Padrón de afiliados", "empresas" => "Padrón de empresas", "familiares" => "Afiliados con grupo familiar"];
+        $informes = ["afiliados" => "Padrón de afiliados", "empresas" => "Padrón de empresas", "familiares" => "Afiliados con grupo familiar", "escolaridad" => "listado de afiliados que se le entregó utiles"];
 
         return view("informes.padrones", compact("informes"));
     }
@@ -30,6 +30,9 @@ class InformesController extends Controller
                 break;
             case "familiares":
                 $clase = new \App\Exports\FamiliaresExport;
+                break;
+            case "escolaridad":
+                $clase = new \App\Exports\EscolaridadExport;
                 break;
         }
 

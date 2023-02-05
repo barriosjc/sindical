@@ -246,4 +246,6 @@ class afiliado extends Model
     {
         return $this->hasMany('App\Models\afil_documentos', 'afiliado_id', 'id');
     }
+
+    
 }

@@ -149,6 +149,18 @@
                             <input type="date" id="delegado_hasta" name="delegado_hasta" class="form-control form-control-sm" value="" data-toggle="tooltip" data-placement="top" title="Se buscarán afiliados hasta la fecha ingresada aquí">
                         </div>
                     </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label>CUIL</label>
+                            <input type="input" id="cuil" name="cuil" class="form-control form-control-sm" value="" data-toggle="tooltip" data-placement="top" title="Se buscarán afiliados con el CUIL ingresado">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label>DNI</label>
+                            <input type="input" id="nro_doc" name="nro_doc" class="form-control form-control-sm" value="" data-toggle="tooltip" data-placement="top" title="Se buscarán afiliados con el DNI ingresado">
+                        </div>
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col-md-5">

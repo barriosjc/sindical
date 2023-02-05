@@ -202,7 +202,7 @@ $(function() {
     // La función que es llamada después de que ya se dieron los permisos
     // Lo que hace es llenar el select con los dispositivos obtenidos
     const llenarSelectConDispositivosDisponibles = () => {
-
+        alert("cargando2 44");
         limpiarSelect();
         obtenerDispositivos()
             .then(dispositivos => {
@@ -213,7 +213,6 @@ $(function() {
                         dispositivosDeVideo.push(dispositivo);
                     }
                 });
-
                 // Vemos si encontramos algún dispositivo, y en caso de que si, entonces llamamos a la función
                 if (dispositivosDeVideo.length > 0) {
                     // Llenar el select

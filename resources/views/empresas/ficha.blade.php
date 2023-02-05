@@ -11,7 +11,7 @@
         </div>
         <div class="col-md-4 offset-md-4 bot-20 justify-content-end">
             <div class="input-group">
-                <input type="text" data-toggle="tooltip" data-placement="top" title="Ingrese un número de dni a buscar" placeholder="CUIT" id="buscuit" name="buscuit" class="solonros form-control form-control-sm" aria-describedby="buscar" maxlength="11">
+                <input type="text" data-toggle="tooltip" data-placement="top" title="Ingrese un número de CUIT a buscar" placeholder="CUIT" id="buscuit" name="buscuit" class="solonros form-control form-control-sm" aria-describedby="buscar" maxlength="11">
                 <input type="text" data-toggle="tooltip" data-placement="top" title="Ingrese un número de código empresa" placeholder="Cód. de empresa" id="buscodempr" name="buscodempr" class="solonros form-control form-control-sm" aria-describedby="buscar" maxlength="12">
                 <div class="input-group-append">
                     <button class="btn btn-outline-primary btn-sm" type="submit" id="buscar"><i class="fas fa-search"></i></button>

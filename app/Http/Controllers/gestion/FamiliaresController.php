@@ -430,6 +430,8 @@ class FamiliaresController extends Controller
     public function escolaridad_borrar(int $id)
     {
         $preg = gf_escolaridad::find($id);
+        $preg->usuario_id_del = Auth::user()->name;
+        $preg->save();
         $preg->delete();
 
         return back()->with(["mensaje" => 'Material escolar borrado con éxito!']);

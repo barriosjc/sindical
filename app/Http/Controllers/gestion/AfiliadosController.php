@@ -400,6 +400,20 @@ class AfiliadosController extends Controller
                 $request->discapacitado,
             ];
         }
+        if (!empty($request->nro_doc)) {
+            $filtro[] = [
+                'afiliados.nro_doc',
+                '=',
+                $request->nro_doc,
+            ];
+        }        
+        if (!empty($request->cuil)) {
+            $filtro[] = [
+                'afiliados.cuil',
+                '=',
+                $request->cuil,
+            ];
+        }
 
         try {
             if (empty($filtro)) {
@@ -412,7 +426,7 @@ class AfiliadosController extends Controller
                 // dd('llego aca');
             // DB::enableQueryLog();
             $afiliados = afiliado::query()
-                ->leftjoin('afiliados_empresas as ae', 'ae.afiliado_id', 'afiliados.id')
+                ->leftjoin('v_afiliados_empresas_actual as ae', 'ae.afiliado_id', 'afiliados.id')
                 ->leftjoin('empresas as e', 'e.id', 'ae.empresa_id')
                 ->leftjoin(
                     'afil_estado_ficha as ef',
