@@ -103,11 +103,17 @@ class AfiliadosController extends Controller
             $registro = afiliado::where('id', $id)->first();
         } elseif (!empty($request->busdni)) {
             $registro = afiliado::where('nro_doc', $request->busdni)->first();
+            if ($registro == null) {
+                $gru_fam = grupo_familiar::where('nro_doc', $request->busdni)->first();
+                if($gru_fam !== null) {
+                    $registro = afiliado::where('id', $gru_fam->afiliado_id)->first();
+                    if ($registro !== null) {
+                        session()->flash('mensaje', 'Atención!!! el dni ingresado pertenece a un familiar, se carga la ficha del titular, ingrese a grupo familiar para ver los datos del familiar.');
+                    }
+                }
+            }
         } else {
-            $registro = afiliado::where(
-                'nro_afil_sindical',
-                $request->busnroafil
-            )->first();
+            $registro = afiliado::where('nro_afil_sindical',$request->busnroafil)->first();
         }
 
         try {

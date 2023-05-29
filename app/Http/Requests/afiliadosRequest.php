@@ -35,7 +35,6 @@ class afiliadosRequest extends FormRequest
             'obra_social_id' => ['required'],
             'afil_estado_ficha_id' => ['required'],
             'estado_civil_id' => ['required'],
-            'nro_afil_sindical' => ['required'],
             'fecha_nac' => ['required', 'nullable', 'date', 'before:today'],
             'sexo' => ['required'],
             'apellido_nombres' => ['required', 'max:150'],
@@ -139,7 +138,7 @@ class afiliadosRequest extends FormRequest
                 }
             ],
 
-            'nro_afil_sindical' => [
+            'nro_afil_sindical' => ['required',
                 function ($attribute, $value, $fail) use ($rq) {
                     if (!($rq->input($attribute) == null)) {
                         if (!$rq->id) {

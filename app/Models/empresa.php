@@ -68,6 +68,17 @@ class empresa extends Model
     ];
 
     //este formato para mostrarlo en un form -------------------------------------------
+
+    public function getCuitFAttribute()
+    {
+        $resu = $this->cuit;
+        if (!empty($resu)) {
+            $resu = str_replace("-", "", $resu);;
+        }
+
+        return $resu;
+    }
+
     public function getFechaInicioActividadyAttribute()
     {
         $resu = $this->fecha_inicio_actividad;
