@@ -78,7 +78,7 @@ class EmpresasController extends Controller
         if (!empty($id)) {
             $registro = empresa::where('id', $id)->first();
         } elseif (!empty($request->buscuit)) {
-            $registro = empresa::where('cuitF',  str_replace("-", "", $request->buscuit))->first();
+            $registro = empresa::where('cuit',  str_replace("-", "", $request->buscuit))->first();
         } else {
             $registro = empresa::where('cod_empresa', $request->buscodempr)->first();
         }
